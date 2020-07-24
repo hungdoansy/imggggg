@@ -1,5 +1,6 @@
 import React from "react";
 import { Header, Logo, Button, SafeAnchor } from "@gotitinc/design-system";
+import { TabBar } from "../TabBar";
 
 const MyHeader = () => {
   return (
@@ -17,6 +18,9 @@ const MyHeader = () => {
           </Header.Right>
         </Header.Main>
       </Header>
+      <div className="Container Container--fluid">
+        <TabBar />
+      </div>
     </div>
   );
 };
