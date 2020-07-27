@@ -1,18 +1,10 @@
 import React from "react";
-import { Header } from "./components/Header";
-import { ImageGrid } from "./components/ImageGrid";
+// import { Header } from "./components/Header";
+// import { ImageGrid } from "./components/ImageGrid";
 import { Route, Switch, Redirect } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import { Login } from "./screens/Auth/Login";
-
-const Home = () => {
-  return (
-    <>
-      <Header />
-      {/* <ImageGrid /> */}
-    </>
-  );
-};
+import { Home } from "./screens/Home";
 
 function App() {
   return (
