@@ -1,9 +1,16 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Header, Logo, Button, SafeAnchor } from "@gotitinc/design-system";
+import {
+  Header,
+  Logo,
+  Button,
+  SafeAnchor,
+  Avatar,
+} from "@gotitinc/design-system";
 import { TabBar } from "../TabBar";
 import { LoginModal } from "../LoginModal";
 import { SignupModal } from "../SignupModal";
+import { useAuth } from "../../context/auth";
 
 const LOGIN = "login";
 const SIGNUP = "signup";
@@ -57,7 +64,8 @@ const useSignupModal = () => {
 };
 
 const MyHeader = () => {
-  const hasBeenAuthenticated = false;
+  const { authTokens } = useAuth();
+  const hasBeenAuthenticated = !!authTokens && authTokens !== "";
   const [isLoginModalOpen, showLoginModal, hideLoginModal] = useLoginModal();
   const [
     isSignupModalOpen,
@@ -72,37 +80,45 @@ const MyHeader = () => {
           <Logo as={SafeAnchor} name="gotit" variant="original" height={40} />
         </Header.Brand>
         <Header.Main>
-          {!hasBeenAuthenticated && (
-            <Header.Right>
-              <Button variant="primary_outline" onClick={showLoginModal}>
-                Login
-              </Button>
-              <Button
-                variant="primary"
-                className="u-marginLeftSmall"
-                onClick={showSignupModal}
-              >
-                Sign up
-              </Button>
-            </Header.Right>
-          )}
+          <Header.Right>
+            {!hasBeenAuthenticated ? (
+              <>
+                <Button variant="primary_outline" onClick={showLoginModal}>
+                  Login
+                </Button>
+                <Button
+                  variant="primary"
+                  className="u-marginLeftSmall"
+                  onClick={showSignupModal}
+                >
+                  Sign up
+                </Button>
+              </>
+            ) : (
+              <Avatar />
+            )}
+          </Header.Right>
         </Header.Main>
       </Header>
 
       {/* TODO: show/hide the tab bar based on auth status (localStorage) */}
       <TabBar />
 
-      <LoginModal
-        isOpen={isLoginModalOpen}
-        show={showLoginModal}
-        hide={hideLoginModal}
-      />
+      {!hasBeenAuthenticated && (
+        <LoginModal
+          isOpen={isLoginModalOpen}
+          show={showLoginModal}
+          hide={hideLoginModal}
+        />
+      )}
 
-      <SignupModal
-        isOpen={isSignupModalOpen}
-        show={showSignupModal}
-        hide={hideSignupModal}
-      />
+      {!hasBeenAuthenticated && (
+        <SignupModal
+          isOpen={isSignupModalOpen}
+          show={showSignupModal}
+          hide={hideSignupModal}
+        />
+      )}
     </div>
   );
 };

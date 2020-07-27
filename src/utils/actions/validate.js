@@ -1,7 +1,7 @@
 const validate = ({ token }) => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve(token === "987654");
+      resolve(!!token && token.includes("987654"));
     }, 1000);
   });
 };
