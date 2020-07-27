@@ -4,7 +4,7 @@ import { TabBar } from "../TabBar";
 
 const MyHeader = () => {
   return (
-    <div className="u-shadowSmall">
+    <div className="u-shadowSmall u-marginBottomSmall">
       <Header fullWidth>
         <Header.Brand>
           <Logo as={SafeAnchor} name="gotit" variant="original" height={40} />
