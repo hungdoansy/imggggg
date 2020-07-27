@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { Header, Logo, Button, SafeAnchor } from "@gotitinc/design-system";
 import { TabBar } from "../TabBar";
 import { LoginModal } from "../LoginModal";
+import { SignupModal } from "../SignupModal";
 
 const LOGIN = "login";
 const SIGNUP = "signup";
@@ -33,9 +34,36 @@ const useLoginModal = () => {
   return [isLoginModalOpen, showLoginModal, hideLoginModal];
 };
 
+const useSignupModal = () => {
+  const queryParams = useQueryParams();
+
+  const [isSignupModalOpen, setModalOpen] = useState(() => {
+    if (queryParams.get("action") === SIGNUP) {
+      return true;
+    }
+
+    return false;
+  });
+
+  const showSignupModal = () => {
+    setModalOpen(true);
+  };
+
+  const hideSignupModal = () => {
+    setModalOpen(false);
+  };
+
+  return [isSignupModalOpen, showSignupModal, hideSignupModal];
+};
+
 const MyHeader = () => {
   const hasBeenAuthenticated = false;
   const [isLoginModalOpen, showLoginModal, hideLoginModal] = useLoginModal();
+  const [
+    isSignupModalOpen,
+    showSignupModal,
+    hideSignupModal,
+  ] = useSignupModal();
 
   return (
     <div className="u-shadowSmall u-marginBottomSmall">
@@ -52,7 +80,7 @@ const MyHeader = () => {
               <Button
                 variant="primary"
                 className="u-marginLeftSmall"
-                onClick={showLoginModal}
+                onClick={showSignupModal}
               >
                 Sign up
               </Button>
@@ -68,6 +96,12 @@ const MyHeader = () => {
         isOpen={isLoginModalOpen}
         show={showLoginModal}
         hide={hideLoginModal}
+      />
+
+      <SignupModal
+        isOpen={isSignupModalOpen}
+        show={showSignupModal}
+        hide={hideSignupModal}
       />
     </div>
   );
