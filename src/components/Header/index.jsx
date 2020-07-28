@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import { useLocation, Link } from "react-router-dom";
-import {
-  Header,
-  Logo,
-  Button,
-  SafeAnchor,
-  Avatar,
-} from "@gotitinc/design-system";
+import { Header, Button, Avatar } from "@gotitinc/design-system";
 import { TabBar } from "../TabBar";
 import { LoginModal } from "../LoginModal";
 import { SignupModal } from "../SignupModal";
@@ -80,11 +74,19 @@ const MyHeader = () => {
     window.location.reload();
   };
 
+  // NOTE: Logo from Gotit doesn't come with a "to" property
   return (
     <div className="u-shadowSmall u-marginBottomSmall">
       <Header fullWidth className="u-paddingVerticalMedium">
         <Header.Brand>
-          <Logo as={SafeAnchor} name="gotit" variant="original" height={40} />
+          <Link to="/hehe">
+            <img
+              height="40"
+              src="https://designsystem-cdn.got-it.ai/images/original.10cfcf79.svg"
+              alt="Got It"
+              className="u-maxWidthFull"
+            />
+          </Link>
         </Header.Brand>
         <Header.Main>
           <Header.Right>
