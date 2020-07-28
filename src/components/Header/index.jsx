@@ -64,7 +64,7 @@ const useSignupModal = () => {
 };
 
 const MyHeader = () => {
-  const { authTokens } = useAuth();
+  const { authTokens, setAuthTokens } = useAuth();
   const hasBeenAuthenticated = !!authTokens && authTokens !== "";
   const [isLoginModalOpen, showLoginModal, hideLoginModal] = useLoginModal();
   const [
@@ -72,6 +72,12 @@ const MyHeader = () => {
     showSignupModal,
     hideSignupModal,
   ] = useSignupModal();
+
+  const logOut = (e) => {
+    setAuthTokens("");
+    e.preventDefault();
+    window.location.reload();
+  };
 
   return (
     <div className="u-shadowSmall u-marginBottomSmall">
@@ -95,7 +101,9 @@ const MyHeader = () => {
                 </Button>
               </>
             ) : (
-              <Avatar />
+              <a href="/" onClick={logOut}>
+                <Avatar />
+              </a>
             )}
           </Header.Right>
         </Header.Main>

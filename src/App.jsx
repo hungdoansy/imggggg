@@ -3,7 +3,7 @@ import { Route, Switch, Redirect } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import { Home } from "./screens/Home";
 import { AuthContext } from "./context/auth";
-import { validate } from "./utils/actions/validate";
+import { me as validate } from "./utils/actions/me";
 
 // TODO: at startup, check for validity of the tokens
 // /me endpoint
@@ -16,11 +16,14 @@ const useAuthTokens = () => {
     return storedTokens ? storedTokens : null;
   });
 
-  validate({ token: authTokens }).then((result) => {
-    if (!result) {
+  validate({ tokens: authTokens })
+    .then((result) => {
+      // TODO: what to do when it's valid?
+    })
+    .catch((e) => {
+      // TODO: handle message when the token is not valid
       setAuthTokens("");
-    }
-  });
+    });
 
   const setAuthTokens = (data) => {
     localStorage.setItem("tokens", data);
