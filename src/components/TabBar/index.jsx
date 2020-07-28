@@ -50,23 +50,49 @@ const TabBarView = ({ className }) => {
   });
   return (
     <div className={"Container Container--fluid " + className}>
-      <Tab current={current} onSelect={setCurrent}>
-        <Tab.Item eventKey="tab_1" style={{ whiteSpace: "nowrap" }}>
-          Nature
-        </Tab.Item>
-        <Tab.Item eventKey="tab_2">House</Tab.Item>
-        <Tab.Item eventKey="tab_3">Color</Tab.Item>
-        {tabs}
-      </Tab>
+      <div>
+        <Tab current={current} onSelect={setCurrent}>
+          <Tab.Item eventKey="tab_1" style={{ whiteSpace: "nowrap" }}>
+            Nature
+          </Tab.Item>
+          <Tab.Item eventKey="tab_2">House</Tab.Item>
+          <Tab.Item eventKey="tab_3">Color</Tab.Item>
+          {tabs}
+        </Tab>
+      </div>
+      <div className="u-flexGrow-1 u-paddingVerticalExtraSmall u-paddingLeftMedium u-textGray hover:u-textPrimary u-fontMedium u-text200 u-textUnderline">
+        <span> View all</span>
+      </div>
     </div>
   );
 };
 
 const TabBar = styled(TabBarView)`
+  display: flex;
   > div {
-    overflow-x: scroll;
-    > div > div {
-      white-space: nowrap;
+    overflow-x: hidden;
+
+    &:nth-child(1) {
+      flex-grow: 1;
+      overflow-x: scroll;
+
+      /* Hide the scroll bar */
+      scrollbar-width: none;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      > div > div {
+        white-space: nowrap;
+      }
+    }
+
+    &:nth-child(2) {
+      flex-shrink: 0;
+
+      > span {
+        text-underline-position: under;
+      }
     }
   }
 `;
