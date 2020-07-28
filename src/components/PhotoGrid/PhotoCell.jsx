@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 
-const ImageView = ({ className, src, alt }) => {
+const PhotoCellView = ({ className, src, alt }) => {
   return <img className={className} alt={alt} src={src}></img>;
 };
 
-export const Image = styled(ImageView)`
+export const PhotoCell = styled(PhotoCellView)`
   max-height: 100%;
   min-width: 100%;
 

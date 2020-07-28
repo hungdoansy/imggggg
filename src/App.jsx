@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Route, Switch, Redirect } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import { Home } from "./screens/Home";
 import { AuthContext } from "./context/auth";
 import { me as validate } from "./utils/actions/me";
+import { Photos } from "./screens/Photos";
+import { Categories } from "./screens/Categories";
 
 // TODO: at startup, check for validity of the tokens
 // /me endpoint
@@ -40,8 +42,17 @@ function App() {
     <AuthContext.Provider value={{ authTokens, setAuthTokens }}>
       <BrowserRouter>
         <Switch>
-          <Route path="/home" exact component={Home} />
+          <Route
+            path="/categories/:categoryId/items"
+            exact
+            component={Photos}
+          />
+
+          <Route path="/categories" exact component={Categories} />
+
           <Route path="/" exact component={Home} />
+
+          {/* TODO: Show a error page instead of redirecting to home */}
           <Redirect to="/" />
         </Switch>
       </BrowserRouter>

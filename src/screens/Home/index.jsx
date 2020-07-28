@@ -1,7 +1,6 @@
 import React from "react";
 
 import { Header } from "../../components/Header";
-import { ImageGrid } from "../../components/ImageGrid";
 import { useAuth } from "../../context/auth";
 
 export const Home = (props) => {
@@ -10,7 +9,7 @@ export const Home = (props) => {
   return (
     <>
       <Header />
-      <ImageGrid />
+      <p>Home</p>
     </>
   );
 };

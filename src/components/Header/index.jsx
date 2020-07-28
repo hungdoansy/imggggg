@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import {
   Header,
   Logo,
@@ -66,6 +66,7 @@ const useSignupModal = () => {
 const MyHeader = () => {
   const { authTokens, setAuthTokens } = useAuth();
   const hasBeenAuthenticated = !!authTokens && authTokens !== "";
+  console.log("hasBeenAuthenticated", hasBeenAuthenticated);
   const [isLoginModalOpen, showLoginModal, hideLoginModal] = useLoginModal();
   const [
     isSignupModalOpen,
@@ -112,7 +113,7 @@ const MyHeader = () => {
       {/* TODO: show/hide the tab bar based on auth status (localStorage) */}
       <TabBar />
 
-      {!hasBeenAuthenticated && (
+      {isLoginModalOpen && (
         <LoginModal
           isOpen={isLoginModalOpen}
           show={showLoginModal}
@@ -120,7 +121,7 @@ const MyHeader = () => {
         />
       )}
 
-      {!hasBeenAuthenticated && (
+      {isSignupModalOpen && (
         <SignupModal
           isOpen={isSignupModalOpen}
           show={showSignupModal}

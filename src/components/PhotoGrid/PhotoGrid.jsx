@@ -1,28 +1,28 @@
 import React from "react";
-import { Image } from "./Image";
+import { PhotoCell } from "./PhotoCell";
 import styled from "styled-components";
 import { images } from "../../mocks";
 
-const imageCreator = (images) => {
+const photoCreator = (images) => {
   return images.map(({ src, alt }, i) => (
     <li key={i}>
-      <Image src={src} alt={alt} loading="lazy" />
+      <PhotoCell src={src} alt={alt} loading="lazy" />
     </li>
   ));
 };
 
-const ImageGridView = ({ className }) => {
+const PhotoGridView = ({ className }) => {
   return (
     <div className={className + " Container Container--fluid"}>
       <ul>
-        {imageCreator(images)}
+        {photoCreator(images)}
         <li></li>
       </ul>
     </div>
   );
 };
 
-export const ImageGrid = styled(ImageGridView)`
+export const PhotoGrid = styled(PhotoGridView)`
   > ul {
     padding: 0;
     margin: 0;
