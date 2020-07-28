@@ -1,28 +1,49 @@
 import React from "react";
 import styled from "styled-components";
 import { CategoryCell } from "./CategoryCell";
+import { categories } from "../../mocks";
+
+const categoryCreator = () => {
+  return categories.allIds.map((id) => {
+    const category = categories.detailByCategoryId[id];
+
+    return (
+      <div key={category.id}>
+        <CategoryCell
+          id={category.id}
+          imageUrl={category.imageUrl}
+          name={category.name}
+          description={category.description}
+        />
+      </div>
+    );
+  });
+};
 
 const CategoryGridView = ({ className }) => {
   return (
     <div className={"Container Container--fluid " + className}>
-      <CategoryCell
-        imageUrl={
-          "https://images.unsplash.com/photo-1595831888313-fb478bd3dbf8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80"
-        }
-        id={1}
-        name="berries"
-        description={"Berries"}
-      />
+      <p className="u-text600">Categories </p>
+
+      <div>{categoryCreator()}</div>
     </div>
   );
 };
 
+// TODO: use grid
 export const CategoryGrid = styled(CategoryGridView)`
-  margin-left: -6px;
-  margin-right: -6px;
+  > div {
+    margin: 0;
+    padding: 0;
 
-  > ${CategoryCell} {
-    margin-left: 6px;
-    margin-right: 6px;
+    margin-left: -6px;
+    margin-right: -6px;
+
+    display: flex;
+    justify-content: center;
+
+    > div {
+      margin: 6px;
+    }
   }
 `;
