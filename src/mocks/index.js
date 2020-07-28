@@ -201,7 +201,13 @@ const links = [
 ];
 
 export const categories = {
-  allIds: ["Mixed", "Wallpapers", "Travel", "Nature"],
+  allIds: [
+    "Mixed",
+    "Wallpapers",
+    "Travel",
+    "Nature",
+    "So Long Long Long Long Category",
+  ],
 
   photosByCategoryId: {
     Mixed: [
@@ -830,6 +836,13 @@ export const categories = {
       id: 4,
       name: "Nature",
       description: "The beatufiul Mother Nature around us !",
+      imageUrl:
+        "https://images.unsplash.com/photo-1595538154519-bc102fd25a97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+    },
+    "So Long Long Long Long Category": {
+      id: 5,
+      name: "So Long Long Long Long Category",
+      description: "So Long Long Long Long Category",
       imageUrl:
         "https://images.unsplash.com/photo-1595538154519-bc102fd25a97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
     },
