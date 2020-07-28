@@ -836,6 +836,17 @@ export const categories = {
   },
 };
 
+export const getPhotosByCategoryId = (categoryId) => {
+  for (let i = 0; i < categories.allIds.length; i++) {
+    const id = categories.allIds[i];
+    if (categories.detailByCategoryId[id].id === categoryId) {
+      return categories.photosByCategoryId[categories.allIds[i]];
+    }
+  }
+
+  return [];
+};
+
 // "Altars",
 //     "Arches",
 //     "Atriums",

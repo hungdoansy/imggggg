@@ -1,21 +1,23 @@
 import React from "react";
 import { PhotoCell } from "./PhotoCell";
 import styled from "styled-components";
-import { images } from "../../mocks";
+import { getPhotosByCategoryId } from "../../mocks";
 
-const photoCreator = (images) => {
-  return images.map(({ src, alt }, i) => (
-    <li key={i}>
-      <PhotoCell src={src} alt={alt} loading="lazy" />
-    </li>
-  ));
+const photosCreator = (categoryId) => {
+  return getPhotosByCategoryId(categoryId).map((info, i) => {
+    return (
+      <li key={i}>
+        <PhotoCell alt={info.description} src={info.src} />
+      </li>
+    );
+  });
 };
 
-const PhotoGridView = ({ className }) => {
+const PhotoGridView = ({ className, categoryId }) => {
   return (
     <div className={className + " Container Container--fluid"}>
       <ul>
-        {photoCreator(images)}
+        {photosCreator(categoryId)}
         <li></li>
       </ul>
     </div>
