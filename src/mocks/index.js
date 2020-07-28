@@ -203,7 +203,7 @@ const links = [
 export const categories = {
   allIds: ["Mixed", "Wallpapers", "Travel", "Nature"],
 
-  byId: {
+  photosByCategoryId: {
     Mixed: [
       {
         src:
@@ -802,6 +802,37 @@ export const categories = {
         alt: "black and brown starry night",
       },
     ],
+  },
+
+  detailByCategoryId: {
+    Mixed: {
+      id: 1,
+      name: "Mixed",
+      description: "random images",
+      imageUrl:
+        "https://images.unsplash.com/photo-1593642634524-b40b5baae6bb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+    },
+    Wallpapers: {
+      id: 2,
+      name: "Wallpapers",
+      description: "Gorgeous HD photos to use as wallpapers",
+      imageUrl:
+        "https://images.unsplash.com/photo-1538137518296-2b8f90394f04?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+    },
+    Travel: {
+      id: 3,
+      name: "Travel",
+      description: "Taken by hikers/trekkers",
+      imageUrl:
+        "https://images.unsplash.com/photo-1595845396231-0a250a241904?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+    },
+    Nature: {
+      id: 4,
+      name: "Nature",
+      description: "The beatufiul Mother Nature around us !",
+      imageUrl:
+        "https://images.unsplash.com/photo-1595538154519-bc102fd25a97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+    },
   },
 };
 
