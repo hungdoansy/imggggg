@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styled from "styled-components";
 import { Tab } from "@gotitinc/design-system";
 
 const categories = [
@@ -37,7 +38,7 @@ const categories = [
   "Windows",
 ];
 
-const TabBar = () => {
+const TabBarView = ({ className }) => {
   const [current, setCurrent] = useState("tab_1");
 
   const tabs = categories.map((c, i) => {
@@ -48,14 +49,26 @@ const TabBar = () => {
     );
   });
   return (
-    <div className="Container Container--fluid">
+    <div className={"Container Container--fluid " + className}>
       <Tab current={current} onSelect={setCurrent}>
-        <Tab.Item eventKey="tab_1">Nature</Tab.Item>
+        <Tab.Item eventKey="tab_1" style={{ whiteSpace: "nowrap" }}>
+          Nature
+        </Tab.Item>
         <Tab.Item eventKey="tab_2">House</Tab.Item>
         <Tab.Item eventKey="tab_3">Color</Tab.Item>
+        {tabs}
       </Tab>
     </div>
   );
 };
+
+const TabBar = styled(TabBarView)`
+  > div {
+    overflow-x: scroll;
+    > div > div {
+      white-space: nowrap;
+    }
+  }
+`;
 
 export { TabBar };
