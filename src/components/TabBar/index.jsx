@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Tab } from "@gotitinc/design-system";
+import { Tab, Button } from "@gotitinc/design-system";
 import { categories } from "../../mocks";
 import { Link } from "react-router-dom";
 
@@ -14,6 +14,9 @@ const Separator = styled(SeparatorView)`
   margin-top: 8px;
   margin-bottom: 8px;
   flex-shrink: 0;
+
+  margin-right: 15px;
+  margin-left: 15px;
 `;
 
 const TabBarView = ({ className }) => {
@@ -27,8 +30,30 @@ const TabBarView = ({ className }) => {
       </Tab.Item>
     );
   });
+
+  /** Very long tabs */
+  // const tabs = Array(40)
+  //   .fill(0)
+  //   .map((_, i) => {
+  //     return {
+  //       id: i,
+  //       name: ("" + i).repeat(5),
+  //     };
+  //   })
+  //   .map((c, i) => (
+  //     <Tab.Item key={i} eventKey={`tab_${i}`}>
+  //       <Link to={`/categories/${c.id}/items`}>{c.name}</Link>
+  //     </Tab.Item>
+  //   ));
+
   return (
     <div className={"Container Container--fluid " + className}>
+      <div className="u-paddingVerticalExtraSmall create-box">
+        <button className="u-fontMedium u-border u-borderPrimary u-roundedMedium u-cursorPointer u-text200 u-textPrimary">
+          Create
+        </button>
+      </div>
+      <Separator />
       <div className="tabs">
         <Tab current={current} onSelect={setCurrent}>
           {tabs}
@@ -37,7 +62,7 @@ const TabBarView = ({ className }) => {
       <Separator />
       <div
         className={`
-          u-paddingVerticalExtraSmall u-paddingLeftMedium u-textGray hover:u-textPrimary 
+          u-paddingVerticalExtraSmall u-textGray hover:u-textPrimary 
           u-fontMedium u-text200 u-textUnderline view-all
         `}
       >
@@ -51,8 +76,28 @@ const TabBarView = ({ className }) => {
 
 const TabBar = styled(TabBarView)`
   display: flex;
+  height: 50px;
+
   > div {
     overflow-x: hidden;
+
+    &.create-box {
+      flex-shrink: 0;
+      cursor: pointer;
+
+      > button {
+        padding: calc(0.375rem - 1px) 0.7rem;
+
+        transition: all 0.15s ease-in-out;
+
+        user-select: none;
+        cursor: pointer;
+
+        border-radius: 4px;
+
+        background-color: transparent;
+      }
+    }
 
     &.tabs {
       flex-grow: 1;
@@ -63,6 +108,10 @@ const TabBar = styled(TabBarView)`
       &::-webkit-scrollbar {
         display: none;
       }
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
 
       > div > div > div {
         > a {
@@ -75,6 +124,10 @@ const TabBar = styled(TabBarView)`
 
     &.view-all {
       flex-shrink: 0;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
 
       > a {
         cursor: pointer;
