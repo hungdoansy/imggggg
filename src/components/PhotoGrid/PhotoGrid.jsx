@@ -1,6 +1,7 @@
 import React from "react";
-import { PhotoCell } from "./PhotoCell";
 import styled from "styled-components";
+import { Button, Icon } from "@gotitinc/design-system";
+import { PhotoCell } from "./PhotoCell";
 import { getPhotosByCategoryId } from "../../mocks";
 
 const photosCreator = (categoryId) => {
@@ -16,10 +17,10 @@ const photosCreator = (categoryId) => {
 const PhotoGridView = ({ className, categoryId }) => {
   return (
     <div className={className + " Container Container--fluid"}>
-      <div>
+      <div className="category-info">
         <div>
-          <p class="category-name">Category name</p>
-          <p class="category-description">
+          <p className="category-name">Category name</p>
+          <p className="category-description">
             Category description Lorem ipsum dolor sit amet consectetur
             adipisicing elit. Quos tenetur, eos veritatis nihil fugit ut
             voluptatem nulla iste odit hic. Perspiciatis dolorem ratione sint
@@ -27,8 +28,14 @@ const PhotoGridView = ({ className, categoryId }) => {
           </p>
         </div>
         <div>
-          <div class="category-stats">Stats</div>
-          <div class="new-photo-submit">Submit a photo</div>
+          <div className="u-roundedMedium u-border u-borderPrimary category-stats">
+            Stats: 100 Photos
+          </div>
+          <div className="u-paddingVerticalExtraSmall submit-box">
+            <button className="u-fontMedium u-border u-borderPrimary u-roundedMedium u-cursorPointer u-text300 u-textPrimary">
+              Submit your photo
+            </button>
+          </div>
         </div>
       </div>
       <div>
@@ -41,6 +48,7 @@ const PhotoGridView = ({ className, categoryId }) => {
   );
 };
 
+// TODO: Refine CSS
 export const PhotoGrid = styled(PhotoGridView)`
   display: flex;
   flex-direction: column;
@@ -64,7 +72,7 @@ export const PhotoGrid = styled(PhotoGridView)`
     }
 
     > div:nth-child(2) {
-      flex: 1 0 300px;
+      flex: 1 0 250px;
 
       display: flex;
       flex-direction: column;
@@ -106,6 +114,24 @@ export const PhotoGrid = styled(PhotoGridView)`
       > li:last-child {
         flex-grow: 10;
       }
+    }
+  }
+
+  div.submit-box {
+    flex-shrink: 0;
+    cursor: pointer;
+
+    > button {
+      padding: calc(0.375rem - 1px) 0.7rem;
+
+      transition: all 0.15s ease-in-out;
+
+      user-select: none;
+      cursor: pointer;
+
+      border-radius: 4px;
+
+      background-color: transparent;
     }
   }
 `;
