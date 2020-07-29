@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { Button, Icon } from "@gotitinc/design-system";
 import { PhotoCell } from "./PhotoCell";
 import { getPhotosByCategoryId } from "../../mocks";
+import { Pagination } from "../Pagination";
 
 const photosCreator = (categoryId) => {
   return getPhotosByCategoryId(categoryId).map((info, i) => {
@@ -38,11 +38,20 @@ const PhotoGridView = ({ className, categoryId }) => {
           </div>
         </div>
       </div>
+
       <div>
         <ul>
           {photosCreator(categoryId)}
           <li></li>
         </ul>
+      </div>
+
+      <div className="u-textCenter">
+        <Pagination
+          currentPage={10}
+          totalNumberOfPages={20}
+          baseUrl={"/categories/2/items/?page="}
+        />
       </div>
     </div>
   );
