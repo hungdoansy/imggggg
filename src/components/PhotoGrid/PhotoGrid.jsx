@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { PhotoCell } from "./PhotoCell";
-import { getPhotosByCategoryId } from "../../mocks";
+import { getPhotosWithParams } from "../../mocks";
 import { Pagination } from "../Pagination";
 
-const photosCreator = (categoryId) => {
-  return getPhotosByCategoryId(categoryId).map((info, i) => {
+const photosCreator = (categoryId, page) => {
+  return getPhotosWithParams(categoryId, page).map((info, i) => {
     return (
       <li key={i}>
         <PhotoCell alt={info.description} src={info.src} />
@@ -14,7 +14,7 @@ const photosCreator = (categoryId) => {
   });
 };
 
-const PhotoGridView = ({ className, categoryId }) => {
+const PhotoGridView = ({ className, categoryId, currentPage }) => {
   return (
     <div className={className + " Container Container--fluid"}>
       <div className="category-info">
@@ -41,16 +41,16 @@ const PhotoGridView = ({ className, categoryId }) => {
 
       <div>
         <ul>
-          {photosCreator(categoryId)}
+          {photosCreator(categoryId, currentPage)}
           <li></li>
         </ul>
       </div>
 
       <div className="u-textCenter">
         <Pagination
-          currentPage={10}
+          currentPage={currentPage}
           totalNumberOfPages={20}
-          baseUrl={"/categories/2/items/?page="}
+          baseUrl={`/categories/${categoryId}/items/#page=`}
         />
       </div>
     </div>

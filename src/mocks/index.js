@@ -1,3 +1,5 @@
+const LIMIT = 10;
+
 export const images = [
   {
     src:
@@ -860,36 +862,18 @@ export const getPhotosByCategoryId = (categoryId) => {
   return [];
 };
 
-// "Altars",
-//     "Arches",
-//     "Atriums",
-//     "Balconies and Porches",
-//     "Bas Reliefs",
-//     "Bells",
-//     "Ceilings",
-//     "Smoke Stacks",
-//     "Cloisters",
-//     "Columns",
-//     "Corridors",
-//     "Courtyards",
-//     "Crosses",
-//     "Decorative Pools",
-//     "Domes",
-//     "Doors",
-//     "Facades",
-//     "Galleries",
-//     "Gates",
-//     "Grids",
-//     "Kivas",
-//     "Ladders",
-//     "Moats",
-//     "Mural Decor",
-//     "Roofs",
-//     "Stained Glass",
-//     "Staircases",
-//     "Stupas",
-//     "Tombs",
-//     "Tumulus",
-//     "Walls",
-//     "Water Wheels",
-//     "Windows",
+export const getPhotosWithParams = (categoryId, page) => {
+  const from = (page - 1) * LIMIT;
+  const to = page * LIMIT;
+  for (let i = 0; i < categories.allIds.length; i++) {
+    const id = categories.allIds[i];
+    if (categories.detailByCategoryId[id].id === categoryId) {
+      return categories.photosByCategoryId[categories.allIds[i]].slice(
+        from,
+        to
+      );
+    }
+  }
+
+  return [];
+};
