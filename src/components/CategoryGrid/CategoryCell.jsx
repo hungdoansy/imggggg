@@ -65,6 +65,8 @@ export const CategoryCell = styled(CategoryCellView)`
         font-weight: bold;
 
         text-shadow: 0 0 3px #fff;
+
+        text-align: center;
       }
     }
   }

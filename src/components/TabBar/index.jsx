@@ -23,7 +23,9 @@ const TabBarView = ({ className }) => {
         </Tab>
       </div>
       <div className="u-paddingVerticalExtraSmall u-paddingLeftMedium u-textGray hover:u-textPrimary u-fontMedium u-text200 u-textUnderline">
-        <span> View all</span>
+        <Link to="/categories">
+          <span> View all</span>
+        </Link>
       </div>
     </div>
   );
@@ -56,9 +58,11 @@ const TabBar = styled(TabBarView)`
     &:nth-child(2) {
       flex-shrink: 0;
 
-      > span {
+      > a {
         cursor: pointer;
         text-underline-position: under;
+        color: inherit;
+        text-decoration-color: currentColor;
       }
     }
   }
