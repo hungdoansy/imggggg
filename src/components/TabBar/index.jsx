@@ -4,6 +4,18 @@ import { Tab } from "@gotitinc/design-system";
 import { categories } from "../../mocks";
 import { Link } from "react-router-dom";
 
+const SeparatorView = ({ className }) => {
+  return <div className={className}></div>;
+};
+
+const Separator = styled(SeparatorView)`
+  background-color: #d1d1d1;
+  width: 1px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  flex-shrink: 0;
+`;
+
 const TabBarView = ({ className }) => {
   const [current, setCurrent] = useState("tab_0");
 
@@ -17,12 +29,18 @@ const TabBarView = ({ className }) => {
   });
   return (
     <div className={"Container Container--fluid " + className}>
-      <div>
+      <div className="tabs">
         <Tab current={current} onSelect={setCurrent}>
           {tabs}
         </Tab>
       </div>
-      <div className="u-paddingVerticalExtraSmall u-paddingLeftMedium u-textGray hover:u-textPrimary u-fontMedium u-text200 u-textUnderline">
+      <Separator />
+      <div
+        className={`
+          u-paddingVerticalExtraSmall u-paddingLeftMedium u-textGray hover:u-textPrimary 
+          u-fontMedium u-text200 u-textUnderline view-all
+        `}
+      >
         <Link to="/categories">
           <span> View all</span>
         </Link>
@@ -36,7 +54,7 @@ const TabBar = styled(TabBarView)`
   > div {
     overflow-x: hidden;
 
-    &:nth-child(1) {
+    &.tabs {
       flex-grow: 1;
       overflow-x: scroll;
 
@@ -55,7 +73,7 @@ const TabBar = styled(TabBarView)`
       }
     }
 
-    &:nth-child(2) {
+    &.view-all {
       flex-shrink: 0;
 
       > a {
