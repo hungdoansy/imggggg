@@ -1,4 +1,4 @@
-const { addNewCategory } = require("../../mocks");
+import { addNewCategory } from "../../mocks";
 
 export const createCategory = ({ name, imageUrl, description }) => {
   return new Promise((resolve) => {
