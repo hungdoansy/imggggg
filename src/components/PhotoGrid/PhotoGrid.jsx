@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { PhotoCell } from "./PhotoCell";
 import { getPhotosWithParams } from "../../mocks";
 import { Pagination } from "../Pagination";
+import { SubmitPhotoModal, useSubmitModal } from "../SubmitPhotoModal";
 
 const photosCreator = (categoryId, page) => {
   return getPhotosWithParams(categoryId, page).map((info, i) => {
@@ -15,6 +16,16 @@ const photosCreator = (categoryId, page) => {
 };
 
 const PhotoGridView = ({ className, categoryId, currentPage }) => {
+  const [
+    isSubmitModalOpen,
+    showSubmitModal,
+    hideSubmitModal,
+  ] = useSubmitModal();
+
+  const onClickSubmitPhoto = () => {
+    showSubmitModal();
+  };
+
   return (
     <div className={className + " Container Container--fluid"}>
       <div className="category-info">
@@ -32,7 +43,10 @@ const PhotoGridView = ({ className, categoryId, currentPage }) => {
             Stats: 100 Photos
           </div>
           <div className="u-paddingVerticalExtraSmall submit-box">
-            <button className="u-fontMedium u-border u-borderPrimary u-roundedMedium u-cursorPointer u-text300 u-textPrimary">
+            <button
+              className="u-fontMedium u-border u-borderPrimary u-roundedMedium u-cursorPointer u-text300 u-textPrimary"
+              onClick={onClickSubmitPhoto}
+            >
               Submit your photo
             </button>
           </div>
@@ -53,6 +67,14 @@ const PhotoGridView = ({ className, categoryId, currentPage }) => {
           baseUrl={`/categories/${categoryId}/items/#page=`}
         />
       </div>
+
+      {isSubmitModalOpen && (
+        <SubmitPhotoModal
+          isOpen={isSubmitModalOpen}
+          show={showSubmitModal}
+          hide={hideSubmitModal}
+        />
+      )}
     </div>
   );
 };

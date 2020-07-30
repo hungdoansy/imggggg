@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 
-const SUBMIT = "submit";
-
 const useQueryParams = () => {
   return new URLSearchParams(useLocation().search);
 };
@@ -46,26 +44,4 @@ const useHashParams = () => {
   return { getPage, getAction };
 };
 
-const useSubmitModal = () => {
-  const hashParams = useHashParams();
-
-  const [isSubmitModalOpen, setModalOpen] = useState(() => {
-    if (hashParams.getAction() === SUBMIT) {
-      return true;
-    }
-
-    return false;
-  });
-
-  const showSubmitModal = () => {
-    setModalOpen(true);
-  };
-
-  const hideSubmitModal = () => {
-    setModalOpen(false);
-  };
-
-  return [isSubmitModalOpen, showSubmitModal, hideSubmitModal];
-};
-
-export { useHashParams, useSubmitModal, useQueryParams };
+export { useHashParams, useQueryParams };
