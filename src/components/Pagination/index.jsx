@@ -64,6 +64,7 @@ const itemsCreator = (currentPage, totalNumberOfPages, baseUrl) => {
   });
 };
 
+// TODO: fix prev/next button
 const MyPagination = ({ currentPage, totalNumberOfPages, baseUrl }) => {
   return (
     <Pagination>

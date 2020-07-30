@@ -1,23 +1,26 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { CategoryCell } from "./CategoryCell";
-import { categories } from "../../mocks";
-import { useHashParams } from "../../utils/hooks";
+
 import { getCategories } from "../../utils/apis/category";
+import { Pagination } from "../Pagination";
 
-const CategoryGridView = ({ className }) => {
-  const hashParams = useHashParams();
-  const page = hashParams.getPage();
+const CATEGORIES_PER_PAGE = 8;
 
+const CategoryGridView = ({ className, currentPage }) => {
   const [categories, setCategories] = useState([]);
+  const [numberOfPages, setNumberOfPages] = useState(0);
 
   useEffect(() => {
-    getCategories(page).then((data) => {
+    getCategories(currentPage).then((data) => {
       setCategories(data.categories);
+      setNumberOfPages(
+        Math.ceil(data["total_categories"] / CATEGORIES_PER_PAGE)
+      );
     });
 
     // TODO: handle error
-  }, [page]);
+  }, [currentPage]);
 
   const CategoryCellList = categories.map((category) => (
     <div key={category.id}>
@@ -35,6 +38,14 @@ const CategoryGridView = ({ className }) => {
       <p className="u-text600">Categories </p>
 
       <div>{CategoryCellList}</div>
+
+      <div className="u-textCenter">
+        <Pagination
+          currentPage={currentPage}
+          totalNumberOfPages={numberOfPages}
+          baseUrl={`/categories#page=`}
+        />
+      </div>
     </div>
   );
 };
