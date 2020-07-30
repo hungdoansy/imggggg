@@ -6,6 +6,7 @@ import { AuthContext } from "./context/auth";
 import { me as validate } from "./utils/actions/me";
 import { Photos } from "./screens/Photos";
 import { Categories } from "./screens/Categories";
+import { ToastContainer } from "@gotitinc/design-system";
 
 // TODO: at startup, check for validity of the tokens
 // /me endpoint
@@ -56,6 +57,8 @@ function App() {
           <Redirect to="/" />
         </Switch>
       </BrowserRouter>
+
+      <ToastContainer autoDismiss={3000} hideProgressBar={true} />
     </AuthContext.Provider>
   );
 }

@@ -1,4 +1,5 @@
 const LIMIT = 10;
+let currentId = 5;
 
 export const images = [
   {
@@ -876,4 +877,17 @@ export const getPhotosWithParams = (categoryId, page) => {
   }
 
   return [];
+};
+
+export const addNewCategory = ({ name, imageUrl, description }) => {
+  categories.allIds.push(name);
+
+  categories.detailByCategoryId[name] = {
+    id: currentId++,
+    name,
+    imageUrl,
+    description,
+  };
+
+  categories.photosByCategoryId[name] = [];
 };

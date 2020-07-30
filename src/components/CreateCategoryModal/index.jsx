@@ -1,15 +1,11 @@
 import React, { useState } from "react";
-import { Button, Modal, Form } from "@gotitinc/design-system";
-import { useAuth } from "../../context/auth";
+import { Button, Modal, Form, toast, Icon } from "@gotitinc/design-system";
 import { useHashParams } from "../../utils/hooks";
+import { createCategory } from "../../utils/actions/categories";
 
 const CREATE = "create";
 
-const sanitizerCheck = ({ url, description }) => {
-  return {
-    passed: true,
-  };
-};
+// TODO: sanitize inputs
 
 export const useCreateModal = () => {
   const hashParams = useHashParams();
@@ -35,15 +31,15 @@ export const useCreateModal = () => {
 
 export const CreateCategoryModal = ({ isOpen, show, hide }) => {
   const [name, setName] = useState("");
-  const [url, setUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const [description, setDescription] = useState("");
 
   const onNameInputChange = (e) => {
     setName(e.target.value);
   };
 
-  const onUrlInputChange = (e) => {
-    setUrl(e.target.value);
+  const onImageUrlInputChange = (e) => {
+    setImageUrl(e.target.value);
   };
 
   const onDescriptionInputChange = (e) => {
@@ -51,20 +47,26 @@ export const CreateCategoryModal = ({ isOpen, show, hide }) => {
   };
 
   const onClick = () => {
-    const { passed } = sanitizerCheck({ url, description });
+    // TODO: check for error
+    createCategory({ name, imageUrl, description }).then(() => {
+      hide();
 
-    if (passed) {
-      // TODO: disable the Next button, maybe show a loading indicator
-      // Paint green the button when it's successful and then reload (maybe not)
-      // submit({ url, description }).then((response) => {
-      //   if (response["access_token"]) {
-      //     setAuthTokens(response["access_token"]);
-      //     hide();
-      //   }
-      // });
-    } else {
-      // TODO: display the error message
-    }
+      toast(() => (
+        <div className="u-flex u-flexGrow-1 u-cursorDefault">
+          <div className="u-marginRightExtraSmall">
+            <Icon name="checkmarkCircle" size="medium" />
+          </div>
+          <div className="u-flexGrow-1">
+            <div className="u-fontMedium u-marginBottomExtraSmall">
+              Yeahhhhh !
+            </div>
+            <div>
+              Category <b>{name}</b> has just been created
+            </div>
+          </div>
+        </div>
+      ));
+    });
   };
 
   return (
@@ -94,8 +96,8 @@ export const CreateCategoryModal = ({ isOpen, show, hide }) => {
             <Form.Input
               type="text"
               placeholder="Link to a featuring photo"
-              value={url}
-              onChange={onUrlInputChange}
+              value={imageUrl}
+              onChange={onImageUrlInputChange}
             />
           </Form.Group>
 
