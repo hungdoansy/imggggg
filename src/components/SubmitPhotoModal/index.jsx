@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Modal, Form } from "@gotitinc/design-system";
+import { Button, Modal, Form, toast, Icon } from "@gotitinc/design-system";
 import { useAuth } from "../../context/auth";
 import { useHashParams } from "../../utils/hooks";
 
@@ -59,6 +59,22 @@ export const SubmitPhotoModal = ({ isOpen, show, hide }) => {
       //     hide();
       //   }
       // });
+
+      hide();
+
+      toast(() => (
+        <div className="u-flex u-flexGrow-1 u-cursorDefault">
+          <div className="u-marginRightExtraSmall">
+            <Icon name="checkmarkCircle" size="medium" />
+          </div>
+          <div className="u-flexGrow-1">
+            <div className="u-fontMedium u-marginBottomExtraSmall">
+              Yeahhhhh !
+            </div>
+            <div>Your photo has just been submitted !</div>
+          </div>
+        </div>
+      ));
     } else {
       // TODO: display the error message
     }

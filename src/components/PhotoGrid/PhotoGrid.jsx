@@ -47,7 +47,7 @@ const PhotoGridView = ({ className, categoryId, currentPage }) => {
               className="u-fontMedium u-border u-borderPrimary u-roundedMedium u-cursorPointer u-text300 u-textPrimary"
               onClick={onClickSubmitPhoto}
             >
-              Submit your photo
+              Submit a photo here
             </button>
           </div>
         </div>
