@@ -16,10 +16,10 @@ export const getCategories = (page = 1) => {
   const limit = 10;
 
   return new Promise((resolve) => {
-    const categories = syncGetCategories({ offset, limit });
+    const data = syncGetCategories({ offset, limit });
 
     setTimeout(() => {
-      resolve(categories);
+      resolve(data);
     }, 1000);
   });
 };
