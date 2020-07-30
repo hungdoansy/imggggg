@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { Route, Switch, Redirect } from "react-router";
 import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import { ToastContainer } from "@gotitinc/design-system";
+
 import { Home } from "./screens/Home";
 import { AuthContext } from "./context/auth";
 import { me as validate } from "./utils/apis/me";
 import { Photos } from "./screens/Photos";
 import { Categories } from "./screens/Categories";
-import { ToastContainer } from "@gotitinc/design-system";
+import { configuredStore } from "./store";
 
 // TODO: at startup, check for validity of the tokens
 // /me endpoint
@@ -40,26 +43,28 @@ function App() {
   const [authTokens, setAuthTokens] = useAuthTokens();
 
   return (
-    <AuthContext.Provider value={{ authTokens, setAuthTokens }}>
-      <BrowserRouter>
-        <Switch>
-          <Route
-            path="/categories/:categoryId/items"
-            exact
-            component={Photos}
-          />
+    <Provider store={configuredStore}>
+      <AuthContext.Provider value={{ authTokens, setAuthTokens }}>
+        <BrowserRouter>
+          <Switch>
+            <Route
+              path="/categories/:categoryId/items"
+              exact
+              component={Photos}
+            />
 
-          <Route path="/categories" exact component={Categories} />
+            <Route path="/categories" exact component={Categories} />
 
-          <Route path="/" exact component={Home} />
+            <Route path="/" exact component={Home} />
 
-          {/* TODO: Show a error page instead of redirecting to home */}
-          <Redirect to="/" />
-        </Switch>
-      </BrowserRouter>
+            {/* TODO: Show a error page instead of redirecting to home */}
+            <Redirect to="/" />
+          </Switch>
+        </BrowserRouter>
 
-      <ToastContainer autoDismiss={3000} hideProgressBar={true} />
-    </AuthContext.Provider>
+        <ToastContainer autoDismiss={3000} hideProgressBar={true} />
+      </AuthContext.Provider>
+    </Provider>
   );
 }
 

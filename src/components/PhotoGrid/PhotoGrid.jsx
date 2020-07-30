@@ -5,6 +5,7 @@ import { getPhotosWithParams } from "../../mocks";
 import { Pagination } from "../Pagination";
 import { SubmitPhotoModal, useSubmitModal } from "../SubmitPhotoModal";
 
+// TODO: store photos to redux
 const photosCreator = (categoryId, page) => {
   return getPhotosWithParams(categoryId, page).map((info, i) => {
     return (

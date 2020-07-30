@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { Tab, Button } from "@gotitinc/design-system";
 import { categories } from "../../mocks";
 import { Link } from "react-router-dom";
 import { CreateCategoryModal, useCreateModal } from "../CreateCategoryModal";
+import { getCategories } from "../../reducers";
 
 const SeparatorView = ({ className }) => {
   return <div className={className}></div>;
@@ -21,6 +23,7 @@ const Separator = styled(SeparatorView)`
 `;
 
 const TabBarView = ({ className }) => {
+  const categories = useSelector(getCategories);
   const [current, setCurrent] = useState("tab_0");
 
   const [
@@ -29,7 +32,7 @@ const TabBarView = ({ className }) => {
     hideCreateModal,
   ] = useCreateModal();
 
-  const tabs = categories.allIds.map((cId, i) => {
+  const tabs = categories.map((cId, i) => {
     const category = categories.detailByCategoryId[cId];
     return (
       <Tab.Item key={i} eventKey={`tab_${i}`}>
@@ -40,23 +43,7 @@ const TabBarView = ({ className }) => {
 
   const onClickCreateCategory = () => {
     showCreateModal();
-    // console.log("create");
   };
-
-  /** Very long tabs */
-  // const tabs = Array(40)
-  //   .fill(0)
-  //   .map((_, i) => {
-  //     return {
-  //       id: i,
-  //       name: ("" + i).repeat(5),
-  //     };
-  //   })
-  //   .map((c, i) => (
-  //     <Tab.Item key={i} eventKey={`tab_${i}`}>
-  //       <Link to={`/categories/${c.id}/items`}>{c.name}</Link>
-  //     </Tab.Item>
-  //   ));
 
   return (
     <div className={"Container Container--fluid " + className}>

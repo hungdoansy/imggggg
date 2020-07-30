@@ -812,28 +812,28 @@ export const categories = {
       id: 1,
       name: "Mixed",
       description: "random images",
-      imageUrl:
+      image_url:
         "https://images.unsplash.com/photo-1593642634524-b40b5baae6bb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
     },
     2: {
       id: 2,
       name: "Wallpapers",
       description: "Gorgeous HD photos to use as wallpapers",
-      imageUrl:
+      image_url:
         "https://images.unsplash.com/photo-1538137518296-2b8f90394f04?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
     },
     3: {
       id: 3,
       name: "Travel",
       description: "Taken by hikers/trekkers",
-      imageUrl:
+      image_url:
         "https://images.unsplash.com/photo-1595845396231-0a250a241904?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
     },
     4: {
       id: 4,
       name: "Nature",
       description: "The beatufiul Mother Nature around us !",
-      imageUrl:
+      image_url:
         "https://images.unsplash.com/photo-1595538154519-bc102fd25a97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
     },
   },
@@ -869,3 +869,12 @@ export const addNewCategory = ({ name, imageUrl, description }) => {
 };
 
 export const addNewPhoto = ({ categoryId, url, description }) => {};
+
+export const getCategories = ({ offset, limit }) => {
+  return {
+    total_categories: categories.allIds.length,
+    categories: categories.allIds.map(
+      (id) => categories.detailByCategoryId[id]
+    ),
+  };
+};
