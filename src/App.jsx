@@ -3,7 +3,7 @@ import { Route, Switch, Redirect } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import { Home } from "./screens/Home";
 import { AuthContext } from "./context/auth";
-import { me as validate } from "./utils/actions/me";
+import { me as validate } from "./utils/apis/me";
 import { Photos } from "./screens/Photos";
 import { Categories } from "./screens/Categories";
 import { ToastContainer } from "@gotitinc/design-system";

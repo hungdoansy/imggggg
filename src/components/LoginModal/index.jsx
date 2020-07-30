@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Modal, Form } from "@gotitinc/design-system";
 import { useAuth } from "../../context/auth";
-import { login } from "../../utils/actions/auth";
+import { login } from "../../utils/apis/auth";
 
 const sanitizerCheck = ({ email, password }) => {
   return {

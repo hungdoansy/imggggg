@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Modal, Form, toast, Icon } from "@gotitinc/design-system";
 import { useHashParams } from "../../utils/hooks";
-import { createCategory } from "../../utils/actions/categories";
+import { createCategory } from "../../utils/apis/categories";
 
 const CREATE = "create";
 
