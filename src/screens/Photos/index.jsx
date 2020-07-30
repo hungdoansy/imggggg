@@ -1,7 +1,7 @@
 import React from "react";
 import { Header } from "../../components/Header";
 import { PhotoGrid } from "../../components/PhotoGrid/PhotoGrid";
-import { useHashParams } from "../../utils/hooks/useHashParams";
+import { useHashParams } from "../../utils/hooks";
 
 export const Photos = ({ match }) => {
   const hashParams = useHashParams();
