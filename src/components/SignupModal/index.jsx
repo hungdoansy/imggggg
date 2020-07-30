@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Modal, Form } from "@gotitinc/design-system";
-import { useAuth } from "../../context/auth";
+import { useAuthContext } from "../../context/auth";
 import { signup } from "../../utils/apis/auth";
 
 const sanitizerCheck = ({ name, email, password }) => {
@@ -10,7 +10,7 @@ const sanitizerCheck = ({ name, email, password }) => {
 };
 
 export const SignupModal = ({ isOpen, show, hide }) => {
-  const { setAuthTokens } = useAuth();
+  const { setAuthTokens } = useAuthContext();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

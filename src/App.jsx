@@ -36,11 +36,13 @@ const useAuthTokens = () => {
     setTokens(data);
   };
 
-  return [authTokens, setAuthTokens];
+  const hasSignedIn = !!authTokens && authTokens !== "";
+
+  return [hasSignedIn, authTokens, setAuthTokens];
 };
 
 function App() {
-  const [authTokens, setAuthTokens] = useAuthTokens();
+  const [hasSignedIn, authTokens, setAuthTokens] = useAuthTokens();
 
   const dispatch = useDispatch();
 
@@ -49,7 +51,7 @@ function App() {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ authTokens, setAuthTokens }}>
+    <AuthContext.Provider value={{ hasSignedIn, authTokens, setAuthTokens }}>
       <BrowserRouter>
         <Switch>
           <Route

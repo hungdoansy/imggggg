@@ -1,10 +1,10 @@
 import React from "react";
 
 import { Header } from "../../components/Header";
-import { useAuth } from "../../context/auth";
+import { useAuthContext } from "../../context/auth";
 
 export const Home = (props) => {
-  const auth = useAuth();
+  const auth = useAuthContext();
   console.log("tokens", auth.authTokens);
   return (
     <>

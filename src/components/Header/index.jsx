@@ -1,28 +1,13 @@
 import React, { useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Header, Button, Avatar } from "@gotitinc/design-system";
 import { TabBar } from "../TabBar";
 import { LoginModal } from "../LoginModal";
 import { SignupModal } from "../SignupModal";
-import { useAuth } from "../../context/auth";
-
-const LOGIN = "login";
-const SIGNUP = "signup";
-
-const useQueryParams = () => {
-  return new URLSearchParams(useLocation().search);
-};
+import { useAuthContext } from "../../context/auth";
 
 const useLoginModal = () => {
-  const queryParams = useQueryParams();
-
-  const [isLoginModalOpen, setModalOpen] = useState(() => {
-    if (queryParams.get("action") === LOGIN) {
-      return true;
-    }
-
-    return false;
-  });
+  const [isLoginModalOpen, setModalOpen] = useState(false);
 
   const showLoginModal = () => {
     setModalOpen(true);
@@ -36,15 +21,7 @@ const useLoginModal = () => {
 };
 
 const useSignupModal = () => {
-  const queryParams = useQueryParams();
-
-  const [isSignupModalOpen, setModalOpen] = useState(() => {
-    if (queryParams.get("action") === SIGNUP) {
-      return true;
-    }
-
-    return false;
-  });
+  const [isSignupModalOpen, setModalOpen] = useState(false);
 
   const showSignupModal = () => {
     setModalOpen(true);
@@ -58,7 +35,7 @@ const useSignupModal = () => {
 };
 
 const MyHeader = () => {
-  const { authTokens, setAuthTokens } = useAuth();
+  const { authTokens, setAuthTokens } = useAuthContext();
   const hasBeenAuthenticated = !!authTokens && authTokens !== "";
   console.log("hasBeenAuthenticated", hasBeenAuthenticated);
   const [isLoginModalOpen, showLoginModal, hideLoginModal] = useLoginModal();

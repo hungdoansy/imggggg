@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { Tab } from "@gotitinc/design-system";
+import { Tab, toast, Icon } from "@gotitinc/design-system";
 import { Link } from "react-router-dom";
 import { CreateCategoryModal, useCreateModal } from "../CreateCategoryModal";
 import { getCategories } from "../../reducers";
+import { useAuthContext } from "../../context/auth";
 
 const SeparatorView = ({ className }) => {
   return <div className={className}></div>;
@@ -22,6 +23,7 @@ const Separator = styled(SeparatorView)`
 `;
 
 const TabBarView = ({ className }) => {
+  const { hasSignedIn } = useAuthContext();
   const categories = useSelector(getCategories);
   const [current, setCurrent] = useState("tab_0");
 
@@ -40,7 +42,26 @@ const TabBarView = ({ className }) => {
   });
 
   const onClickCreateCategory = () => {
-    showCreateModal();
+    if (hasSignedIn) {
+      showCreateModal();
+    } else {
+      toast.info(
+        () => (
+          <div className="u-flex u-flexGrow-1">
+            <div className="u-marginRightExtraSmall">
+              <Icon name="informationCircle" size="medium" />
+            </div>
+            <div className="u-flexGrow-1">
+              <div className="u-fontMedium u-marginBottomExtraSmall">
+                Information
+              </div>
+              <div>Please sign in to create a category</div>
+            </div>
+          </div>
+        ),
+        {}
+      );
+    }
   };
 
   return (

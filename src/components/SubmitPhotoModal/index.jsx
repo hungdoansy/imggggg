@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Modal, Form, toast, Icon } from "@gotitinc/design-system";
-import { useAuth } from "../../context/auth";
+import { useAuthContext } from "../../context/auth";
 import { useHashParams } from "../../utils/hooks";
 
 const SUBMIT = "submit";
@@ -40,7 +40,7 @@ export const SubmitPhotoModal = ({
   categoryId,
   categoryName,
 }) => {
-  const { setAuthTokens } = useAuth();
+  const { setAuthTokens } = useAuthContext();
 
   const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");
