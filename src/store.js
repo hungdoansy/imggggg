@@ -1,13 +1,13 @@
 import { createStore, applyMiddleware } from "redux";
-import { requestRegex, pendingRegex } from "./constants/action.types";
+import { composeWithDevTools } from "redux-devtools-extension";
+import { requestRegex } from "./constants/action.types";
 import { rootReducer } from "./reducers";
 
 const isAsyncAction = (action) => {
-  return (
-    requestRegex.test(action.type) &&
-    action.promise &&
-    typeof action.promise.then === "function"
-  );
+  // && typeof action.promise.then === "function"
+  // TODO: check then function
+
+  return requestRegex.test(action.type) && !!action.promise;
 };
 
 const getPendingType = (action) => {
@@ -15,11 +15,11 @@ const getPendingType = (action) => {
 };
 
 const getSuccessType = (action) => {
-  return action.type.replace(pendingRegex, "_SUCCESS");
+  return action.type.replace(requestRegex, "_SUCCESS");
 };
 
 const getFailureType = (action) => {
-  return action.type.replace(pendingRegex, "_FAILURE");
+  return action.type.replace(requestRegex, "_FAILURE");
 };
 
 const asyncHandler = (store) => (next) => (action) => {
@@ -44,7 +44,12 @@ const asyncHandler = (store) => (next) => (action) => {
   }
 };
 
-export const configuredStore = createStore(
+const devStore = createStore(
   rootReducer,
-  applyMiddleware(asyncHandler)
+  composeWithDevTools(applyMiddleware(asyncHandler))
 );
+
+const prodStore = createStore(rootReducer, applyMiddleware(asyncHandler));
+
+export const configuredStore =
+  process.env.NODE_ENV === "development" ? devStore : prodStore;

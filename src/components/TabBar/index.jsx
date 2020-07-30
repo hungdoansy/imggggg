@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { Tab, Button } from "@gotitinc/design-system";
-import { categories } from "../../mocks";
+import { Tab } from "@gotitinc/design-system";
 import { Link } from "react-router-dom";
 import { CreateCategoryModal, useCreateModal } from "../CreateCategoryModal";
 import { getCategories } from "../../reducers";
@@ -32,11 +31,10 @@ const TabBarView = ({ className }) => {
     hideCreateModal,
   ] = useCreateModal();
 
-  const tabs = categories.map((cId, i) => {
-    const category = categories.detailByCategoryId[cId];
+  const tabs = categories.map((c, i) => {
     return (
-      <Tab.Item key={i} eventKey={`tab_${i}`}>
-        <Link to={`/categories/${category.id}/items`}>{category.name}</Link>
+      <Tab.Item key={i} eventKey={c.name}>
+        <Link to={`/categories/${c.id}/items`}>{c.name}</Link>
       </Tab.Item>
     );
   });

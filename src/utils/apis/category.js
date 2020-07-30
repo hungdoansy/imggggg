@@ -11,7 +11,7 @@ export const createCategory = ({ name, imageUrl, description }) => {
   });
 };
 
-export const getCategories = ({ page = 1 }) => {
+export const getCategories = (page = 1) => {
   const offset = (page - 1) * 10;
   const limit = 10;
 
