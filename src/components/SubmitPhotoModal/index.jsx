@@ -33,7 +33,13 @@ export const useSubmitModal = () => {
   return [isSubmitModalOpen, showSubmitModal, hideSubmitModal];
 };
 
-export const SubmitPhotoModal = ({ isOpen, show, hide }) => {
+export const SubmitPhotoModal = ({
+  isOpen,
+  show,
+  hide,
+  categoryId,
+  categoryName,
+}) => {
   const { setAuthTokens } = useAuth();
 
   const [url, setUrl] = useState("");
@@ -92,6 +98,10 @@ export const SubmitPhotoModal = ({ isOpen, show, hide }) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <Form.Group controlId="submitform.category">
+            <Form.Label>Category</Form.Label>
+            <Form.Input type="text" readOnly defaultValue={categoryName} />
+          </Form.Group>
           <Form.Group controlId="submitform.url">
             <Form.Label>URL</Form.Label>
             <Form.Input

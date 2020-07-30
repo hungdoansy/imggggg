@@ -15,7 +15,12 @@ const photosCreator = (categoryId, page) => {
   });
 };
 
-const PhotoGridView = ({ className, categoryId, currentPage }) => {
+const PhotoGridView = ({
+  className,
+  categoryId,
+  categoryName,
+  currentPage,
+}) => {
   const [
     isSubmitModalOpen,
     showSubmitModal,
@@ -47,7 +52,7 @@ const PhotoGridView = ({ className, categoryId, currentPage }) => {
               className="u-fontMedium u-border u-borderPrimary u-roundedMedium u-cursorPointer u-text300 u-textPrimary"
               onClick={onClickSubmitPhoto}
             >
-              Submit a photo here
+              Submit a photo to <b>{categoryName}</b>
             </button>
           </div>
         </div>
@@ -73,6 +78,8 @@ const PhotoGridView = ({ className, categoryId, currentPage }) => {
           isOpen={isSubmitModalOpen}
           show={showSubmitModal}
           hide={hideSubmitModal}
+          categoryId={categoryId}
+          categoryName={categoryName}
         />
       )}
     </div>
