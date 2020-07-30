@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Tab, Button } from "@gotitinc/design-system";
 import { categories } from "../../mocks";
 import { Link } from "react-router-dom";
+import { CreateCategoryModal, useCreateModal } from "../CreateCategoryModal";
 
 const SeparatorView = ({ className }) => {
   return <div className={className}></div>;
@@ -22,6 +23,12 @@ const Separator = styled(SeparatorView)`
 const TabBarView = ({ className }) => {
   const [current, setCurrent] = useState("tab_0");
 
+  const [
+    isCreateModalOpen,
+    showCreateModal,
+    hideCreateModal,
+  ] = useCreateModal();
+
   const tabs = categories.allIds.map((cId, i) => {
     const category = categories.detailByCategoryId[cId];
     return (
@@ -30,6 +37,11 @@ const TabBarView = ({ className }) => {
       </Tab.Item>
     );
   });
+
+  const onClickCreateCategory = () => {
+    showCreateModal();
+    // console.log("create");
+  };
 
   /** Very long tabs */
   // const tabs = Array(40)
@@ -49,7 +61,10 @@ const TabBarView = ({ className }) => {
   return (
     <div className={"Container Container--fluid " + className}>
       <div className="u-paddingVerticalExtraSmall create-box">
-        <button className="u-fontMedium u-border u-borderPrimary u-roundedMedium u-cursorPointer u-text200 u-textPrimary">
+        <button
+          className="u-fontMedium u-border u-borderPrimary u-roundedMedium u-cursorPointer u-text200 u-textPrimary"
+          onClick={onClickCreateCategory}
+        >
           Create
         </button>
       </div>
@@ -70,6 +85,14 @@ const TabBarView = ({ className }) => {
           <span> View all</span>
         </Link>
       </div>
+
+      {isCreateModalOpen && (
+        <CreateCategoryModal
+          isOpen={isCreateModalOpen}
+          show={showCreateModal}
+          hide={hideCreateModal}
+        />
+      )}
     </div>
   );
 };
