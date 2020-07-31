@@ -1,5 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { configuredStore } from "./store";
 
 import "@gotitinc/design-system/dist/index.min.css";
 import "./index.css";
@@ -9,7 +11,9 @@ import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={configuredStore}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
