@@ -2,11 +2,17 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-const CategoryCellView = ({ className, id, name, image_url, description }) => {
+const CategoryCellView = ({ className, id, name, imageUrl, description }) => {
   return (
     <div className={className}>
       <Link to={`/categories/${id}/items`}>
-        <img src={image_url} alt={description} width="200" height="200" />
+        <img
+          src={imageUrl}
+          alt={description}
+          width="200"
+          height="200"
+          loading="lazy"
+        />
 
         <div>
           <span>{name}</span>
