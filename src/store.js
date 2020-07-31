@@ -24,19 +24,24 @@ const getFailureType = (action) => {
 
 const asyncHandler = (store) => (next) => (action) => {
   if (isAsyncAction(action)) {
-    next({ type: getPendingType(action) });
+    // There would be like {type, promise, extra}
+    const { type, promise, ...rest } = action;
+
+    next({ type: getPendingType(action), ...rest });
 
     action.promise
       .then((data) => {
         next({
           type: getSuccessType(action),
           data,
+          ...rest,
         });
       })
       .catch((error) => {
         next({
           type: getFailureType(action),
           error,
+          ...rest,
         });
       });
   } else {
