@@ -8,8 +8,9 @@ import { Home } from "./screens/Home";
 import { AuthContext } from "./context/auth";
 import { me as validate } from "./utils/apis/me";
 import { Photos } from "./screens/Photos";
-import { Categories } from "./screens/Categories";
+import { CategoryContainer } from "./components/CategoryContainer";
 import { fetchCategories } from "./actions/category";
+import { Header } from "./components/Header";
 
 // TODO: at startup, check for validity of the tokens
 // /me endpoint
@@ -53,6 +54,7 @@ function App() {
   return (
     <AuthContext.Provider value={{ hasSignedIn, authTokens, setAuthTokens }}>
       <BrowserRouter>
+        <Header />
         <Switch>
           <Route
             path="/categories/:categoryId/items"
@@ -60,7 +62,7 @@ function App() {
             component={Photos}
           />
 
-          <Route path="/categories" exact component={Categories} />
+          <Route path="/categories" exact component={CategoryContainer} />
 
           <Route path="/" exact component={Home} />
 

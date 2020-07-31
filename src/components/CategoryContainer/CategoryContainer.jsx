@@ -1,16 +1,15 @@
 import React from "react";
-import { Header } from "../../components/Header";
-import { CategoryGrid } from "../../components/CategoryGrid/CategoryGrid";
+import { CategoryGrid } from "../CategoryGrid/CategoryGrid";
 import { useHashParams } from "../../utils/hooks";
+import { withRouter } from "react-router";
 
-export const Categories = () => {
+export const CategoryContainer = withRouter(() => {
   const hashParams = useHashParams();
   const page = hashParams.getPage();
 
   return (
     <>
-      <Header />
       <CategoryGrid currentPage={page} />
     </>
   );
-};
+});

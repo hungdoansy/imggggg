@@ -1,5 +1,4 @@
 import React from "react";
-import { Header } from "../../components/Header";
 import { PhotoGrid } from "../../components/PhotoGrid/PhotoGrid";
 import { useHashParams } from "../../utils/hooks";
 
@@ -12,7 +11,6 @@ export const Photos = ({ match }) => {
 
   return (
     <>
-      <Header />
       <PhotoGrid
         categoryId={categoryId}
         categoryName={categoryName}
