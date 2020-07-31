@@ -15,9 +15,11 @@ export const createCategory = ({ name, imageUrl, description }) => {
   });
 };
 
+const CATEGORIES_PER_PAGE = 4;
+
 export const getCategories = (page = 1) => {
-  const offset = (page - 1) * 10;
-  const limit = 10;
+  const offset = (page - 1) * CATEGORIES_PER_PAGE;
+  const limit = CATEGORIES_PER_PAGE;
 
   return new Promise((resolve) => {
     const data = syncGetCategories({ offset, limit });

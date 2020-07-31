@@ -5,7 +5,7 @@ import { CategoryCell } from "./CategoryCell";
 import { getCategories } from "../../utils/apis/category";
 import { Pagination } from "../Pagination";
 
-const CATEGORIES_PER_PAGE = 8;
+const CATEGORIES_PER_PAGE = 4;
 
 const CategoryGridView = ({ className, currentPage }) => {
   const [categories, setCategories] = useState([]);

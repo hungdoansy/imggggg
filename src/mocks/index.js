@@ -208,7 +208,7 @@ const getTotalPhotos = (categoryId) => {
 };
 
 export const categories = {
-  allIds: [1, 2, 3, 4],
+  allIds: [1, 2, 3, 4, 5, 6, 7, 8, 9],
 
   photosByCategoryId: {
     1: [
@@ -816,6 +816,492 @@ export const categories = {
         description: "black and brown starry night",
       },
     ],
+    5: [
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1532178324009-6b6adeca1741?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: null,
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595877703399-36c7cab84925?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "yellow heart with black string light",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1594731804139-d70328c07f4a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "black smartphone on white table",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595594448346-37697edf83a9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "black and gray camera on red background",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595871681184-de9d30f333b0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "white usb flash drive on white printer paper",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1592851949304-acfc984ec3ff?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "person holding black nikon dslr camera",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595303526913-c7037797ebe7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "black laptop computer on white table",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595428645453-309f41e373e0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "black and yellow remote control",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595327656903-2f54e37ce09b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description:
+          "black laptop computer turned on beside black and silver desk lamp",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595877704762-84aeac65c970?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "person holding orange and white plastic cup",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595860240645-9703b6425a77?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: null,
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595756630797-e3c9ee1a9002?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "black and silver round analog watch",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595594448399-1ed3331294cf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "black microphone on pink background",
+      },
+    ],
+    6: [
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595849657810-bde306c6a73b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "macro photography of green leaf",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595863442219-a5ac6e6b093f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "blue and white water wave",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595933188697-3ed1690034c8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "water droplets on brown wooden surface",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595960684234-49d2a004e753?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "yellow and black surfboard on body of water",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1545631812-ae2f11e0f2a4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: null,
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595791438679-bca6f4fba0ff?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "brown concrete brick wall during daytime",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595943350513-04339832530e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "brown and white rock formation",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595943350274-58503f7f6237?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "brown sand near body of water during daytime",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595911595687-169e70434818?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: null,
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595878744852-96a5ea1db51c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "pink and blue abstract painting",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595801161822-6850339d5a5c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "yellow pink and blue polka dot illustration",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595858706049-a461ef2047e3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "water droplets on black leather",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595944569184-ef0d8e315249?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "white and brown abstract painting",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595944568916-6dd2a0d92e3b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "orange and white abstract painting",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1590461282648-25d9481df17b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "red cable car under cloudy sky during daytime",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595947350749-ead4d22b1909?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "white clouds and blue sky during daytime",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595943350217-472ad8b04464?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "brown and white abstract painting",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595878777122-918826f6ce4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "brown and black abstract painting",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595861855144-b7db85bb8c0f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "green and blue abstract painting",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595878655324-6f81790dce49?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "blue and black abstract painting",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595933188652-b511e433c802?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "blue and white abstract painting",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595948142016-4a08c6ba6ff2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "red white and yellow textile",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595929840405-60c604b3ddea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "blue and brown window blinds",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1588168047779-946456d3c684?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: null,
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595944378089-02ad4f98f40f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "black and yellow heart illustration",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595878830509-58b6ae9d81f5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "blue and white abstract painting",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595878715977-2e8f8df18ea8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "blue and white water splash",
+      },
+    ],
+    7: [
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1534446323371-17e4d72dd6e8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description:
+          "woman inside concrete walkway with black canopy during daytime",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/flagged/photo-1554176778-0319e4eb4516?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "man's face",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595845396231-0a250a241904?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description:
+          "woman in orange dress standing near brown wooden house during daytime",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595871222310-02a6c323ad2c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "woman in red and white checkered dress shirt",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/flagged/photo-1557786458-77474e6ff1bb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "two people's eye close-up photography",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1573140247632-f8fd74997d5c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "woman wearing black tank top",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1523419409543-a5e549c1faa8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "man standing near white wooden fence",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595814432314-90095f342694?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description:
+          "woman in gray tank top and blue denim jeans sitting on bed",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595804118050-06d340639ea1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description:
+          "woman in white crop top and white denim shorts holding gray box",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1548197001-ca380947be91?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "smiling man in blue and black plaid shirt",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1589287674448-e139aa0bffb7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description:
+          "woman in white tank top sitting on white boat during daytime",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595857819837-1c820f33e62d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description:
+          "woman in red and black plaid scarf sitting on brown grass field during daytime",
+      },
+    ],
+    8: [
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595853923433-068620357b20?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "white and black pelican on water during daytime",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595862064348-0452f62a45c7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "grayscale photo of golden retriever",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595922050502-3f2fd1b75dda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "brown elephant on brown grass field during daytime",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595836051468-33b0e9c49807?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "brown and white jellyfish illustration",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1592852327992-d2a93e5410b6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "white swan on brown soil during daytime",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1519689927467-ed2a029c9288?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "brown hummingbird eating nectar in red flower",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595491558702-8ba72bd0f4b7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "close up photo of elephants eye",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1594561177665-052b6b4b781a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "white pelican on body of water during daytime",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595503240812-7286dafaddc1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "orange and white clown fish",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595683763139-808e8f31b1a7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "brown deer on rocky mountain during daytime",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595750375720-503c4600f7d4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "koala bear on brown tree branch",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595862064828-b9a410d53669?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "golden retriever on black and gray ground during daytime",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595963646611-4501eabccaaa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description:
+          "white and brown cow on snow covered ground during daytime",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595855894441-c1e5a3e81894?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description:
+          "brown and white squirrel on brown tree branch during daytime",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1594295924945-de7e20afd440?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description:
+          "brown and black short coated dog lying on gray concrete floor",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1594605520307-6e8eef3bc52f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "brown and white horse on field during daytime",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1490718821482-ba403113a86b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "on flight black and white bird",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595750376349-54363e64af36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "koala bear on brown tree branch during daytime",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595583264778-33296d7f6787?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "white bird with blue eyes",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595737133621-ff0a30406dec?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "koala on brown tree branch during daytime",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595876102398-e9260821d768?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "brown short coated dog on tree branch",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595923059379-14100aab2b9a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "white and black cat on white cat tree",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595921758041-d4ca44861849?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: null,
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595836013452-4a95358bad72?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: null,
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1561991524-9eaa9f7d910b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "calico kitten on white rubber clog shoe",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1547864557-ea94b28e76d8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "short-furred white cat lying on white cloth",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595573082608-ee790ef787ce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "white and yellow bird on brown soil",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595521355985-bd4341ac89a9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "brown and black yorkshire terrier puppy",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595683786762-54897fae1476?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "brown and black deer under blue sky during daytime",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595737082656-5564fd832613?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "white and brown owl on brown tree branch during daytime",
+      },
+    ],
+    9: [
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1445510861639-5651173bc5d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "gray wing chair with throw pillows beside white door",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595944356863-e624f8234e1e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "red blue and green hanging decor",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595515770294-38a01e2ac4dd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "white ceramic sink with stainless steel faucet",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595428774223-ef52624120d2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "brown wooden shelf with bottles",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595834513156-3273cdc4cab7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "gold and black candle holder on white wooden shelf",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595515770338-e4d3c5d8dd91?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "green potted plant on black wooden shelf",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595918989325-547568361235?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description:
+          "woman in white robe standing on brown wooden parquet floor",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595878203506-e626f15a520f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "white paper roll on brown wooden table",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595515770345-0497f6f13692?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "white and black wooden shelf",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595935736128-db1f0a261263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "black flat screen tv turned on near white wooden table",
+      },
+      {
+        image_url:
+          "https://images.unsplash.com/photo-1595514535215-8a093483610a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        description: "white and black ceramic bowl on brown wooden shelf",
+      },
+    ],
   },
 
   detailByCategoryId: {
@@ -847,11 +1333,48 @@ export const categories = {
       image_url:
         "https://images.unsplash.com/photo-1595538154519-bc102fd25a97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
     },
+    5: {
+      id: 5,
+      name: "Technology",
+      description: "All about Tech",
+      image_url:
+        "https://images.unsplash.com/photo-1532178324009-6b6adeca1741?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+    },
+    6: {
+      id: 6,
+      name: "Textures & Patterns",
+      description: "I don't know",
+      image_url:
+        "https://images.unsplash.com/photo-1595849657810-bde306c6a73b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+    },
+
+    7: {
+      id: 7,
+      name: "People",
+      description: "I don't know them",
+      image_url:
+        "https://images.unsplash.com/photo-1534446323371-17e4d72dd6e8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+    },
+
+    8: {
+      id: 8,
+      name: "Animals",
+      description: "Other beings on earth",
+      image_url:
+        "https://images.unsplash.com/photo-1595853923433-068620357b20?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+    },
+
+    9: {
+      id: 9,
+      name: "Interiors",
+      description: "Asthetically pleasing designs for homes",
+      image_url:
+        "https://images.unsplash.com/photo-1595514535215-8a093483610a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+    },
   },
 };
 
 export const getPhotosWithParams = (categoryId, page) => {
-  debugger;
   const from = (page - 1) * LIMIT;
   const to = page * LIMIT;
   for (let i = 0; i < categories.allIds.length; i++) {
@@ -894,10 +1417,13 @@ export const submitPhoto = ({ categoryId, userId, description, imageUrl }) => {
 };
 
 export const getCategories = ({ offset, limit }) => {
+  const from = offset;
+  const to = offset + limit;
+
   return {
     total_categories: categories.allIds.length,
-    categories: categories.allIds.map(
-      (id) => categories.detailByCategoryId[id]
-    ),
+    categories: categories.allIds
+      .map((id) => categories.detailByCategoryId[id])
+      .slice(from, to),
   };
 };
