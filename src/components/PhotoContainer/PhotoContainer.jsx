@@ -57,7 +57,10 @@ const PhotoContainerView = ({ className, match }) => {
         <div className="top-right">
           <div className="submit-box">
             <button
-              className="u-paddingVerticalSmall u-fontMedium u-border u-borderPrimary u-roundedMedium u-cursorPointer u-text400 u-textPrimary"
+              className={`
+                u-paddingVerticalSmall u-fontMedium u-border u-borderPrimary u-roundedMedium 
+                u-cursorPointer u-text300 u-textPrimary
+              `}
               onClick={onClickSubmitPhoto}
             >
               Submit a photo to <b>{categoryName}</b>
@@ -102,6 +105,10 @@ export const PhotoContainer = styled(PhotoContainerView)`
 
     div.top-right {
       flex: 0 0 200px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
 
       button {
         background-color: transparent;
