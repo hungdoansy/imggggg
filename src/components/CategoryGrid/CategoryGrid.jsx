@@ -37,7 +37,7 @@ const CategoryGridView = ({ className, currentPage }) => {
     <div className={className}>
       <div>{CategoryCells}</div>
 
-      <div className="u-textCenter">
+      <div className="paginator u-textCenter">
         <Pagination
           currentPage={currentPage}
           totalNumberOfPages={numberOfPages}
@@ -50,6 +50,8 @@ const CategoryGridView = ({ className, currentPage }) => {
 
 // TODO: use grid
 export const CategoryGrid = styled(CategoryGridView)`
+  margin-top: 50px;
+
   > div {
     margin: 0;
     padding: 0;
@@ -63,5 +65,9 @@ export const CategoryGrid = styled(CategoryGridView)`
     > div {
       margin: 6px;
     }
+  }
+
+  > div.paginator {
+    margin-top: 20px;
   }
 `;

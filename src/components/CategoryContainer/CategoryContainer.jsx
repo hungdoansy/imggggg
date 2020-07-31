@@ -16,7 +16,12 @@ export const CategoryContainer = withRouter(() => {
 
   return (
     <Container>
-      <p>Below are categories created </p>
+      <div>
+        <p className="u-text1150 u-textDark">Categories</p>
+        <p className="u-textGray u-text300">
+          There are a total of <b>10</b> categories
+        </p>
+      </div>
       <CategoryGrid currentPage={page} />
     </Container>
   );
