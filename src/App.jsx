@@ -4,11 +4,11 @@ import { BrowserRouter } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { ToastContainer } from "@gotitinc/design-system";
 
-import { Home } from "./screens/Home";
+import { CategoryContainer } from "./components/CategoryContainer";
+import { HomeContainer } from "./components/HomeContainer";
 import { AuthContext } from "./context/auth";
 import { me as validate } from "./utils/apis/me";
 import { Photos } from "./screens/Photos";
-import { CategoryContainer } from "./components/CategoryContainer";
 import { fetchCategories } from "./actions/category";
 import { Header } from "./components/Header";
 
@@ -64,7 +64,7 @@ function App() {
 
           <Route path="/categories" exact component={CategoryContainer} />
 
-          <Route path="/" exact component={Home} />
+          <Route path="/" exact component={HomeContainer} />
 
           {/* TODO: Show a error page instead of redirecting to home */}
           <Redirect to="/" />
