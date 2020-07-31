@@ -22,7 +22,7 @@ const CategoryGridView = ({ className, currentPage }) => {
     // TODO: handle error
   }, [currentPage]);
 
-  const CategoryCellList = categories.map((category) => (
+  const CategoryCells = categories.map((category) => (
     <div key={category.id}>
       <CategoryCell
         id={category.id}
@@ -35,7 +35,7 @@ const CategoryGridView = ({ className, currentPage }) => {
 
   return (
     <div className={className}>
-      <div>{CategoryCellList}</div>
+      <div>{CategoryCells}</div>
 
       <div className="u-textCenter">
         <Pagination

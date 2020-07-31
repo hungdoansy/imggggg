@@ -1,1 +1,1 @@
-export const CATEGORIES_PER_PAGE = 8;
+export const CATEGORIES_PER_PAGE = 4;
