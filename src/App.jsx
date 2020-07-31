@@ -4,13 +4,16 @@ import { BrowserRouter } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { ToastContainer } from "@gotitinc/design-system";
 
+import { Header } from "./components/Header";
+
 import { CategoryContainer } from "./components/CategoryContainer";
 import { HomeContainer } from "./components/HomeContainer";
+import { PhotoContainer } from "./components/PhotoContainer";
+
 import { AuthContext } from "./context/auth";
+
 import { me as validate } from "./utils/apis/me";
-import { Photos } from "./screens/Photos";
 import { fetchCategories } from "./actions/category";
-import { Header } from "./components/Header";
 
 // TODO: at startup, check for validity of the tokens
 // /me endpoint
@@ -59,7 +62,7 @@ function App() {
           <Route
             path="/categories/:categoryId/items"
             exact
-            component={Photos}
+            component={PhotoContainer}
           />
 
           <Route path="/categories" exact component={CategoryContainer} />
