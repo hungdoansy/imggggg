@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { withRouter } from "react-router";
+
 import { CategoryGrid } from "../CategoryGrid/CategoryGrid";
 import { useHashParams } from "../../utils/hooks";
-import { withRouter } from "react-router";
+
+import { Container } from "../Container";
 
 export const CategoryContainer = withRouter(() => {
   const hashParams = useHashParams();
@@ -12,9 +15,9 @@ export const CategoryContainer = withRouter(() => {
   }, [hashParams]);
 
   return (
-    <>
-      <p>Below is categories updated </p>
+    <Container>
+      <p>Below are categories created </p>
       <CategoryGrid currentPage={page} />
-    </>
+    </Container>
   );
 });

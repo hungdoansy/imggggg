@@ -34,9 +34,7 @@ const CategoryGridView = ({ className, currentPage }) => {
   ));
 
   return (
-    <div className={"Container Container--fluid " + className}>
-      <p className="u-text600">Categories </p>
-
+    <div className={className}>
       <div>{CategoryCellList}</div>
 
       <div className="u-textCenter">
