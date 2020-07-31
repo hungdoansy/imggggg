@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { CategoryCell } from "./CategoryCell";
 
 import { getCategories } from "../../utils/apis/category";
 import { Pagination } from "../Pagination";
+import { CategoryCell } from "./CategoryCell";
 
-const CATEGORIES_PER_PAGE = 4;
+import { CATEGORIES_PER_PAGE } from "../../constants/settings";
 
 const CategoryGridView = ({ className, currentPage }) => {
   const [categories, setCategories] = useState([]);

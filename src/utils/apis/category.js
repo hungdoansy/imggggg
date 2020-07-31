@@ -3,6 +3,8 @@ import {
   getCategories as syncGetCategories,
 } from "../../mocks";
 
+import { CATEGORIES_PER_PAGE } from "../../constants/settings";
+
 export const createCategory = ({ name, imageUrl, description }) => {
   return new Promise((resolve) => {
     const image_url = imageUrl;
@@ -14,8 +16,6 @@ export const createCategory = ({ name, imageUrl, description }) => {
     }, 1000);
   });
 };
-
-const CATEGORIES_PER_PAGE = 4;
 
 export const getCategories = (page = 1) => {
   const offset = (page - 1) * CATEGORIES_PER_PAGE;
