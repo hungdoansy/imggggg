@@ -17,7 +17,7 @@ export const createCategory = ({ name, imageUrl, description }) => {
   });
 };
 
-export const getCategories = (page = 1) => {
+export const getCategories = (page) => {
   const offset = (page - 1) * CATEGORIES_PER_PAGE;
   const limit = CATEGORIES_PER_PAGE;
 

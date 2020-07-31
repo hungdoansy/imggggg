@@ -1,23 +1,34 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 
-import { getCategories } from "../../utils/apis/category";
 import { Pagination } from "../Pagination";
 import { CategoryCell } from "./CategoryCell";
 
-import { CATEGORIES_PER_PAGE } from "../../constants/settings";
+import { selectors } from "../../reducers";
+import { fetchCategories } from "../../actions/category";
 
 const CategoryGridView = ({ className, currentPage }) => {
-  const [categories, setCategories] = useState([]);
+  const dispatch = useDispatch();
+  const categories = useSelector((state) => {
+    console.log(state.category);
+    // debugger;
+    const get = selectors.getCategoriesByPageNumber(state, currentPage);
+    debugger;
+    console.log("get", get);
+
+    return get;
+  });
+
+  console.log("currentPage", currentPage);
+  console.log("categories", categories);
+
   const [numberOfPages, setNumberOfPages] = useState(0);
 
   useEffect(() => {
-    getCategories(currentPage).then((data) => {
-      setCategories(data.categories);
-      setNumberOfPages(
-        Math.ceil(data["total_categories"] / CATEGORIES_PER_PAGE)
-      );
-    });
+    if (categories.length === 0) {
+      dispatch(fetchCategories(currentPage));
+    }
 
     // TODO: handle error
   }, [currentPage]);
