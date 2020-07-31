@@ -32,11 +32,11 @@ const EditIcon = () => {
 };
 
 // TODO: only shows button when hovering the photo
-const PhotoCellView = ({ className, src, alt }) => {
+const PhotoCellView = ({ className, imageUrl, description }) => {
   return (
     <div className={className}>
       <a href="/">
-        <img className="photo" alt={alt} src={src} />
+        <img className="photo" alt={description} src={imageUrl} />
         <div className="info-overlay">
           <div className="posted-by">
             posted by{" "}

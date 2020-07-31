@@ -1,22 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { toast, Icon } from "@gotitinc/design-system";
 import { PhotoCell } from "./PhotoCell";
-import { getPhotosWithParams } from "../../mocks";
+import { getPhotosWithParams } from "../../utils/apis/photo";
 import { Pagination } from "../Pagination";
 import { SubmitPhotoModal, useSubmitModal } from "../SubmitPhotoModal";
 import { useAuthContext } from "../../context/auth";
 
 // TODO: store photos to redux
-const photosCreator = (categoryId, page) => {
-  return getPhotosWithParams(categoryId, page).map((info, i) => {
-    return (
-      <li key={i}>
-        <PhotoCell alt={info.description} src={info.src} />
-      </li>
-    );
-  });
-};
 
 const PhotoGridView = ({
   className,
@@ -24,6 +15,22 @@ const PhotoGridView = ({
   categoryName,
   currentPage,
 }) => {
+  const [photos, setPhotos] = useState([]);
+  const [totalPhotos, setTotalPhotos] = useState(0);
+
+  useEffect(() => {
+    console.log("categoryId", categoryId);
+    console.log("currentPage", currentPage);
+
+    setPhotos([]);
+    setTotalPhotos(1);
+
+    getPhotosWithParams({ categoryId, page: currentPage }).then((data) => {
+      setPhotos(data["items"]);
+      setTotalPhotos(data["total_items"]);
+    });
+  }, [categoryId, currentPage]);
+
   const [
     isSubmitModalOpen,
     showSubmitModal,
@@ -31,6 +38,12 @@ const PhotoGridView = ({
   ] = useSubmitModal();
 
   const { hasSignedIn } = useAuthContext();
+
+  const Photos = photos.map((p, i) => (
+    <li key={i}>
+      <PhotoCell description={p.description} imageUrl={p.image_url} />
+    </li>
+  ));
 
   const onClickSubmitPhoto = () => {
     if (hasSignedIn) {
@@ -84,7 +97,7 @@ const PhotoGridView = ({
 
       <div>
         <ul>
-          {photosCreator(categoryId, currentPage)}
+          {Photos}
           <li></li>
         </ul>
       </div>
@@ -92,7 +105,7 @@ const PhotoGridView = ({
       <div className="u-textCenter">
         <Pagination
           currentPage={currentPage}
-          totalNumberOfPages={20}
+          totalNumberOfPages={Math.ceil(totalPhotos / 10)}
           baseUrl={`/categories/${categoryId}/items/#page=`}
         />
       </div>

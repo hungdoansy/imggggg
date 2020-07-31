@@ -1,15 +1,9 @@
 import React, { useState } from "react";
 import { Button, Modal, Form, toast, Icon } from "@gotitinc/design-system";
-import { useAuthContext } from "../../context/auth";
 import { useHashParams } from "../../utils/hooks";
+import { submitPhoto } from "../../utils/apis/photo";
 
 const SUBMIT = "submit";
-
-const sanitizerCheck = ({ url, description }) => {
-  return {
-    passed: true,
-  };
-};
 
 export const useSubmitModal = () => {
   const hashParams = useHashParams();
@@ -40,8 +34,6 @@ export const SubmitPhotoModal = ({
   categoryId,
   categoryName,
 }) => {
-  const { setAuthTokens } = useAuthContext();
-
   const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");
 
@@ -54,36 +46,26 @@ export const SubmitPhotoModal = ({
   };
 
   const onClick = () => {
-    const { passed } = sanitizerCheck({ url, description });
+    // TODO: sanitize inputs
+    submitPhoto({ categoryId, userId: 4, description, imageUrl: url })
+      .then(() => {
+        hide();
 
-    if (passed) {
-      // TODO: disable the Next button, maybe show a loading indicator
-      // Paint green the button when it's successful and then reload (maybe not)
-      // submit({ url, description }).then((response) => {
-      //   if (response["access_token"]) {
-      //     setAuthTokens(response["access_token"]);
-      //     hide();
-      //   }
-      // });
-
-      hide();
-
-      toast(() => (
-        <div className="u-flex u-flexGrow-1 u-cursorDefault">
-          <div className="u-marginRightExtraSmall">
-            <Icon name="checkmarkCircle" size="medium" />
-          </div>
-          <div className="u-flexGrow-1">
-            <div className="u-fontMedium u-marginBottomExtraSmall">
-              Yeahhhhh !
+        toast(() => (
+          <div className="u-flex u-flexGrow-1 u-cursorDefault">
+            <div className="u-marginRightExtraSmall">
+              <Icon name="checkmarkCircle" size="medium" />
             </div>
-            <div>Your photo has just been submitted !</div>
+            <div className="u-flexGrow-1">
+              <div className="u-fontMedium u-marginBottomExtraSmall">
+                Yeahhhhh !
+              </div>
+              <div>Your photo has just been submitted !</div>
+            </div>
           </div>
-        </div>
-      ));
-    } else {
-      // TODO: display the error message
-    }
+        ));
+      })
+      .catch((e) => e); // TODO: handle error
   };
 
   return (

@@ -69,7 +69,10 @@ function App() {
         </Switch>
       </BrowserRouter>
 
-      <ToastContainer autoDismiss={3000} hideProgressBar={true} />
+      <ToastContainer
+        autoDismiss={3000}
+        // hideProgressBar={true}
+      />
     </AuthContext.Provider>
   );
 }
