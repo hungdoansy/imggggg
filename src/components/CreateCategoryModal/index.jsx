@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Button, Modal, Form, toast, Icon } from "@gotitinc/design-system";
+import { useDispatch } from "react-redux";
+
 import { useHashParams } from "../../utils/hooks";
 import { createCategory } from "../../utils/apis/category";
+import { createCategorySuccess } from "../../actions/category";
 
 const CREATE = "create";
 
@@ -30,6 +33,8 @@ export const useCreateModal = () => {
 };
 
 export const CreateCategoryModal = ({ isOpen, show, hide }) => {
+  const dispatch = useDispatch();
+
   const [name, setName] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [description, setDescription] = useState("");
@@ -48,8 +53,10 @@ export const CreateCategoryModal = ({ isOpen, show, hide }) => {
 
   const onClick = () => {
     // TODO: check for error
-    createCategory({ name, imageUrl, description }).then(() => {
+    createCategory({ name, imageUrl, description }).then((data) => {
       hide();
+
+      dispatch(createCategorySuccess(data));
 
       toast(() => (
         <div className="u-flex u-flexGrow-1 u-cursorDefault">

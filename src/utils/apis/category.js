@@ -5,9 +5,13 @@ import {
 
 export const createCategory = ({ name, imageUrl, description }) => {
   return new Promise((resolve) => {
-    addNewCategory({ name, imageUrl, description });
+    const image_url = imageUrl;
+    const response = addNewCategory({ name, image_url, description });
+    // TODO: use snake case here
 
-    setTimeout(resolve, 1000);
+    setTimeout(() => {
+      resolve(response);
+    }, 1000);
   });
 };
 

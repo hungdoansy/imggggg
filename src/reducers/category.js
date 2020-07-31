@@ -1,4 +1,7 @@
-const { FETCH_CATEGORIES_SUCCESS } = require("../constants/action.types");
+const {
+  FETCH_CATEGORIES_SUCCESS,
+  CREATE_CATEGORY_SUCCESS,
+} = require("../constants/action.types");
 
 const initialState = {
   totalCategories: 0,
@@ -13,6 +16,15 @@ const category = (state = initialState, action) => {
 
       nextState.categories = action.data["categories"];
       nextState.totalCategories = action.data["total_categories"];
+
+      return nextState;
+    }
+
+    case CREATE_CATEGORY_SUCCESS: {
+      const nextState = JSON.parse(JSON.stringify(state));
+
+      nextState.categoriesCreatedByThisUser.push(action.data);
+      nextState.totalCategories += 1;
 
       return nextState;
     }

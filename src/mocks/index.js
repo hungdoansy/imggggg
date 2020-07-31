@@ -855,17 +855,20 @@ export const getPhotosWithParams = (categoryId, page) => {
   return [];
 };
 
-export const addNewCategory = ({ name, imageUrl, description }) => {
-  categories.allIds.push(name);
+export const addNewCategory = ({ name, image_url, description }) => {
+  const id = currentId++;
+  categories.allIds.push(id);
 
-  categories.detailByCategoryId[name] = {
-    id: currentId++,
+  categories.detailByCategoryId[id] = {
+    id,
     name,
-    imageUrl,
+    image_url,
     description,
   };
 
-  categories.photosByCategoryId[name] = [];
+  categories.photosByCategoryId[id] = [];
+
+  return { id, name, image_url, description };
 };
 
 export const addNewPhoto = ({ categoryId, url, description }) => {};
