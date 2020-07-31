@@ -1,25 +1,20 @@
 import React from "react";
 import styled from "styled-components";
 
-const CategoryInfoView = ({ className }) => {
+const CategoryInfoView = ({ className, name, description, total_items }) => {
   return (
     <div className={className}>
       <div className="category-name">
-        <p className="u-text1150 u-textDark">Category name</p>
+        <p className="u-text1150 u-textDark">{name}</p>
       </div>
 
       <div className="category-description">
-        <p className="u-textGray u-text300">
-          Category description Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Quos tenetur, eos veritatis nihil fugit ut
-          voluptatem nulla iste odit hic. Perspiciatis dolorem ratione sint
-          accusantium aspernatur soluta facere esse consequatur!
-        </p>
+        <p className="u-textGray u-text300">{description}</p>
       </div>
 
       <div className="category-stats">
         <p className="u-textGray u-text300">
-          A total of <b>100</b> contributions by awesome people !
+          A total of <b>{total_items}</b> contributions by awesome people !
         </p>
       </div>
     </div>

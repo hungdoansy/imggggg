@@ -61,6 +61,8 @@ export const PhotoGrid = styled(PhotoGridView)`
   flex-direction: column;
 
   div.photos {
+    margin-bottom: 20px;
+
     > ul {
       padding: 0;
       margin: 0;

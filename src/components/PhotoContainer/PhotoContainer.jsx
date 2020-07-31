@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { toast, Icon } from "@gotitinc/design-system";
 import styled from "styled-components";
 
@@ -14,6 +14,13 @@ import { CategoryInfo } from "./CategoryInfo";
 const PhotoContainerView = ({ className, match }) => {
   const { hasSignedIn } = useAuthContext();
   const hashParams = useHashParams();
+
+  const [categoryInfo, setCategoryInfo] = useState({
+    name: "Something",
+    description:
+      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veniam dolore voluptate, quia, hic tempora consectetur iusto, optio corrupti nesciunt tenetur maiores aspernatur quasi soluta voluptatem nostrum quod quidem atque nam?",
+    total_items: 100,
+  });
 
   const [
     isSubmitModalOpen,
@@ -52,7 +59,11 @@ const PhotoContainerView = ({ className, match }) => {
     <Container className={className}>
       <div className="top">
         <div className="top-left">
-          <CategoryInfo />
+          <CategoryInfo
+            name={categoryInfo.name}
+            description={categoryInfo.description}
+            total_items={categoryInfo.total_items}
+          />
         </div>
         <div className="top-right">
           <div className="submit-box">
@@ -63,7 +74,7 @@ const PhotoContainerView = ({ className, match }) => {
               `}
               onClick={onClickSubmitPhoto}
             >
-              Submit a photo to <b>{categoryName}</b>
+              Submit a photo to <b>{categoryInfo.name}</b>
             </button>
           </div>
         </div>
