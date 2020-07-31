@@ -53,7 +53,7 @@ const TabBarView = ({ className }) => {
             </div>
             <div className="u-flexGrow-1">
               <div className="u-fontMedium u-marginBottomExtraSmall">
-                Information
+                A friendly reminder
               </div>
               <div>Please sign in to create a category</div>
             </div>

@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import { toast, Icon } from "@gotitinc/design-system";
 import { PhotoCell } from "./PhotoCell";
 import { getPhotosWithParams } from "../../mocks";
 import { Pagination } from "../Pagination";
 import { SubmitPhotoModal, useSubmitModal } from "../SubmitPhotoModal";
+import { useAuthContext } from "../../context/auth";
 
 // TODO: store photos to redux
 const photosCreator = (categoryId, page) => {
@@ -28,8 +30,29 @@ const PhotoGridView = ({
     hideSubmitModal,
   ] = useSubmitModal();
 
+  const { hasSignedIn } = useAuthContext();
+
   const onClickSubmitPhoto = () => {
-    showSubmitModal();
+    if (hasSignedIn) {
+      showSubmitModal();
+    } else {
+      toast.info(
+        () => (
+          <div className="u-flex u-flexGrow-1">
+            <div className="u-marginRightExtraSmall">
+              <Icon name="informationCircle" size="medium" />
+            </div>
+            <div className="u-flexGrow-1">
+              <div className="u-fontMedium u-marginBottomExtraSmall">
+                A friendly reminder
+              </div>
+              <div>Please sign in to submit your photo</div>
+            </div>
+          </div>
+        ),
+        {}
+      );
+    }
   };
 
   return (
