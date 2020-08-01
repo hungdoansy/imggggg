@@ -5,9 +5,12 @@ import { CategoryGrid } from "../CategoryGrid/CategoryGrid";
 import { useHashParams } from "../../utils/hooks";
 
 import { Container } from "../Container";
+import { selectors } from "../../reducers";
+import { useSelector } from "react-redux";
 
 export const CategoryContainer = withRouter(() => {
   const hashParams = useHashParams();
+  const totalCategories = useSelector(selectors.getTotalNumberOfCategories);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -19,7 +22,7 @@ export const CategoryContainer = withRouter(() => {
       <div>
         <p className="u-text1150 u-textDark">Categories</p>
         <p className="u-textGray u-text300">
-          There are a total of <b>10</b> categories
+          There are a total of <b>{totalCategories}</b> categories
         </p>
       </div>
       <CategoryGrid currentPage={page} />

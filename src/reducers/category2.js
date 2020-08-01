@@ -36,6 +36,7 @@ const updateState = (state, data, extra) => {
   });
 };
 
+// category reducer
 const category = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_CATEGORIES_SUCCESS: {
@@ -52,7 +53,9 @@ const category = (state = initialState, action) => {
   }
 };
 
-const getCategoriesByPageNumber = (state, page) => {
+const getCategoriesByPageNumber = (wholeState, page = 1) => {
+  const state = wholeState.category;
+
   const doesNotExistOrBeTheLastPage = (page) => {
     const index = state.allPageNumbers.indexOf(page);
 
@@ -72,4 +75,16 @@ const getCategoriesByPageNumber = (state, page) => {
   }
 };
 
-export { category, getCategoriesByPageNumber };
+const getTotalNumberOfRemotePages = (wholeState) =>
+  wholeState.category.totalNumberOfRemotePages;
+
+const getTotalNumberOfCategories = (wholeState) =>
+  wholeState.category.totalRemoteCount;
+
+const selectors = {
+  getCategoriesByPageNumber,
+  getTotalNumberOfRemotePages,
+  getTotalNumberOfCategories,
+};
+
+export { category, selectors };

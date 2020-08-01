@@ -7,11 +7,8 @@ const rootReducer = combineReducers({
   // what: fromCategory.category,
 });
 
-const getCategoriesByPageNumber = (state, page = 1) =>
-  fromCategory2.getCategoriesByPageNumber(state.category, page);
-
 const selectors = {
-  getCategoriesByPageNumber,
+  ...fromCategory2.selectors,
 };
 
 export { rootReducer, selectors };

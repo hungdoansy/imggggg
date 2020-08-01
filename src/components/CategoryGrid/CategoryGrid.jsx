@@ -23,7 +23,7 @@ const CategoryGridView = ({ className, currentPage }) => {
   console.log("currentPage", currentPage);
   console.log("categories", categories);
 
-  const [numberOfPages, setNumberOfPages] = useState(0);
+  const totalPages = useSelector(selectors.getTotalNumberOfRemotePages);
 
   useEffect(() => {
     if (categories.length === 0) {
@@ -51,7 +51,7 @@ const CategoryGridView = ({ className, currentPage }) => {
       <div className="paginator u-textCenter">
         <Pagination
           currentPage={currentPage}
-          totalNumberOfPages={numberOfPages}
+          totalNumberOfPages={totalPages}
           baseUrl={`/categories#page=`}
         />
       </div>

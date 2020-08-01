@@ -24,11 +24,7 @@ const Separator = styled(SeparatorView)`
 
 const TabBarView = ({ className }) => {
   const { hasSignedIn } = useAuthContext();
-  // const categories = useSelector((state) =>
-  //   selectors.getCategoriesByPageNumber()
-  // );
-
-  const categories = [];
+  const categories = useSelector(selectors.getCategoriesByPageNumber);
 
   // TODO: set the current page
   const [current, setCurrent] = useState("tab_0");
