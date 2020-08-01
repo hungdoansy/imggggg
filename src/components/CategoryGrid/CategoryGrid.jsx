@@ -9,16 +9,11 @@ import { selectors } from "../../reducers";
 import { fetchCategories } from "../../actions/category";
 
 const CategoryGridView = ({ className, currentPage }) => {
+  // TODO: fix re-render too many times
   const dispatch = useDispatch();
-  const categories = useSelector((state) => {
-    console.log(state.category);
-    // debugger;
-    const get = selectors.getCategoriesByPageNumber(state, currentPage);
-    debugger;
-    console.log("get", get);
-
-    return get;
-  });
+  const categories = useSelector((state) =>
+    selectors.getCategoriesByPageNumber(state, currentPage)
+  );
 
   console.log("currentPage", currentPage);
   console.log("categories", categories);
@@ -26,9 +21,8 @@ const CategoryGridView = ({ className, currentPage }) => {
   const totalPages = useSelector(selectors.getTotalNumberOfRemotePages);
 
   useEffect(() => {
-    if (categories.length === 0) {
-      dispatch(fetchCategories(currentPage));
-    }
+    console.log("fetch whenever it's mounted");
+    dispatch(fetchCategories(currentPage));
 
     // TODO: handle error
   }, [currentPage]);
