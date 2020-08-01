@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import { PhotoCell } from "./PhotoCell";
-import { getPhotosWithParams } from "../../utils/apis/photo";
 import { Pagination } from "../Pagination";
+import { useSelector, useDispatch } from "react-redux";
+import { selectors } from "../../reducers";
+import { fetchPhotos } from "../../actions/photo";
 
 // TODO: store photos to redux
 
@@ -13,25 +15,22 @@ const PhotoGridView = ({
   categoryName,
   currentPage,
 }) => {
-  const [photos, setPhotos] = useState([]);
+  const photos = useSelector((state) =>
+    selectors.getPhotos(state, categoryId, currentPage)
+  );
+
+  console.log("photos", photos);
+
   const [totalPhotos, setTotalPhotos] = useState(0);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("categoryId", categoryId);
-    console.log("currentPage", currentPage);
-
-    setPhotos([]);
-    setTotalPhotos(1);
-
-    getPhotosWithParams({ categoryId, page: currentPage }).then((data) => {
-      setPhotos(data["items"]);
-      setTotalPhotos(data["total_items"]);
-    });
-  }, [categoryId, currentPage]);
+    dispatch(fetchPhotos(categoryId, currentPage));
+  }, [dispatch, categoryId, currentPage]);
 
   const Photos = photos.map((p, i) => (
     <li key={i}>
-      <PhotoCell description={p.description} imageUrl={p.image_url} />
+      <PhotoCell description={p.description} src={p.src} />
     </li>
   ));
 

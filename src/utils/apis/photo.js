@@ -1,7 +1,7 @@
 import { getPhotosWithParams as syncGetPhotosWithParams } from "../../mocks";
 import { submitPhoto as syncSubmitPhoto } from "../../mocks";
 
-export const getPhotosWithParams = ({ categoryId, page }) => {
+export const getPhotos = (categoryId, page) => {
   return new Promise((resolve) => {
     const photos = syncGetPhotosWithParams(categoryId, page);
 
