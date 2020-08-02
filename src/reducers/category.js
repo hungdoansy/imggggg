@@ -11,7 +11,6 @@ const initialState = {
   byId: {},
   totalRemoteCountById: 0,
   totalNumberOfRemotePagesById: 0,
-  photoCountById: {},
 };
 
 const updateOnFetchCategoriesSuccess = (state, data, extra) => {
@@ -44,7 +43,16 @@ const updateOnFetchCategoriesSuccess = (state, data, extra) => {
 const updateOnFetchPhotosSuccess = (state, data, extra) => {
   const categoryId = extra.categoryId;
 
-  state.photoCountById[categoryId] = data["total_items"];
+  const thatCategory = state.byId[categoryId];
+
+  if (!thatCategory) {
+    state.byId[categoryId] = {};
+  }
+
+  state.byId[categoryId] = {
+    ...state.byId[categoryId],
+    totalPhotos: data["total_items"],
+  };
 };
 
 // category reducer
@@ -107,11 +115,15 @@ const getTotalNumberOfPhotosByCategoryId = (wholeState, categoryId) => {
   return result ? result : 0;
 };
 
+const getCategoryInfo = (wholeState, categoryId) =>
+  wholeState.category.byId[categoryId];
+
 const selectors = {
   getCategoriesByPageNumber,
   getTotalNumberOfRemotePages,
   getTotalNumberOfCategories,
   getTotalNumberOfPhotosByCategoryId,
+  getCategoryInfo,
 };
 
 export { category, selectors };
