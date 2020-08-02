@@ -1,8 +1,9 @@
 import {
   FETCH_CATEGORIES_REQUEST,
   CREATE_CATEGORY_SUCCESS,
+  FETCH_CATEGORY_DETAIL_REQUEST,
 } from "../constants/action.types";
-import { getCategories } from "../utils/apis/category";
+import { getCategories, getCategoryDetail } from "../utils/apis/category";
 
 export const fetchCategories = (page = 1) => {
   return {
@@ -10,6 +11,16 @@ export const fetchCategories = (page = 1) => {
     promise: getCategories(page),
     extra: {
       page,
+    },
+  };
+};
+
+export const fetchCategoryDetail = (categoryId) => {
+  return {
+    type: FETCH_CATEGORY_DETAIL_REQUEST,
+    promise: getCategoryDetail(categoryId),
+    extra: {
+      categoryId,
     },
   };
 };

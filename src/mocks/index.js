@@ -1823,3 +1823,7 @@ export const getCategories = ({ offset, limit }) => {
       .slice(from, to),
   };
 };
+
+export const getCategoryDetail = (categoryId) => {
+  return categories.detailByCategoryId[categoryId];
+};

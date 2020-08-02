@@ -1,6 +1,7 @@
 import {
   addNewCategory,
   getCategories as syncGetCategories,
+  getCategoryDetail as syncGetCategoryDetail,
 } from "../../mocks";
 
 import { CATEGORIES_PER_PAGE } from "../../constants/settings";
@@ -23,6 +24,16 @@ export const getCategories = (page) => {
 
   return new Promise((resolve) => {
     const data = syncGetCategories({ offset, limit });
+
+    setTimeout(() => {
+      resolve(data);
+    }, 1000);
+  });
+};
+
+export const getCategoryDetail = (categoryId) => {
+  return new Promise((resolve) => {
+    const data = syncGetCategoryDetail(categoryId);
 
     setTimeout(() => {
       resolve(data);

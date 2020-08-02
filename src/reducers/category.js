@@ -1,6 +1,7 @@
 import {
   FETCH_CATEGORIES_SUCCESS,
   FETCH_PHOTOS_SUCCESS,
+  FETCH_CATEGORY_DETAIL_REQUEST,
 } from "../constants/action.types";
 import { CATEGORIES_PER_PAGE } from "../constants/settings";
 
@@ -36,7 +37,10 @@ const updateOnFetchCategoriesSuccess = (state, data, extra) => {
 
   // Update byId
   data["categories"].forEach((c) => {
-    state.byId[c.id] = c;
+    state.byId[c.id] = {
+      ...state.byId[c.id],
+      ...c,
+    };
   });
 };
 
@@ -50,8 +54,26 @@ const updateOnFetchPhotosSuccess = (state, data, extra) => {
   }
 
   state.byId[categoryId] = {
-    ...state.byId[categoryId],
+    ...thatCategory,
     totalPhotos: data["total_items"],
+  };
+};
+
+const updateOnFetchCategoryDetailSuccess = (state, data, extra) => {
+  const categoryId = extra.categoryId;
+
+  const thatCategory = state.byId[categoryId];
+
+  if (!thatCategory) {
+    state.byId[categoryId] = {};
+  }
+
+  state.byId[categoryId] = {
+    ...thatCategory,
+    id: data.id,
+    name: data.name,
+    description: data.description,
+    imageUrl: data.imageUrl,
   };
 };
 
@@ -70,6 +92,14 @@ const category = (state = initialState, action) => {
       const nextState = JSON.parse(JSON.stringify(state));
 
       updateOnFetchPhotosSuccess(nextState, action.data, action.extra);
+
+      return nextState;
+    }
+
+    case FETCH_CATEGORY_DETAIL_REQUEST: {
+      const nextState = JSON.parse(JSON.stringify(state));
+
+      updateOnFetchCategoryDetailSuccess(nextState, action.data, action.extra);
 
       return nextState;
     }
