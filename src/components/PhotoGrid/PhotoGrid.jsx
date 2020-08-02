@@ -8,6 +8,7 @@ import { selectors } from "../../reducers";
 import { fetchPhotos } from "../../actions/photo";
 
 // TODO: store photos to redux
+// TODO: move pagination one level up
 
 const PhotoGridView = ({
   className,
@@ -19,9 +20,14 @@ const PhotoGridView = ({
     selectors.getPhotos(state, categoryId, currentPage)
   );
 
+  const totalNumberOfPhotos = useSelector((state) =>
+    selectors.getTotalNumberOfPhotosByCategoryId(state, categoryId)
+  );
+
+  console.log(totalNumberOfPhotos);
+
   console.log("photos", photos);
 
-  const [totalPhotos, setTotalPhotos] = useState(0);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -46,7 +52,7 @@ const PhotoGridView = ({
       <div className="u-textCenter">
         <Pagination
           currentPage={currentPage}
-          totalNumberOfPages={Math.ceil(totalPhotos / 10)}
+          totalNumberOfPages={Math.ceil(totalNumberOfPhotos / 10)}
           baseUrl={`/categories/${categoryId}/items/#page=`}
         />
       </div>

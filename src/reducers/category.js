@@ -1,15 +1,20 @@
-import { FETCH_CATEGORIES_SUCCESS } from "../constants/action.types";
+import {
+  FETCH_CATEGORIES_SUCCESS,
+  FETCH_PHOTOS_SUCCESS,
+} from "../constants/action.types";
 import { CATEGORIES_PER_PAGE } from "../constants/settings";
 
+// TODO: merge photoCountById into byId
 const initialState = {
   allPageNumbers: [],
   idsByPageNumber: {},
   byId: {},
-  totalRemoteCount: 0,
-  totalNumberOfRemotePages: 0,
+  totalRemoteCountById: 0,
+  totalNumberOfRemotePagesById: 0,
+  photoCountById: {},
 };
 
-const updateState = (state, data, extra) => {
+const updateOnFetchCategoriesSuccess = (state, data, extra) => {
   const totalRemoteCount = data["total_categories"];
   const totalPages = Math.ceil(totalRemoteCount / CATEGORIES_PER_PAGE);
   const page = extra["page"];
@@ -36,13 +41,27 @@ const updateState = (state, data, extra) => {
   });
 };
 
+const updateOnFetchPhotosSuccess = (state, data, extra) => {
+  const categoryId = extra.categoryId;
+
+  state.photoCountById[categoryId] = data["total_items"];
+};
+
 // category reducer
 const category = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_CATEGORIES_SUCCESS: {
       const nextState = JSON.parse(JSON.stringify(state));
 
-      updateState(nextState, action.data, action.extra);
+      updateOnFetchCategoriesSuccess(nextState, action.data, action.extra);
+
+      return nextState;
+    }
+
+    case FETCH_PHOTOS_SUCCESS: {
+      const nextState = JSON.parse(JSON.stringify(state));
+
+      updateOnFetchPhotosSuccess(nextState, action.data, action.extra);
 
       return nextState;
     }
@@ -82,10 +101,17 @@ const getTotalNumberOfRemotePages = (wholeState) =>
 const getTotalNumberOfCategories = (wholeState) =>
   wholeState.category.totalRemoteCount;
 
+const getTotalNumberOfPhotosByCategoryId = (wholeState, categoryId) => {
+  const result = wholeState.category.photoCountById[categoryId];
+
+  return result ? result : 0;
+};
+
 const selectors = {
   getCategoriesByPageNumber,
   getTotalNumberOfRemotePages,
   getTotalNumberOfCategories,
+  getTotalNumberOfPhotosByCategoryId,
 };
 
 export { category, selectors };
