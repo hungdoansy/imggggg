@@ -10,17 +10,30 @@ import { useAuthContext } from "../../context/auth";
 import { SubmitPhotoModal, useSubmitModal } from "../SubmitPhotoModal";
 
 import { CategoryInfo } from "./CategoryInfo";
+import { Pagination } from "../Pagination";
+import { useSelector } from "react-redux";
+import { selectors } from "../../reducers/category";
 
+// TODO: fetch categoryInfo on load
 const PhotoContainerView = ({ className, match }) => {
   const { hasSignedIn } = useAuthContext();
   const hashParams = useHashParams();
+  const categoryId = parseInt(match.params.categoryId);
 
-  const [categoryInfo, setCategoryInfo] = useState({
-    name: "Something",
-    description:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veniam dolore voluptate, quia, hic tempora consectetur iusto, optio corrupti nesciunt tenetur maiores aspernatur quasi soluta voluptatem nostrum quod quidem atque nam?",
-    total_items: 100,
+  const categoryInfo = useSelector((state) => {
+    const thisCategory = selectors.getCategoryInfo(state, categoryId);
+    return thisCategory
+      ? thisCategory
+      : {
+          name: "",
+          description: "",
+          totalPhotos: undefined,
+        };
   });
+  // const { name: categoryName, totalNumberOfPhotos: totalPhotos } = categoryInfo;
+
+  console.log("categoryInfo", categoryInfo);
+  // console.log(Math.ceil(categoryInfo.totalPhotos / 10));
 
   const [
     isSubmitModalOpen,
@@ -28,8 +41,6 @@ const PhotoContainerView = ({ className, match }) => {
     hideSubmitModal,
   ] = useSubmitModal();
 
-  const categoryId = parseInt(match.params.categoryId);
-  const categoryName = "something";
   const page = hashParams.getPage();
 
   const onClickSubmitPhoto = () => {
@@ -62,7 +73,7 @@ const PhotoContainerView = ({ className, match }) => {
           <CategoryInfo
             name={categoryInfo.name}
             description={categoryInfo.description}
-            total_items={categoryInfo.total_items}
+            totalPhotos={categoryInfo.totalPhotos}
           />
         </div>
         <div className="top-right">
@@ -79,11 +90,17 @@ const PhotoContainerView = ({ className, match }) => {
           </div>
         </div>
       </div>
-      <PhotoGrid
-        categoryId={categoryId}
-        categoryName={categoryName}
-        currentPage={page}
-      />
+      <PhotoGrid categoryId={categoryId} currentPage={page} />
+
+      {categoryInfo.totalPhotos && (
+        <div className="u-textCenter">
+          <Pagination
+            currentPage={page}
+            totalNumberOfPages={Math.ceil(categoryInfo.totalPhotos / 10)}
+            baseUrl={`/categories/${categoryId}/items/#page=`}
+          />
+        </div>
+      )}
 
       {isSubmitModalOpen && (
         <SubmitPhotoModal
@@ -91,7 +108,7 @@ const PhotoContainerView = ({ className, match }) => {
           show={showSubmitModal}
           hide={hideSubmitModal}
           categoryId={categoryId}
-          categoryName={categoryName}
+          categoryName={categoryInfo.categoryName}
         />
       )}
     </Container>

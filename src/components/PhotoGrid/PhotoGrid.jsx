@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import { PhotoCell } from "./PhotoCell";
-import { Pagination } from "../Pagination";
+
 import { useSelector, useDispatch } from "react-redux";
 import { selectors } from "../../reducers";
 import { fetchPhotos } from "../../actions/photo";
@@ -10,21 +10,10 @@ import { fetchPhotos } from "../../actions/photo";
 // TODO: store photos to redux
 // TODO: move pagination one level up
 
-const PhotoGridView = ({
-  className,
-  categoryId,
-  categoryName,
-  currentPage,
-}) => {
+const PhotoGridView = ({ className, categoryId, currentPage }) => {
   const photos = useSelector((state) =>
     selectors.getPhotos(state, categoryId, currentPage)
   );
-
-  const totalNumberOfPhotos = useSelector((state) =>
-    selectors.getTotalNumberOfPhotosByCategoryId(state, categoryId)
-  );
-
-  console.log(totalNumberOfPhotos);
 
   console.log("photos", photos);
 
@@ -47,14 +36,6 @@ const PhotoGridView = ({
           {Photos}
           <li></li>
         </ul>
-      </div>
-
-      <div className="u-textCenter">
-        <Pagination
-          currentPage={currentPage}
-          totalNumberOfPages={Math.ceil(totalNumberOfPhotos / 10)}
-          baseUrl={`/categories/${categoryId}/items/#page=`}
-        />
       </div>
     </div>
   );

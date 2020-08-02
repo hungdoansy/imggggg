@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const CategoryInfoView = ({ className, name, description, total_items }) => {
+const CategoryInfoView = ({ className, name, description, totalPhotos }) => {
   return (
     <div className={className}>
       <div className="category-name">
@@ -12,11 +12,13 @@ const CategoryInfoView = ({ className, name, description, total_items }) => {
         <p className="u-textGray u-text300">{description}</p>
       </div>
 
-      <div className="category-stats">
-        <p className="u-textGray u-text300">
-          A total of <b>{total_items}</b> contributions by awesome people !
-        </p>
-      </div>
+      {totalPhotos && (
+        <div className="category-stats">
+          <p className="u-textGray u-text300">
+            A total of <b>{totalPhotos}</b> contributions by awesome people !
+          </p>
+        </div>
+      )}
     </div>
   );
 };
