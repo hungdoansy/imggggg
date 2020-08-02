@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { toast, Icon } from "@gotitinc/design-system";
 import styled from "styled-components";
 
@@ -11,29 +12,29 @@ import { SubmitPhotoModal, useSubmitModal } from "../SubmitPhotoModal";
 
 import { CategoryInfo } from "./CategoryInfo";
 import { Pagination } from "../Pagination";
-import { useSelector } from "react-redux";
 import { selectors } from "../../reducers/category";
+import { fetchCategoryDetail } from "../../actions/category";
 
 // TODO: fetch categoryInfo on load
 const PhotoContainerView = ({ className, match }) => {
+  const dispatch = useDispatch();
   const { hasSignedIn } = useAuthContext();
   const hashParams = useHashParams();
   const categoryId = parseInt(match.params.categoryId);
 
-  const categoryInfo = useSelector((state) => {
-    const thisCategory = selectors.getCategoryInfo(state, categoryId);
-    return thisCategory
-      ? thisCategory
-      : {
-          name: "",
-          description: "",
-          totalPhotos: undefined,
-        };
-  });
+  const categoryInfo = useSelector((state) =>
+    selectors.getCategoryInfo(state, categoryId)
+  );
   // const { name: categoryName, totalNumberOfPhotos: totalPhotos } = categoryInfo;
 
   console.log("categoryInfo", categoryInfo);
   // console.log(Math.ceil(categoryInfo.totalPhotos / 10));
+
+  useEffect(() => {
+    if (!categoryInfo) {
+      dispatch(fetchCategoryDetail(categoryId));
+    }
+  });
 
   const [
     isSubmitModalOpen,
@@ -70,29 +71,33 @@ const PhotoContainerView = ({ className, match }) => {
     <Container className={className}>
       <div className="top">
         <div className="top-left">
-          <CategoryInfo
-            name={categoryInfo.name}
-            description={categoryInfo.description}
-            totalPhotos={categoryInfo.totalPhotos}
-          />
+          {categoryInfo && (
+            <CategoryInfo
+              name={categoryInfo.name}
+              description={categoryInfo.description}
+              totalPhotos={categoryInfo.totalPhotos}
+            />
+          )}
         </div>
         <div className="top-right">
           <div className="submit-box">
-            <button
-              className={`
-                u-paddingVerticalSmall u-fontMedium u-border u-borderPrimary u-roundedMedium 
-                u-cursorPointer u-text300 u-textPrimary
-              `}
-              onClick={onClickSubmitPhoto}
-            >
-              Submit a photo to <b>{categoryInfo.name}</b>
-            </button>
+            {categoryInfo && categoryInfo.name && (
+              <button
+                className={`
+                  u-paddingVerticalSmall u-fontMedium u-border u-borderPrimary u-roundedMedium 
+                  u-paddingHorizontalExtraSmall u-cursorPointer u-text300 u-textPrimary
+                `}
+                onClick={onClickSubmitPhoto}
+              >
+                Submit a photo to <b>{categoryInfo.name}</b>
+              </button>
+            )}
           </div>
         </div>
       </div>
       <PhotoGrid categoryId={categoryId} currentPage={page} />
 
-      {categoryInfo.totalPhotos && (
+      {categoryInfo && categoryInfo.totalPhotos && (
         <div className="u-textCenter">
           <Pagination
             currentPage={page}
@@ -125,6 +130,7 @@ export const PhotoContainer = styled(PhotoContainerView)`
     display: flex;
     flex-direction: row;
     margin-bottom: 50px;
+    min-height: 100px;
 
     div.top-left {
       flex: 1 1;
