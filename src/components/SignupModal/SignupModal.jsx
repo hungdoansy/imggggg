@@ -3,12 +3,6 @@ import { Button, Modal, Form } from "@gotitinc/design-system";
 import { useAuthContext } from "../../context/auth";
 import { signup } from "../../utils/apis/auth";
 
-const sanitizerCheck = ({ name, email, password }) => {
-  return {
-    passed: true,
-  };
-};
-
 export const SignupModal = ({ isOpen, show, hide }) => {
   const { setAuthTokens } = useAuthContext();
 
