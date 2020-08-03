@@ -2,24 +2,13 @@ import React, { useState } from "react";
 import { Button, Modal, Form, toast, Icon } from "@gotitinc/design-system";
 import { useDispatch } from "react-redux";
 
-import { useHashParams } from "../../utils/hooks";
 import { createCategory } from "../../utils/apis/category";
 import { createCategorySuccess } from "../../actions/category";
-
-const CREATE = "create";
 
 // TODO: sanitize inputs
 
 export const useCreateModal = () => {
-  const hashParams = useHashParams();
-
-  const [isCreateModalOpen, setModalOpen] = useState(() => {
-    if (hashParams.getAction() === CREATE) {
-      return true;
-    }
-
-    return false;
-  });
+  const [isCreateModalOpen, setModalOpen] = useState(false);
 
   const showCreateModal = () => {
     setModalOpen(true);
