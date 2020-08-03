@@ -1,8 +1,8 @@
-const me = ({ tokens }) => {
+const getUserProfile = (tokens) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       if (!!tokens && tokens.includes("987654")) {
-        resolve({ email: "haha@hehe.com", name: "haha" });
+        resolve({ id: 3, name: "Hung3" });
       } else {
         reject({ message: "token is not valid" });
       }
@@ -10,4 +10,4 @@ const me = ({ tokens }) => {
   });
 };
 
-export { me };
+export { getUserProfile };

@@ -11,8 +11,9 @@ import { HomeContainer } from "./components/HomeContainer";
 import { PhotoContainer } from "./components/PhotoContainer";
 
 import { AuthContext } from "./context/auth";
+import { ProfileContext } from "./context/profile";
 
-import { me as validate } from "./utils/apis/me";
+import { getUserProfile } from "./utils/apis/me";
 import { fetchCategories } from "./actions/category";
 
 // TODO: at startup, check for validity of the tokens
@@ -26,15 +27,6 @@ const useAuthTokens = () => {
     return storedTokens ? storedTokens : null;
   });
 
-  validate({ tokens: authTokens })
-    .then((result) => {
-      // TODO: what to do when it's valid?
-    })
-    .catch((e) => {
-      // TODO: handle message when the token is not valid
-      setAuthTokens("");
-    });
-
   const setAuthTokens = (data) => {
     localStorage.setItem("tokens", data);
     setTokens(data);
@@ -45,39 +37,73 @@ const useAuthTokens = () => {
   return [hasSignedIn, authTokens, setAuthTokens];
 };
 
+const useProfile = () => {
+  const [profile, setProfile] = useState(() => {
+    try {
+      const serializedProfile = JSON.parse(localStorage.getItem("profile"));
+
+      return serializedProfile ? serializedProfile : null;
+    } catch (e) {
+      return null;
+    }
+  });
+
+  const storeProfile = ({ id, name }) => {
+    localStorage.setItem("profile", JSON.stringify({ id, name }));
+    setProfile({ id, name });
+  };
+
+  return [profile, storeProfile];
+};
+
 function App() {
   const [hasSignedIn, authTokens, setAuthTokens] = useAuthTokens();
+  const [profile, storeProfile] = useProfile();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchCategories());
+
+    getUserProfile(authTokens)
+      .then((result) => {
+        console.log("validate");
+
+        storeProfile(result);
+      })
+      .catch((e) => {
+        console.log("invalid profile");
+        // TODO: handle message when the token is not valid
+        setAuthTokens("");
+      });
   }, []);
 
   return (
     <AuthContext.Provider value={{ hasSignedIn, authTokens, setAuthTokens }}>
-      <BrowserRouter>
-        <Header />
-        <Switch>
-          <Route
-            path="/categories/:categoryId/items"
-            exact
-            component={PhotoContainer}
-          />
+      <ProfileContext.Provider value={{ profile }}>
+        <BrowserRouter>
+          <Header />
+          <Switch>
+            <Route
+              path="/categories/:categoryId/items"
+              exact
+              component={PhotoContainer}
+            />
 
-          <Route path="/categories" exact component={CategoryContainer} />
+            <Route path="/categories" exact component={CategoryContainer} />
 
-          <Route path="/" exact component={HomeContainer} />
+            <Route path="/" exact component={HomeContainer} />
 
-          {/* TODO: Show a error page instead of redirecting to home */}
-          <Redirect to="/" />
-        </Switch>
-      </BrowserRouter>
+            {/* TODO: Show a error page instead of redirecting to home */}
+            <Redirect to="/" />
+          </Switch>
+        </BrowserRouter>
 
-      <ToastContainer
-        autoDismiss={3000}
-        // hideProgressBar={true}
-      />
+        <ToastContainer
+          autoDismiss={3000}
+          // hideProgressBar={true}
+        />
+      </ProfileContext.Provider>
     </AuthContext.Provider>
   );
 }
