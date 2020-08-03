@@ -10,7 +10,12 @@ import { fetchPhotos } from "../../actions/photo";
 // TODO: store photos to redux
 // TODO: move pagination one level up
 
-const PhotoGridView = ({ className, categoryId, currentPage }) => {
+const PhotoGridView = ({
+  className,
+  categoryId,
+  categoryName,
+  currentPage,
+}) => {
   const photos = useSelector((state) =>
     selectors.getPhotos(state, categoryId, currentPage)
   );
@@ -25,7 +30,12 @@ const PhotoGridView = ({ className, categoryId, currentPage }) => {
 
   const Photos = photos.map((p, i) => (
     <li key={i}>
-      <PhotoCell description={p.description} src={p.src} />
+      <PhotoCell
+        description={p.description}
+        src={p.src}
+        categoryId={categoryId}
+        categoryName={categoryName}
+      />
     </li>
   ));
 

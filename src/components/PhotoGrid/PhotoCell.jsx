@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import { useEditModal, EditPhotoModal } from "../EditPhotoModal";
+
 const RemoveIcon = () => {
   return (
     <svg
@@ -32,7 +34,20 @@ const EditIcon = () => {
 };
 
 // TODO: only shows button when hovering the photo
-const PhotoCellView = ({ className, src, description }) => {
+const PhotoCellView = ({
+  className,
+  src,
+  description,
+  categoryId,
+  categoryName,
+}) => {
+  const [isEditModalOpen, showEditModal, hideEditModal] = useEditModal();
+
+  const onClickEditButton = (e) => {
+    showEditModal();
+    e.preventDefault();
+  };
+
   return (
     <div className={className}>
       <a href="/">
@@ -46,7 +61,10 @@ const PhotoCellView = ({ className, src, description }) => {
           </div>
 
           <div className="controls">
-            <button className="control-button edit-button">
+            <button
+              className="control-button edit-button"
+              onClick={onClickEditButton}
+            >
               <EditIcon />
             </button>
 
@@ -56,6 +74,18 @@ const PhotoCellView = ({ className, src, description }) => {
           </div>
         </div>
       </a>
+
+      {isEditModalOpen && (
+        <EditPhotoModal
+          isOpen={isEditModalOpen}
+          show={showEditModal}
+          hide={hideEditModal}
+          categoryId={categoryId}
+          categoryName={categoryName}
+          url={src}
+          description={description}
+        />
+      )}
     </div>
   );
 };

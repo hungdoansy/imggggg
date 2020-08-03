@@ -95,7 +95,12 @@ const PhotoContainerView = ({ className, match }) => {
           </div>
         </div>
       </div>
-      <PhotoGrid categoryId={categoryId} currentPage={page} />
+
+      <PhotoGrid
+        categoryId={categoryId}
+        categoryName={categoryInfo && categoryInfo.name}
+        currentPage={page}
+      />
 
       {categoryInfo && categoryInfo.totalPhotos && (
         <div className="u-textCenter">
@@ -113,7 +118,7 @@ const PhotoContainerView = ({ className, match }) => {
           show={showSubmitModal}
           hide={hideSubmitModal}
           categoryId={categoryId}
-          categoryName={categoryInfo.categoryName}
+          categoryName={categoryInfo && categoryInfo.name}
         />
       )}
     </Container>
