@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect, useReducer } from "react";
 import { useLocation } from "react-router-dom";
 
 const useQueryParams = () => {
@@ -44,4 +44,24 @@ const useHashParams = () => {
   return { getPage, getAction };
 };
 
-export { useHashParams, useQueryParams };
+const useSetState = (initialState) => {
+  return useReducer(
+    (state, newState) => ({ ...state, ...newState }),
+    initialState
+  );
+};
+
+const useSafeSetState = (initialState) => {
+  const [state, setState] = useSetState(initialState);
+
+  const mountedRef = useRef(false);
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => (mountedRef.current = false);
+  }, []);
+  const safeSetState = (...args) => mountedRef.current && setState(...args);
+
+  return [state, safeSetState];
+};
+
+export { useHashParams, useQueryParams, useSafeSetState };
