@@ -5,6 +5,7 @@ import { TabBar } from "../TabBar";
 import { SigninModal } from "../SigninModal";
 import { SignupModal } from "../SignupModal";
 import { useAuthContext } from "../../context/auth";
+import { useProfileContext } from "../../context/profile";
 
 const useSigninModal = () => {
   const [isSigninModalOpen, setModalOpen] = useState(false);
@@ -36,6 +37,8 @@ const useSignupModal = () => {
 
 const MyHeader = () => {
   const { authTokens, setAuthTokens } = useAuthContext();
+  const { storeProfile } = useProfileContext();
+
   const hasBeenAuthenticated = !!authTokens && authTokens !== "";
   console.log("hasBeenAuthenticated", hasBeenAuthenticated);
   const [
@@ -49,9 +52,13 @@ const MyHeader = () => {
     hideSignupModal,
   ] = useSignupModal();
 
-  const logOut = (e) => {
+  const signOut = (e) => {
     setAuthTokens("");
+    storeProfile("");
+
     e.preventDefault();
+
+    // TODO: is this needed?
     window.location.reload();
   };
 
@@ -85,7 +92,7 @@ const MyHeader = () => {
                 </Button>
               </>
             ) : (
-              <a href="/" onClick={logOut}>
+              <a href="/" onClick={signOut}>
                 <Avatar />
               </a>
             )}

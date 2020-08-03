@@ -48,9 +48,9 @@ const useProfile = () => {
     }
   });
 
-  const storeProfile = ({ id, name }) => {
-    localStorage.setItem("profile", JSON.stringify({ id, name }));
-    setProfile({ id, name });
+  const storeProfile = (data) => {
+    localStorage.setItem("profile", JSON.stringify(data));
+    setProfile(data);
   };
 
   return [profile, storeProfile];
@@ -80,7 +80,7 @@ function App() {
 
   return (
     <AuthContext.Provider value={{ hasSignedIn, authTokens, setAuthTokens }}>
-      <ProfileContext.Provider value={{ profile }}>
+      <ProfileContext.Provider value={{ profile, storeProfile }}>
         <BrowserRouter>
           <Header />
           <Switch>
