@@ -1,42 +1,119 @@
 import React, { useState } from "react";
 import { Button, Modal, Form } from "@gotitinc/design-system";
-import { useAuthContext } from "../../context/auth";
-import { signup } from "../../utils/apis/auth";
+import produce from "immer";
 
+import { useAuthContext } from "../../context/auth";
+import { signup, signin } from "../../utils/apis/auth";
+import { useSafeSetState } from "../../utils/hooks";
+
+// TODO: sanitize inputs
 export const SignupModal = ({ isOpen, show, hide }) => {
   const { setAuthTokens } = useAuthContext();
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [disabled, setDisabled] = useState(false);
+  const [state, setState] = useSafeSetState({
+    name: {
+      value: "",
+      feedback: "",
+    },
+    email: {
+      value: "",
+      feedback: "",
+    },
+    password: {
+      value: "",
+      feedback: "",
+    },
+    feedback: "",
+  });
 
   const onNameInputChange = (e) => {
-    setName(e.target.value);
+    setState(
+      produce(state, (draftState) => {
+        draftState.name.value = e.target.value;
+      })
+    );
   };
 
   const onEmailInputChange = (e) => {
-    setEmail(e.target.value);
+    setState(
+      produce(state, (draftState) => {
+        draftState.email.value = e.target.value;
+      })
+    );
   };
 
   const onPasswordInputChange = (e) => {
-    setPassword(e.target.value);
+    setState(
+      produce(state, (draftState) => {
+        draftState.password.value = e.target.value;
+      })
+    );
   };
 
   const onClick = () => {
-    const { passed } = sanitizerCheck({ name, email, password });
+    const info = {
+      name: state.name.value,
+      email: state.email.value,
+      password: state.password.value,
+    };
 
-    if (passed) {
-      // TODO: disable the Next button, maybe show a loading indicator
-      // Paint green the button when it's successful and then reload (maybe not)
-      signup({ name, email, password }).then((response) => {
-        if (response["access_token"]) {
-          setAuthTokens(response["access_token"]);
-          hide();
+    setDisabled(true);
+    signup(info)
+      .then((response) => {
+        if (response.status === 201) {
+          signin(info)
+            .then((response) => {
+              if (response.status === 200) {
+                setAuthTokens(response.data["access_token"]);
+                hide();
+              } else {
+                setState(
+                  (state) =>
+                    (state.feedback =
+                      "Something happened, please reload and log in...")
+                );
+              }
+            })
+            .catch((e) => {
+              setState(
+                (state) =>
+                  (state.feedback =
+                    "Something happened, please reload and log in...")
+              );
+            });
         }
+      })
+      .catch((e) => {
+        const { email, name, password } = e.response.data.message;
+
+        // console.log("email", email);
+        if (email) {
+          setState(
+            produce(state, (draftState) => {
+              draftState.email.feedback = email[0];
+            })
+          );
+        }
+
+        if (name) {
+          setState(
+            produce(state, (draftState) => {
+              draftState.name.feedback = name[0];
+            })
+          );
+        }
+
+        if (password) {
+          setState(
+            produce(state, (draftState) => {
+              draftState.password.feedback = password[0];
+            })
+          );
+        }
+
+        setDisabled(false);
       });
-    } else {
-      // TODO: display the error message
-    }
   };
 
   return (
@@ -56,9 +133,11 @@ export const SignupModal = ({ isOpen, show, hide }) => {
             <Form.Input
               type="text"
               placeholder="What's your name?"
-              value={name}
+              value={state.name.value}
               onChange={onNameInputChange}
+              isInvalid={state.name.feedback !== ""}
             />
+            <Form.Feedback type="invalid">{state.name.feedback}</Form.Feedback>
           </Form.Group>
 
           <Form.Group controlId="loginform.email">
@@ -66,9 +145,11 @@ export const SignupModal = ({ isOpen, show, hide }) => {
             <Form.Input
               type="email"
               placeholder="Your email so we contact you"
-              value={email}
+              value={state.email.value}
               onChange={onEmailInputChange}
+              isInvalid={state.email.feedback !== ""}
             />
+            <Form.Feedback type="invalid">{state.email.feedback}</Form.Feedback>
           </Form.Group>
 
           <Form.Group controlId="loginform.password">
@@ -76,9 +157,13 @@ export const SignupModal = ({ isOpen, show, hide }) => {
             <Form.Input
               type="password"
               placeholder="To secure your account"
-              value={password}
+              value={state.password.value}
               onChange={onPasswordInputChange}
+              isInvalid={state.password.feedback !== ""}
             />
+            <Form.Feedback type="invalid">
+              {state.password.feedback}
+            </Form.Feedback>
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
@@ -88,6 +173,7 @@ export const SignupModal = ({ isOpen, show, hide }) => {
               width="full"
               className="u-fontBold"
               onClick={onClick}
+              disabled={disabled}
             >
               SIGN UP
             </Button>
