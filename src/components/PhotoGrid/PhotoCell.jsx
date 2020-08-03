@@ -5,6 +5,7 @@ import { useEditModal, EditPhotoModal } from "../EditPhotoModal";
 import { useRemoveModal, RemovePhotoModal } from "../RemovePhotoModal";
 
 import { useAuthContext } from "../../context/auth";
+import { useProfileContext } from "../../context/profile";
 
 const RemoveIcon = () => {
   return (
@@ -43,8 +44,15 @@ const PhotoCellView = ({
   description,
   categoryId,
   categoryName,
+  author,
 }) => {
   const { hasSignedIn } = useAuthContext();
+  const { profile } = useProfileContext();
+
+  const shouldShowButtons = hasSignedIn && profile && profile.id === author.id;
+  const AuthorName =
+    profile && profile.id === author.id ? "you" : <b>{author.name}</b>;
+
   const [isEditModalOpen, showEditModal, hideEditModal] = useEditModal();
   const [
     isRemoveModalOpen,
@@ -68,13 +76,10 @@ const PhotoCellView = ({
         <img className="photo" alt={description} src={src} />
         <div className="info-overlay">
           <div className="posted-by">
-            posted by{" "}
-            <span>
-              <b>Hung</b>
-            </span>
+            posted by <span>{AuthorName}</span>
           </div>
 
-          {hasSignedIn && (
+          {shouldShowButtons && (
             <div className="controls">
               <button
                 className="control-button edit-button"
