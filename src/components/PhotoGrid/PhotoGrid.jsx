@@ -26,7 +26,7 @@ const PhotoGridView = ({
 
   useEffect(() => {
     dispatch(fetchPhotos(categoryId, currentPage));
-  }, [dispatch, categoryId, currentPage]);
+  }, [categoryId, currentPage]);
 
   const Photos = photos.map((p, i) => (
     <li key={i}>

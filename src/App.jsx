@@ -13,7 +13,7 @@ import { PhotoContainer } from "./components/PhotoContainer";
 import { AuthContext } from "./context/auth";
 import { ProfileContext } from "./context/profile";
 
-import { getUserProfile } from "./utils/apis/me";
+import { getUserProfile } from "./utils/apis/user";
 import { fetchCategories } from "./actions/category";
 
 // TODO: at startup, check for validity of the tokens
@@ -22,13 +22,17 @@ import { fetchCategories } from "./actions/category";
 const useAuthTokens = () => {
   // TODO: do I need parse/stringify?
   const [authTokens, setTokens] = useState(() => {
-    const storedTokens = localStorage.getItem("tokens");
-
-    return storedTokens ? storedTokens : null;
+    try {
+      const serializedTokens = JSON.parse(localStorage.getItem("tokens"));
+      return serializedTokens ? serializedTokens : null;
+    } catch (e) {
+      localStorage.removeItem("tokens");
+      return null;
+    }
   });
 
   const setAuthTokens = (data) => {
-    localStorage.setItem("tokens", data);
+    localStorage.setItem("tokens", JSON.stringify(data));
     setTokens(data);
   };
 
@@ -44,6 +48,7 @@ const useProfile = () => {
 
       return serializedProfile ? serializedProfile : null;
     } catch (e) {
+      localStorage.removeItem("profile");
       return null;
     }
   });
@@ -63,21 +68,22 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (authTokens !== null) {
+      getUserProfile(authTokens)
+        .then((response) => {
+          storeProfile(response.data);
+        })
+        .catch((e) => {
+          setAuthTokens("");
+        });
+    }
+  }, [authTokens]);
+
+  useEffect(() => {
     dispatch(fetchCategories());
-
-    getUserProfile(authTokens)
-      .then((result) => {
-        console.log("validate");
-
-        storeProfile(result);
-      })
-      .catch((e) => {
-        console.log("invalid profile");
-        // TODO: handle message when the token is not valid
-        setAuthTokens("");
-      });
   }, []);
 
+  // TODO: merge 2 contexts into one and expose SignOut func
   return (
     <AuthContext.Provider value={{ hasSignedIn, authTokens, setAuthTokens }}>
       <ProfileContext.Provider value={{ profile, storeProfile }}>
