@@ -1,43 +1,57 @@
 import React, { useState } from "react";
 import { Button, Modal, Form } from "@gotitinc/design-system";
 import { useAuthContext } from "../../context/auth";
-import { login } from "../../utils/apis/auth";
-
-const sanitizerCheck = ({ email, password }) => {
-  return {
-    passed: true,
-  };
-};
+import { signin } from "../../utils/apis/auth";
 
 export const LoginModal = ({ isOpen, show, hide }) => {
   const { setAuthTokens } = useAuthContext();
 
-  const onClick = () => {
-    const { passed } = sanitizerCheck({ email, password });
-
-    if (passed) {
-      // TODO: disable the Next button, maybe show a loading indicator
-      // Paint green the button when it's successful and then reload (maybe not)
-      login({ email, password }).then((response) => {
-        if (response["access_token"]) {
-          setAuthTokens(response["access_token"]);
-          hide();
-        }
-      });
-    } else {
-      // TODO: display the error message
-    }
-  };
+  const [disabled, setDisabled] = useState(false);
+  const [feedback, setFeedback] = useState("");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const onEmailInputChange = (e) => {
-    setEmail(e.target.value);
+  const onInputChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "email") {
+      setEmail(value);
+    } else if (name === "password") {
+      setPassword(value);
+    }
+
+    if (value === "") {
+      setFeedback("Cannot leave any input empty !");
+      setDisabled(true);
+    } else {
+      setFeedback("");
+      setDisabled(false);
+    }
   };
 
-  const onPasswordInputChange = (e) => {
-    setPassword(e.target.value);
+  const onClick = () => {
+    if (email === "" || password === "") {
+      setFeedback("Cannot leave any input empty !");
+      setDisabled(true);
+      return;
+    }
+
+    setDisabled(true);
+
+    signin({ email, password })
+      .then((response) => {
+        if (response.status === 200) {
+          setAuthTokens(response.data["access_token"]);
+          hide();
+        } else {
+          setFeedback("Something happened, please try later...");
+        }
+      })
+      .catch((e) => {
+        setFeedback(e.response.data.message);
+        setDisabled(false);
+      });
   };
 
   return (
@@ -58,7 +72,7 @@ export const LoginModal = ({ isOpen, show, hide }) => {
               name="email"
               type="email"
               placeholder="Enter your email here"
-              onChange={onEmailInputChange}
+              onChange={onInputChange}
               value={email}
             />
           </Form.Group>
@@ -70,10 +84,16 @@ export const LoginModal = ({ isOpen, show, hide }) => {
               name="password"
               type="password"
               placeholder="Enter your password here"
-              onChange={onPasswordInputChange}
+              onChange={onInputChange}
               value={password}
             />
           </Form.Group>
+
+          {feedback !== "" && (
+            <div className="u-marginTopTiny u-widthFull u-text100 invalid-feedback is-visible">
+              {feedback}
+            </div>
+          )}
         </Modal.Body>
         <Modal.Footer>
           <div className="u-flexGrow-1">
@@ -82,6 +102,7 @@ export const LoginModal = ({ isOpen, show, hide }) => {
               width="full"
               className="u-fontBold"
               onClick={onClick}
+              disabled={disabled}
             >
               LOG IN
             </Button>
