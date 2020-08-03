@@ -2,22 +2,22 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Header, Button, Avatar } from "@gotitinc/design-system";
 import { TabBar } from "../TabBar";
-import { LoginModal } from "../LoginModal";
+import { SigninModal } from "../SigninModal";
 import { SignupModal } from "../SignupModal";
 import { useAuthContext } from "../../context/auth";
 
-const useLoginModal = () => {
-  const [isLoginModalOpen, setModalOpen] = useState(false);
+const useSigninModal = () => {
+  const [isSigninModalOpen, setModalOpen] = useState(false);
 
-  const showLoginModal = () => {
+  const showSigninModal = () => {
     setModalOpen(true);
   };
 
-  const hideLoginModal = () => {
+  const hideSigninModal = () => {
     setModalOpen(false);
   };
 
-  return [isLoginModalOpen, showLoginModal, hideLoginModal];
+  return [isSigninModalOpen, showSigninModal, hideSigninModal];
 };
 
 const useSignupModal = () => {
@@ -38,7 +38,11 @@ const MyHeader = () => {
   const { authTokens, setAuthTokens } = useAuthContext();
   const hasBeenAuthenticated = !!authTokens && authTokens !== "";
   console.log("hasBeenAuthenticated", hasBeenAuthenticated);
-  const [isLoginModalOpen, showLoginModal, hideLoginModal] = useLoginModal();
+  const [
+    isSigninModalOpen,
+    showSigninModal,
+    hideSigninModal,
+  ] = useSigninModal();
   const [
     isSignupModalOpen,
     showSignupModal,
@@ -69,7 +73,7 @@ const MyHeader = () => {
           <Header.Right>
             {!hasBeenAuthenticated ? (
               <>
-                <Button variant="primary_outline" onClick={showLoginModal}>
+                <Button variant="primary_outline" onClick={showSigninModal}>
                   Login
                 </Button>
                 <Button
@@ -92,11 +96,11 @@ const MyHeader = () => {
       {/* TODO: show/hide the tab bar based on auth status (localStorage) */}
       <TabBar />
 
-      {isLoginModalOpen && (
-        <LoginModal
-          isOpen={isLoginModalOpen}
-          show={showLoginModal}
-          hide={hideLoginModal}
+      {isSigninModalOpen && (
+        <SigninModal
+          isOpen={isSigninModalOpen}
+          show={showSigninModal}
+          hide={hideSigninModal}
         />
       )}
 

@@ -3,7 +3,7 @@ import { Button, Modal, Form } from "@gotitinc/design-system";
 import { useAuthContext } from "../../context/auth";
 import { signin } from "../../utils/apis/auth";
 
-export const LoginModal = ({ isOpen, show, hide }) => {
+export const SigninModal = ({ isOpen, show, hide }) => {
   const { setAuthTokens } = useAuthContext();
 
   const [disabled, setDisabled] = useState(false);
