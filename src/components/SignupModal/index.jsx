@@ -95,13 +95,8 @@ export const SignupModal = ({ isOpen, show, hide }) => {
               className="u-fontBold"
               onClick={onClick}
             >
-              Next
+              SIGN UP
             </Button>
-
-            <div className="u-marginTopTiny u-text100 u-textCenter u-textGray">
-              Already have an account?{" "}
-              <span className="u-fontBold u-textUnderline">Log in</span>
-            </div>
           </div>
         </Modal.Footer>
       </Modal>

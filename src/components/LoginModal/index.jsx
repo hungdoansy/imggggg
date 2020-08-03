@@ -83,13 +83,8 @@ export const LoginModal = ({ isOpen, show, hide }) => {
               className="u-fontBold"
               onClick={onClick}
             >
-              Next
+              LOG IN
             </Button>
-
-            <div className="u-marginTopTiny u-text100 u-textCenter u-textGray">
-              Don't have an account?{" "}
-              <span className="u-fontBold u-textUnderline">Sign up</span>
-            </div>
           </div>
         </Modal.Footer>
       </Modal>
