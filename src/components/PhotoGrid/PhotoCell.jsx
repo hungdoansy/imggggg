@@ -2,6 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 import { useEditModal, EditPhotoModal } from "../EditPhotoModal";
+import { useRemoveModal, RemovePhotoModal } from "../RemovePhotoModal";
+
+import { useAuthContext } from "../../context/auth";
 
 const RemoveIcon = () => {
   return (
@@ -41,10 +44,21 @@ const PhotoCellView = ({
   categoryId,
   categoryName,
 }) => {
+  const { hasSignedIn } = useAuthContext();
   const [isEditModalOpen, showEditModal, hideEditModal] = useEditModal();
+  const [
+    isRemoveModalOpen,
+    showRemoveModal,
+    hideRemoveModal,
+  ] = useRemoveModal();
 
   const onClickEditButton = (e) => {
     showEditModal();
+    e.preventDefault();
+  };
+
+  const onClickRemoveButton = (e) => {
+    showRemoveModal();
     e.preventDefault();
   };
 
@@ -60,18 +74,23 @@ const PhotoCellView = ({
             </span>
           </div>
 
-          <div className="controls">
-            <button
-              className="control-button edit-button"
-              onClick={onClickEditButton}
-            >
-              <EditIcon />
-            </button>
+          {hasSignedIn && (
+            <div className="controls">
+              <button
+                className="control-button edit-button"
+                onClick={onClickEditButton}
+              >
+                <EditIcon />
+              </button>
 
-            <button className="control-button remove-button">
-              <RemoveIcon />
-            </button>
-          </div>
+              <button
+                className="control-button remove-button"
+                onClick={onClickRemoveButton}
+              >
+                <RemoveIcon />
+              </button>
+            </div>
+          )}
         </div>
       </a>
 
@@ -80,6 +99,18 @@ const PhotoCellView = ({
           isOpen={isEditModalOpen}
           show={showEditModal}
           hide={hideEditModal}
+          categoryId={categoryId}
+          categoryName={categoryName}
+          url={src}
+          description={description}
+        />
+      )}
+
+      {isRemoveModalOpen && (
+        <RemovePhotoModal
+          isOpen={isRemoveModalOpen}
+          show={showRemoveModal}
+          hide={hideRemoveModal}
           categoryId={categoryId}
           categoryName={categoryName}
           url={src}
