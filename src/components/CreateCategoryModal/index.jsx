@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Button, Modal, Form, toast, Icon } from "@gotitinc/design-system";
-import { useDispatch } from "react-redux";
 import produce from "immer";
 
 import { createCategory } from "../../utils/apis/category";
-import { createCategorySuccess } from "../../actions/category";
 import { useSafeSetState, useDebounce } from "../../utils/hooks";
+import { useAuthContext } from "../../context/auth";
+import { fetchCategories } from "../../actions/category";
+import { useDispatch } from "react-redux";
 
 // TODO: sanitize inputs
 
@@ -67,6 +68,7 @@ export const useCreateModal = () => {
 
 export const CreateCategoryModal = ({ isOpen, show, hide }) => {
   const dispatch = useDispatch();
+  const { authTokens } = useAuthContext();
 
   const [state, setState] = useSafeSetState({
     name: {
@@ -119,26 +121,78 @@ export const CreateCategoryModal = ({ isOpen, show, hide }) => {
       imageUrl: state.imageUrl.value,
     };
 
-    createCategory(info).then((data) => {
-      hide();
+    createCategory(info, authTokens).then((response) => {
+      console.log("response", response);
 
-      dispatch(createCategorySuccess(data));
+      switch (response.status) {
+        case 401: {
+          hide();
 
-      toast(() => (
-        <div className="u-flex u-flexGrow-1 u-cursorDefault">
-          <div className="u-marginRightExtraSmall">
-            <Icon name="checkmarkCircle" size="medium" />
-          </div>
-          <div className="u-flexGrow-1">
-            <div className="u-fontMedium u-marginBottomExtraSmall">
-              Yeahhhhh !
+          toast.error(() => (
+            <div className="u-flex u-flexGrow-1 u-cursorDefault">
+              <div className="u-marginRightExtraSmall">
+                <Icon name="alert" size="medium" />
+              </div>
+              <div className="u-flexGrow-1">
+                <div className="u-fontMedium u-marginBottomExtraSmall">
+                  Error
+                </div>
+                <div>Please reload and try again</div>
+              </div>
             </div>
-            <div>
-              Category <b>{state.name.value}</b> has just been created
+          ));
+          break;
+        }
+
+        case 400: {
+          setDisabled(true);
+          setState(
+            produce(state, (draftState) => {
+              const { message } = response.data;
+
+              if (message.name) {
+                draftState.name.feedback = message.name[0];
+              }
+
+              if (message.image_url) {
+                draftState.imageUrl.feedback = message.image_url[0];
+              }
+
+              if (message.description) {
+                draftState.description.feedback = message.description[0];
+              }
+            })
+          );
+
+          break;
+        }
+
+        case 201: {
+          hide();
+          dispatch(fetchCategories());
+          toast(() => (
+            <div className="u-flex u-flexGrow-1 u-cursorDefault">
+              <div className="u-marginRightExtraSmall">
+                <Icon name="checkmarkCircle" size="medium" />
+              </div>
+              <div className="u-flexGrow-1">
+                <div className="u-fontMedium u-marginBottomExtraSmall">
+                  Yeahhhhh !
+                </div>
+                <div>
+                  Category <b>{state.name.value}</b> has just been created
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      ));
+          ));
+
+          break;
+        }
+
+        default: {
+          return;
+        }
+      }
     });
   };
 

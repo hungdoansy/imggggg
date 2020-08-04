@@ -1,21 +1,32 @@
 import {
-  addNewCategory,
   getCategories as syncGetCategories,
   getCategoryDetail as syncGetCategoryDetail,
 } from "../../mocks";
-
 import { CATEGORIES_PER_PAGE } from "../../constants/settings";
 
-export const createCategory = ({ name, imageUrl, description }) => {
-  return new Promise((resolve) => {
-    const image_url = imageUrl;
-    const response = addNewCategory({ name, image_url, description });
-    // TODO: use snake case here
+const API_HOST = process.env.REACT_APP_API_HOST;
 
-    setTimeout(() => {
-      resolve(response);
-    }, 1000);
-  });
+export const createCategory = (
+  { name, imageUrl: image_url, description },
+  tokens
+) => {
+  let status = null;
+
+  return fetch(`${API_HOST}/categories`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${tokens}`,
+      "Content-Type": "application/json;charset=utf-8",
+    },
+    body: JSON.stringify({ name, image_url, description }),
+  })
+    .then((response) => {
+      status = response.status;
+
+      return response.json();
+    })
+    .then((data) => ({ status, data }))
+    .catch((e) => ({ status, data: e })); // TODO: network failure
 };
 
 export const getCategories = (page) => {
