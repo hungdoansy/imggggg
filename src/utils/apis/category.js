@@ -1,7 +1,4 @@
-import {
-  getCategories as syncGetCategories,
-  getCategoryDetail as syncGetCategoryDetail,
-} from "../../mocks";
+import { getCategoryDetail as syncGetCategoryDetail } from "../../mocks";
 import { CATEGORIES_PER_PAGE } from "../../constants/settings";
 
 const API_HOST = process.env.REACT_APP_API_HOST;
@@ -33,13 +30,12 @@ export const getCategories = (page) => {
   const offset = (page - 1) * CATEGORIES_PER_PAGE;
   const limit = CATEGORIES_PER_PAGE;
 
-  return new Promise((resolve) => {
-    const data = syncGetCategories({ offset, limit });
-
-    setTimeout(() => {
-      resolve(data);
-    }, 1000);
-  });
+  return fetch(`${API_HOST}/categories?offset=${offset}&limit=${limit}`)
+    .then((response) => response.json())
+    .catch((e) => {
+      console.log("Error while fetching categories", e);
+      return [];
+    }); // TODO: network failure
 };
 
 export const getCategoryDetail = (categoryId) => {
