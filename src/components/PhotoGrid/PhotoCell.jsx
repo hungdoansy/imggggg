@@ -170,6 +170,8 @@ export const PhotoCell = styled(PhotoCellView)`
     top: 0;
     left: 0;
 
+    padding-left: 5px;
+
     color: white;
   }
 
@@ -183,36 +185,37 @@ export const PhotoCell = styled(PhotoCellView)`
     flex-direction: row;
 
     .control-button {
-      background-color: rgba(255, 255, 255, 0.7);
-      border: none;
+      background-color: transparent;
+
+      border: 1px solid white;
       border-radius: 4px;
 
       display: flex;
       justify-content: center;
       align-items: center;
 
-      width: 2.2em;
-      height: 2.2em;
-
-      margin-left: 5px;
-      margin-right: 5px;
+      width: 2em;
+      height: 2em;
 
       cursor: pointer;
 
-      color: #95a5a6;
+      color: white;
+
+      transition: background 0.1s linear;
 
       > svg {
-        transition: color 0.1s linear;
         width: 100%;
         height: 100%;
         color: inherit;
       }
 
       &:hover {
-        > svg {
-          color: white;
-        }
+        background-color: rgba(255, 255, 255, 0.3);
       }
+    }
+
+    .edit-button {
+      margin-right: 3px;
     }
   }
 `;
