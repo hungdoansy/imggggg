@@ -76,6 +76,8 @@ function App() {
         .catch((e) => {
           setAuthTokens("");
         });
+    } else {
+      storeProfile("");
     }
   }, [authTokens]);
 
