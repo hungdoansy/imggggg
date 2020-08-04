@@ -85,32 +85,17 @@ export const SignupModal = ({ isOpen, show, hide }) => {
         }
       })
       .catch((e) => {
-        const { email, name, password } = e.response.data.message;
+        // const { email, name, password } = e.response.data.message;
 
-        // console.log("email", email);
-        if (email) {
-          setState(
-            produce(state, (draftState) => {
-              draftState.email.feedback = email[0];
-            })
-          );
-        }
-
-        if (name) {
-          setState(
-            produce(state, (draftState) => {
-              draftState.name.feedback = name[0];
-            })
-          );
-        }
-
-        if (password) {
-          setState(
-            produce(state, (draftState) => {
-              draftState.password.feedback = password[0];
-            })
-          );
-        }
+        ["email", "name", "password"].forEach((which) => {
+          if (e.response.data.message[which]) {
+            setState(
+              produce(state, (draftState) => {
+                draftState[which].feedback = e.response.data.message[which][0];
+              })
+            );
+          }
+        });
 
         setDisabled(false);
       });
