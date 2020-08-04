@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useReducer } from "react";
 import { useLocation } from "react-router-dom";
+import merge from "lodash/merge";
 
 const useQueryParams = () => {
   return new URLSearchParams(useLocation().search);
@@ -46,7 +47,7 @@ const useHashParams = () => {
 
 const useSetState = (initialState) => {
   return useReducer(
-    (state, newState) => ({ ...state, ...newState }),
+    (state, newState) => merge({}, state, newState),
     initialState
   );
 };
@@ -64,4 +65,14 @@ const useSafeSetState = (initialState) => {
   return [state, safeSetState];
 };
 
-export { useHashParams, useQueryParams, useSafeSetState };
+const useDebounce = (func, delay) => {
+  let inDebounce = useRef(null);
+  return function () {
+    const context = this;
+    const args = arguments;
+    clearTimeout(inDebounce.current);
+    inDebounce.current = setTimeout(() => func.apply(context, args), delay);
+  };
+};
+
+export { useHashParams, useQueryParams, useSafeSetState, useDebounce };
