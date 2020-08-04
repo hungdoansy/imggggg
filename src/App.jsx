@@ -4,11 +4,16 @@ import { BrowserRouter } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { ToastContainer } from "@gotitinc/design-system";
 
-import { Home } from "./screens/Home";
+import { Header } from "./components/Header";
+
+import { CategoryContainer } from "./components/CategoryContainer";
+import { HomeContainer } from "./components/HomeContainer";
+import { PhotoContainer } from "./components/PhotoContainer";
+
 import { AuthContext } from "./context/auth";
-import { me as validate } from "./utils/apis/me";
-import { Photos } from "./screens/Photos";
-import { Categories } from "./screens/Categories";
+import { ProfileContext } from "./context/profile";
+
+import { getUserProfile } from "./utils/apis/user";
 import { fetchCategories } from "./actions/category";
 
 // TODO: at startup, check for validity of the tokens
@@ -17,22 +22,17 @@ import { fetchCategories } from "./actions/category";
 const useAuthTokens = () => {
   // TODO: do I need parse/stringify?
   const [authTokens, setTokens] = useState(() => {
-    const storedTokens = localStorage.getItem("tokens");
-
-    return storedTokens ? storedTokens : null;
+    try {
+      const serializedTokens = JSON.parse(localStorage.getItem("tokens"));
+      return serializedTokens ? serializedTokens : null;
+    } catch (e) {
+      localStorage.removeItem("tokens");
+      return null;
+    }
   });
 
-  validate({ tokens: authTokens })
-    .then((result) => {
-      // TODO: what to do when it's valid?
-    })
-    .catch((e) => {
-      // TODO: handle message when the token is not valid
-      setAuthTokens("");
-    });
-
   const setAuthTokens = (data) => {
-    localStorage.setItem("tokens", data);
+    localStorage.setItem("tokens", JSON.stringify(data));
     setTokens(data);
   };
 
@@ -41,35 +41,77 @@ const useAuthTokens = () => {
   return [hasSignedIn, authTokens, setAuthTokens];
 };
 
+const useProfile = () => {
+  const [profile, setProfile] = useState(() => {
+    try {
+      const serializedProfile = JSON.parse(localStorage.getItem("profile"));
+
+      return serializedProfile ? serializedProfile : null;
+    } catch (e) {
+      localStorage.removeItem("profile");
+      return null;
+    }
+  });
+
+  const storeProfile = (data) => {
+    localStorage.setItem("profile", JSON.stringify(data));
+    setProfile(data);
+  };
+
+  return [profile, storeProfile];
+};
+
 function App() {
   const [hasSignedIn, authTokens, setAuthTokens] = useAuthTokens();
+  const [profile, storeProfile] = useProfile();
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (authTokens !== null) {
+      getUserProfile(authTokens)
+        .then((response) => {
+          storeProfile(response.data);
+        })
+        .catch((e) => {
+          setAuthTokens("");
+        });
+    } else {
+      storeProfile("");
+    }
+  }, [authTokens]);
 
   useEffect(() => {
     dispatch(fetchCategories());
   }, []);
 
+  // TODO: merge 2 contexts into one and expose SignOut func
   return (
     <AuthContext.Provider value={{ hasSignedIn, authTokens, setAuthTokens }}>
-      <BrowserRouter>
-        <Switch>
-          <Route
-            path="/categories/:categoryId/items"
-            exact
-            component={Photos}
-          />
+      <ProfileContext.Provider value={{ profile, storeProfile }}>
+        <BrowserRouter>
+          <Header />
+          <Switch>
+            <Route
+              path="/categories/:categoryId/items"
+              exact
+              component={PhotoContainer}
+            />
 
-          <Route path="/categories" exact component={Categories} />
+            <Route path="/categories" exact component={CategoryContainer} />
 
-          <Route path="/" exact component={Home} />
+            <Route path="/" exact component={HomeContainer} />
 
-          {/* TODO: Show a error page instead of redirecting to home */}
-          <Redirect to="/" />
-        </Switch>
-      </BrowserRouter>
+            {/* TODO: Show a error page instead of redirecting to home */}
+            <Redirect to="/" />
+          </Switch>
+        </BrowserRouter>
 
-      <ToastContainer autoDismiss={3000} hideProgressBar={true} />
+        <ToastContainer
+          autoDismiss={3000}
+          // hideProgressBar={true}
+        />
+      </ProfileContext.Provider>
     </AuthContext.Provider>
   );
 }

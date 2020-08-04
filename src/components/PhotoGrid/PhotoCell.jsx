@@ -1,6 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 
+import { useEditModal, EditPhotoModal } from "../EditPhotoModal";
+import { useRemoveModal, RemovePhotoModal } from "../RemovePhotoModal";
+
+import { useAuthContext } from "../../context/auth";
+import { useProfileContext } from "../../context/profile";
+
 const RemoveIcon = () => {
   return (
     <svg
@@ -32,30 +38,90 @@ const EditIcon = () => {
 };
 
 // TODO: only shows button when hovering the photo
-const PhotoCellView = ({ className, src, alt }) => {
+const PhotoCellView = ({
+  className,
+  src,
+  description,
+  categoryId,
+  categoryName,
+  author,
+}) => {
+  const { hasSignedIn } = useAuthContext();
+  const { profile } = useProfileContext();
+
+  const shouldShowButtons = hasSignedIn && profile && profile.id === author.id;
+  const AuthorName =
+    profile && profile.id === author.id ? "you" : <b>{author.name}</b>;
+
+  const [isEditModalOpen, showEditModal, hideEditModal] = useEditModal();
+  const [
+    isRemoveModalOpen,
+    showRemoveModal,
+    hideRemoveModal,
+  ] = useRemoveModal();
+
+  const onClickEditButton = (e) => {
+    showEditModal();
+    e.preventDefault();
+  };
+
+  const onClickRemoveButton = (e) => {
+    showRemoveModal();
+    e.preventDefault();
+  };
+
   return (
     <div className={className}>
       <a href="/">
-        <img className="photo" alt={alt} src={src} />
+        <img className="photo" alt={description} src={src} />
         <div className="info-overlay">
           <div className="posted-by">
-            posted by{" "}
-            <span>
-              <b>Hung</b>
-            </span>
+            posted by <span>{AuthorName}</span>
           </div>
 
-          <div className="controls">
-            <button className="control-button edit-button">
-              <EditIcon />
-            </button>
+          {shouldShowButtons && (
+            <div className="controls">
+              <button
+                className="control-button edit-button"
+                onClick={onClickEditButton}
+              >
+                <EditIcon />
+              </button>
 
-            <button className="control-button remove-button">
-              <RemoveIcon />
-            </button>
-          </div>
+              <button
+                className="control-button remove-button"
+                onClick={onClickRemoveButton}
+              >
+                <RemoveIcon />
+              </button>
+            </div>
+          )}
         </div>
       </a>
+
+      {isEditModalOpen && (
+        <EditPhotoModal
+          isOpen={isEditModalOpen}
+          show={showEditModal}
+          hide={hideEditModal}
+          categoryId={categoryId}
+          categoryName={categoryName}
+          url={src}
+          description={description}
+        />
+      )}
+
+      {isRemoveModalOpen && (
+        <RemovePhotoModal
+          isOpen={isRemoveModalOpen}
+          show={showRemoveModal}
+          hide={hideRemoveModal}
+          categoryId={categoryId}
+          categoryName={categoryName}
+          url={src}
+          description={description}
+        />
+      )}
     </div>
   );
 };
@@ -104,6 +170,8 @@ export const PhotoCell = styled(PhotoCellView)`
     top: 0;
     left: 0;
 
+    padding-left: 5px;
+
     color: white;
   }
 
@@ -117,36 +185,37 @@ export const PhotoCell = styled(PhotoCellView)`
     flex-direction: row;
 
     .control-button {
-      background-color: rgba(255, 255, 255, 0.7);
-      border: none;
+      background-color: transparent;
+
+      border: 1px solid white;
       border-radius: 4px;
 
       display: flex;
       justify-content: center;
       align-items: center;
 
-      width: 2.2em;
-      height: 2.2em;
-
-      margin-left: 5px;
-      margin-right: 5px;
+      width: 2em;
+      height: 2em;
 
       cursor: pointer;
 
-      color: #95a5a6;
+      color: white;
+
+      transition: background 0.1s linear;
 
       > svg {
-        transition: color 0.1s linear;
         width: 100%;
         height: 100%;
         color: inherit;
       }
 
       &:hover {
-        > svg {
-          color: white;
-        }
+        background-color: rgba(255, 255, 255, 0.3);
       }
+    }
+
+    .edit-button {
+      margin-right: 3px;
     }
   }
 `;

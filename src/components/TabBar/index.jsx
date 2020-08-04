@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Tab, toast, Icon } from "@gotitinc/design-system";
 import { Link } from "react-router-dom";
 import { CreateCategoryModal, useCreateModal } from "../CreateCategoryModal";
-import { getCategories } from "../../reducers";
+import { selectors } from "../../reducers";
 import { useAuthContext } from "../../context/auth";
 
 const SeparatorView = ({ className }) => {
@@ -24,7 +24,9 @@ const Separator = styled(SeparatorView)`
 
 const TabBarView = ({ className }) => {
   const { hasSignedIn } = useAuthContext();
-  const categories = useSelector(getCategories);
+  const categories = useSelector(selectors.getCategoriesByPageNumber);
+
+  // TODO: set the current page
   const [current, setCurrent] = useState("tab_0");
 
   const [

@@ -1,28 +1,33 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
+
+import { Pagination } from "../Pagination";
 import { CategoryCell } from "./CategoryCell";
 
-import { getCategories } from "../../utils/apis/category";
-import { Pagination } from "../Pagination";
-
-const CATEGORIES_PER_PAGE = 8;
+import { selectors } from "../../reducers";
+import { fetchCategories } from "../../actions/category";
 
 const CategoryGridView = ({ className, currentPage }) => {
-  const [categories, setCategories] = useState([]);
-  const [numberOfPages, setNumberOfPages] = useState(0);
+  // TODO: fix re-render too many times
+  const dispatch = useDispatch();
+  const categories = useSelector((state) =>
+    selectors.getCategoriesByPageNumber(state, currentPage)
+  );
+
+  console.log("currentPage", currentPage);
+  console.log("categories", categories);
+
+  const totalPages = useSelector(selectors.getTotalNumberOfRemotePages);
 
   useEffect(() => {
-    getCategories(currentPage).then((data) => {
-      setCategories(data.categories);
-      setNumberOfPages(
-        Math.ceil(data["total_categories"] / CATEGORIES_PER_PAGE)
-      );
-    });
+    console.log("fetch whenever it's mounted");
+    dispatch(fetchCategories(currentPage));
 
     // TODO: handle error
   }, [currentPage]);
 
-  const CategoryCellList = categories.map((category) => (
+  const CategoryCells = categories.map((category) => (
     <div key={category.id}>
       <CategoryCell
         id={category.id}
@@ -34,15 +39,13 @@ const CategoryGridView = ({ className, currentPage }) => {
   ));
 
   return (
-    <div className={"Container Container--fluid " + className}>
-      <p className="u-text600">Categories </p>
+    <div className={className}>
+      <div>{CategoryCells}</div>
 
-      <div>{CategoryCellList}</div>
-
-      <div className="u-textCenter">
+      <div className="paginator u-textCenter">
         <Pagination
           currentPage={currentPage}
-          totalNumberOfPages={numberOfPages}
+          totalNumberOfPages={totalPages}
           baseUrl={`/categories#page=`}
         />
       </div>
@@ -52,6 +55,8 @@ const CategoryGridView = ({ className, currentPage }) => {
 
 // TODO: use grid
 export const CategoryGrid = styled(CategoryGridView)`
+  margin-top: 50px;
+
   > div {
     margin: 0;
     padding: 0;
@@ -65,5 +70,9 @@ export const CategoryGrid = styled(CategoryGridView)`
     > div {
       margin: 6px;
     }
+  }
+
+  > div.paginator {
+    margin-top: 20px;
   }
 `;

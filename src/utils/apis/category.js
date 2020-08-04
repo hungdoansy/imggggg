@@ -1,29 +1,47 @@
-import {
-  addNewCategory,
-  getCategories as syncGetCategories,
-} from "../../mocks";
+import { CATEGORIES_PER_PAGE } from "../../constants/settings";
 
-export const createCategory = ({ name, imageUrl, description }) => {
-  return new Promise((resolve) => {
-    const image_url = imageUrl;
-    const response = addNewCategory({ name, image_url, description });
-    // TODO: use snake case here
+const API_HOST = process.env.REACT_APP_API_HOST;
 
-    setTimeout(() => {
-      resolve(response);
-    }, 1000);
-  });
+export const createCategory = (
+  { name, imageUrl: image_url, description },
+  tokens
+) => {
+  let status = null;
+
+  return fetch(`${API_HOST}/categories`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${tokens}`,
+      "Content-Type": "application/json;charset=utf-8",
+    },
+    body: JSON.stringify({ name, image_url, description }),
+  })
+    .then((response) => {
+      status = response.status;
+
+      return response.json();
+    })
+    .then((data) => ({ status, data }))
+    .catch((e) => ({ status, data: e })); // TODO: network failure
 };
 
-export const getCategories = (page = 1) => {
-  const offset = (page - 1) * 10;
-  const limit = 10;
+export const getCategories = (page) => {
+  const offset = (page - 1) * CATEGORIES_PER_PAGE;
+  const limit = CATEGORIES_PER_PAGE;
 
-  return new Promise((resolve) => {
-    const data = syncGetCategories({ offset, limit });
+  return fetch(`${API_HOST}/categories?offset=${offset}&limit=${limit}`)
+    .then((response) => response.json())
+    .catch((e) => {
+      console.log("Error while fetching categories", e);
+      return [];
+    }); // TODO: network failure
+};
 
-    setTimeout(() => {
-      resolve(data);
-    }, 1000);
-  });
+export const getCategoryDetail = (categoryId) => {
+  return fetch(`${API_HOST}/categories/${categoryId}`)
+    .then((response) => response.json())
+    .catch((e) => {
+      console.log("Error while fetching categories", e);
+      return [];
+    }); // TODO: network failure
 };

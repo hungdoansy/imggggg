@@ -1,41 +1,32 @@
 import React, { useState } from "react";
 import { Button, Modal, Form, toast, Icon } from "@gotitinc/design-system";
-import { useHashParams } from "../../utils/hooks";
 import { submitPhoto } from "../../utils/apis/photo";
 
-const SUBMIT = "submit";
+export const useEditModal = () => {
+  const [isEditModalOpen, setModalOpen] = useState(false);
 
-export const useSubmitModal = () => {
-  const hashParams = useHashParams();
-
-  const [isSubmitModalOpen, setModalOpen] = useState(() => {
-    if (hashParams.getAction() === SUBMIT) {
-      return true;
-    }
-
-    return false;
-  });
-
-  const showSubmitModal = () => {
+  const showEditModal = () => {
     setModalOpen(true);
   };
 
-  const hideSubmitModal = () => {
+  const hideEditModal = () => {
     setModalOpen(false);
   };
 
-  return [isSubmitModalOpen, showSubmitModal, hideSubmitModal];
+  return [isEditModalOpen, showEditModal, hideEditModal];
 };
 
-export const SubmitPhotoModal = ({
+export const EditPhotoModal = ({
   isOpen,
   show,
   hide,
   categoryId,
   categoryName,
+  url: originalUrl,
+  description: originalDescription,
 }) => {
-  const [url, setUrl] = useState("");
-  const [description, setDescription] = useState("");
+  const [url, setUrl] = useState(originalUrl);
+  const [description, setDescription] = useState(originalDescription);
 
   const onUrlInputChange = (e) => {
     setUrl(e.target.value);
@@ -58,9 +49,9 @@ export const SubmitPhotoModal = ({
             </div>
             <div className="u-flexGrow-1">
               <div className="u-fontMedium u-marginBottomExtraSmall">
-                Yeahhhhh !
+                Yooooo
               </div>
-              <div>Your photo has just been submitted !</div>
+              <div>Your photo has just been edited !</div>
             </div>
           </div>
         ));
@@ -73,9 +64,9 @@ export const SubmitPhotoModal = ({
       <Modal show={isOpen} onHide={hide}>
         <Modal.Header closeButton>
           <Modal.Title>
-            Your photo shall be published{" "}
+            Edit your photo{" "}
             <span role="img" aria-label="">
-              🥳
+              😎
             </span>
           </Modal.Title>
         </Modal.Header>
@@ -113,7 +104,7 @@ export const SubmitPhotoModal = ({
               className="u-fontBold"
               onClick={onClick}
             >
-              Submit
+              Edit
             </Button>
           </div>
         </Modal.Footer>

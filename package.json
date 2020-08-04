@@ -34,10 +34,12 @@
     "fs-extra": "^8.1.0",
     "html-webpack-plugin": "4.0.0-beta.11",
     "identity-obj-proxy": "3.0.0",
+    "immer": "^7.0.7",
     "jest": "24.9.0",
     "jest-environment-jsdom-fourteen": "1.0.1",
     "jest-resolve": "24.9.0",
     "jest-watch-typeahead": "0.4.2",
+    "lodash": "^4.17.19",
     "mini-css-extract-plugin": "0.9.0",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "pnp-webpack-plugin": "1.6.4",
@@ -72,7 +74,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js",
+    "test": "node scripts/test.js --watchAll=false",
+    "test:watch": "node scripts/test.js",
     "format": "prettier --write ."
   },
   "eslintConfig": {
