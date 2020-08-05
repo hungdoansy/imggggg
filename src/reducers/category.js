@@ -10,8 +10,8 @@ const initialState = {
   allPageNumbers: [],
   idsByPageNumber: {},
   byId: {},
-  totalRemoteCountById: 0,
-  totalNumberOfRemotePagesById: 0,
+  totalRemoteCount: 0,
+  totalNumberOfRemotePages: 0,
 };
 
 const updateOnFetchCategoriesSuccess = (state, data, extra) => {
@@ -156,4 +156,12 @@ const selectors = {
   getCategoryInfo,
 };
 
-export { category, selectors };
+export {
+  // export for testing only
+  updateOnFetchCategoriesSuccess,
+  updateOnFetchPhotosSuccess,
+  updateOnFetchCategoryDetailSuccess,
+  // export for use
+  category,
+  selectors,
+};
