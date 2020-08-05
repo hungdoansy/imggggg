@@ -5,7 +5,10 @@ import styled from "styled-components";
 import { removePhoto } from "../../utils/apis/photo";
 import { useAuthContext } from "../../context/auth";
 import { useEditModal, EditPhotoModal } from "../EditPhotoModal";
-import { useRemoveModal, RemovePhotoModal } from "../RemovePhotoModal";
+import {
+  useRemoveModal,
+  RemoveConfirmModal,
+} from "./components/RemoveConfirmModal";
 
 import { useProfileContext } from "../../context/profile";
 
@@ -124,6 +127,11 @@ export const ViewPhotoModal = ({
     e.preventDefault();
   };
 
+  const onClickRemoveConfirm = (e) => {
+    console.log("removed");
+    e.preventDefault();
+  };
+
   return (
     <>
       <Modal size="extraLarge" show={isOpen} onHide={hide}>
@@ -167,9 +175,6 @@ export const ViewPhotoModal = ({
                 Posted by <b>Hung</b>
               </p>
               <p className="u-textGray u-text300">description</p>
-
-              {/* <button onClick={onClickEditButton}>Edit</button>
-              <button onClick={onClickRemoveButton}>Remove</button> */}
             </div>
           </BodyContainer>
         </Modal.Body>
@@ -189,15 +194,10 @@ export const ViewPhotoModal = ({
       )}
 
       {isRemoveModalOpen && (
-        <RemovePhotoModal
-          photoId={1}
+        <RemoveConfirmModal
           isOpen={isRemoveModalOpen}
-          show={showRemoveModal}
           hide={hideRemoveModal}
-          categoryId={categoryId}
-          categoryName={"hehe"}
-          url={url}
-          description={description}
+          actionOnConfirm={onClickRemoveConfirm}
         />
       )}
     </>
