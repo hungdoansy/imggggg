@@ -40,6 +40,7 @@ const EditIcon = () => {
 // TODO: only shows button when hovering the photo
 const PhotoCellView = ({
   className,
+  id,
   src,
   description,
   categoryId,
@@ -104,6 +105,7 @@ const PhotoCellView = ({
           isOpen={isEditModalOpen}
           show={showEditModal}
           hide={hideEditModal}
+          photoId={id}
           categoryId={categoryId}
           categoryName={categoryName}
           url={src}
@@ -113,6 +115,7 @@ const PhotoCellView = ({
 
       {isRemoveModalOpen && (
         <RemovePhotoModal
+          photoId={id}
           isOpen={isRemoveModalOpen}
           show={showRemoveModal}
           hide={hideRemoveModal}

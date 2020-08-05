@@ -28,9 +28,10 @@ const PhotoGridView = ({
     dispatch(fetchPhotos(categoryId, currentPage));
   }, [categoryId, currentPage]);
 
-  const Photos = photos.map((p, i) => (
-    <li key={i}>
+  const Photos = photos.map((p) => (
+    <li key={p.id}>
       <PhotoCell
+        id={p.id}
         description={p.description}
         src={p.src}
         categoryId={categoryId}

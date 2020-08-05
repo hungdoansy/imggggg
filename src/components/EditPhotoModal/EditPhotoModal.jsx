@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Modal, Form, toast, Icon } from "@gotitinc/design-system";
-import { submitPhoto } from "../../utils/apis/photo";
+import { editPhoto } from "../../utils/apis/photo";
+import { useAuthContext } from "../../context/auth";
 
 export const useEditModal = () => {
   const [isEditModalOpen, setModalOpen] = useState(false);
@@ -20,12 +21,15 @@ export const EditPhotoModal = ({
   isOpen,
   show,
   hide,
+  photoId,
   categoryId,
   categoryName,
   url: originalUrl,
   description: originalDescription,
 }) => {
-  const [url, setUrl] = useState(originalUrl);
+  const { authTokens } = useAuthContext();
+
+  const [imageUrl, setUrl] = useState(originalUrl);
   const [description, setDescription] = useState(originalDescription);
 
   const onUrlInputChange = (e) => {
@@ -38,25 +42,29 @@ export const EditPhotoModal = ({
 
   const onClick = () => {
     // TODO: sanitize inputs
-    submitPhoto({ categoryId, userId: 4, description, imageUrl: url })
-      .then(() => {
-        hide();
+    editPhoto(categoryId, photoId, { description, imageUrl }, authTokens).then(
+      (response) => {
+        if (response.status === 200) {
+          hide();
 
-        toast(() => (
-          <div className="u-flex u-flexGrow-1 u-cursorDefault">
-            <div className="u-marginRightExtraSmall">
-              <Icon name="checkmarkCircle" size="medium" />
-            </div>
-            <div className="u-flexGrow-1">
-              <div className="u-fontMedium u-marginBottomExtraSmall">
-                Yooooo
+          toast(() => (
+            <div className="u-flex u-flexGrow-1 u-cursorDefault">
+              <div className="u-marginRightExtraSmall">
+                <Icon name="checkmarkCircle" size="medium" />
               </div>
-              <div>Your photo has just been edited !</div>
+              <div className="u-flexGrow-1">
+                <div className="u-fontMedium u-marginBottomExtraSmall">
+                  Yooooo
+                </div>
+                <div>Your photo has just been edited !</div>
+              </div>
             </div>
-          </div>
-        ));
-      })
-      .catch((e) => e); // TODO: handle error
+          ));
+        } else {
+          console.log("Error while editing the photo");
+        }
+      }
+    );
   };
 
   return (
@@ -80,7 +88,7 @@ export const EditPhotoModal = ({
             <Form.Input
               type="text"
               placeholder="Link to your photo"
-              value={url}
+              value={imageUrl}
               onChange={onUrlInputChange}
             />
           </Form.Group>
