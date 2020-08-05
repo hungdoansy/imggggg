@@ -4,14 +4,11 @@ import { requestRegex } from "./constants/action.types";
 import { rootReducer } from "./reducers";
 
 const isAsyncAction = (action) => {
-  // && typeof action.promise.then === "function"
-  // TODO: check then function
-
-  return requestRegex.test(action.type) && !!action.promise;
-};
-
-const getPendingType = (action) => {
-  return action.type.replace(requestRegex, "_PENDING");
+  return (
+    requestRegex.test(action.type) &&
+    !!action.promise &&
+    typeof action.promise.then === "function"
+  );
 };
 
 const getSuccessType = (action) => {
@@ -22,15 +19,20 @@ const getFailureType = (action) => {
   return action.type.replace(requestRegex, "_FAILURE");
 };
 
+// TODO: move this to a separate file
 const asyncHandler = (store) => (next) => (action) => {
   if (isAsyncAction(action)) {
     // There would be like {type, promise, extra}
     const { type, promise, ...rest } = action;
 
-    next({ type: getPendingType(action), ...rest });
+    // don't forward the promise
+    next({ type, ...rest });
 
+    // TODO: need return or not?
+    // If using return, we can use const result = dispatch(someAction());
     action.promise
       .then((data) => {
+        // return
         next({
           type: getSuccessType(action),
           data,
@@ -38,6 +40,7 @@ const asyncHandler = (store) => (next) => (action) => {
         });
       })
       .catch((error) => {
+        // return
         next({
           type: getFailureType(action),
           error,
@@ -45,6 +48,7 @@ const asyncHandler = (store) => (next) => (action) => {
         });
       });
   } else {
+    // return
     next(action);
   }
 };
@@ -56,5 +60,6 @@ const devStore = createStore(
 
 const prodStore = createStore(rootReducer, applyMiddleware(asyncHandler));
 
+// TODO: config for REACT_APP_ENV
 export const configuredStore =
   process.env.NODE_ENV === "development" ? devStore : prodStore;
