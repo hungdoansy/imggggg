@@ -36,7 +36,7 @@ const submitPhoto = (
 
       return response.json();
     })
-    .then((data) => console.log({ status, data }))
+    .then((data) => ({ status, data }))
     .catch((e) => ({ status, data: e })); // TODO: network failure
 };
 
