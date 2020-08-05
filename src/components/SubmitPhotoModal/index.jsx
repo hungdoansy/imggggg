@@ -1,20 +1,9 @@
 import React, { useState } from "react";
 import { Button, Modal, Form, toast, Icon } from "@gotitinc/design-system";
-import { useHashParams } from "../../utils/hooks";
 import { submitPhoto } from "../../utils/apis/photo";
 
-const SUBMIT = "submit";
-
 export const useSubmitModal = () => {
-  const hashParams = useHashParams();
-
-  const [isSubmitModalOpen, setModalOpen] = useState(() => {
-    if (hashParams.getAction() === SUBMIT) {
-      return true;
-    }
-
-    return false;
-  });
+  const [isSubmitModalOpen, setModalOpen] = useState(false);
 
   const showSubmitModal = () => {
     setModalOpen(true);
