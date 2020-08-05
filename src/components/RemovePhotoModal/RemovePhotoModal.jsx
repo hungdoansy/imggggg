@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { Button, Modal, Form, toast, Icon } from "@gotitinc/design-system";
-import { submitPhoto } from "../../utils/apis/photo";
+import { Button, Modal, toast, Icon } from "@gotitinc/design-system";
+
+import { removePhoto } from "../../utils/apis/photo";
+import { useAuthContext } from "../../context/auth";
 
 export const useRemoveModal = () => {
   const [isRemoveModalOpen, setModalOpen] = useState(false);
@@ -20,32 +22,50 @@ export const RemovePhotoModal = ({
   isOpen,
   show,
   hide,
+  photoId,
   categoryId,
-  categoryName,
   url,
   description,
 }) => {
+  const { authTokens } = useAuthContext();
+
   const onClick = () => {
     // TODO: sanitize inputs
-    submitPhoto({ categoryId, userId: 4, description, imageUrl: url })
-      .then(() => {
-        hide();
+    const info = {
+      description,
+      imageUrl: url,
+    };
 
+    removePhoto(categoryId, photoId, info, authTokens).then((response) => {
+      hide();
+
+      if (response.status === 200) {
+        // TODO: refresh the view when this's done
         toast(() => (
           <div className="u-flex u-flexGrow-1 u-cursorDefault">
             <div className="u-marginRightExtraSmall">
               <Icon name="checkmarkCircle" size="medium" />
             </div>
             <div className="u-flexGrow-1">
-              <div className="u-fontMedium u-marginBottomExtraSmall">
-                Yooooo
-              </div>
-              <div>Your photo has just been edited !</div>
+              <div className="u-fontMedium u-marginBottomExtraSmall">Yup</div>
+              <div>Your photo has just been removed...</div>
             </div>
           </div>
         ));
-      })
-      .catch((e) => e); // TODO: handle error
+      } else {
+        toast.error(() => (
+          <div className="u-flex u-flexGrow-1 u-cursorDefault">
+            <div className="u-marginRightExtraSmall">
+              <Icon name="alert" size="medium" />
+            </div>
+            <div className="u-flexGrow-1">
+              <div className="u-fontMedium u-marginBottomExtraSmall">Error</div>
+              <div>Please reload and try again</div>
+            </div>
+          </div>
+        ));
+      }
+    });
   };
 
   return (

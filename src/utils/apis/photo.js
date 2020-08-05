@@ -65,4 +65,29 @@ const editPhoto = (
     .catch((e) => ({ status, data: e })); // TODO: network failure
 };
 
-export { getPhotos, submitPhoto, editPhoto };
+const removePhoto = (
+  categoryId,
+  photoId,
+  { description, imageUrl: image_url },
+  tokens
+) => {
+  let status = null;
+
+  return fetch(`${API_HOST}/categories/${categoryId}/items/${photoId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${tokens}`,
+      "Content-Type": "application/json;charset=utf-8",
+    },
+    body: JSON.stringify({ image_url, description }),
+  })
+    .then((response) => {
+      status = response.status;
+
+      return response.json();
+    })
+    .then((data) => ({ status, data }))
+    .catch((e) => ({ status, data: e })); // TODO: network failure
+};
+
+export { getPhotos, submitPhoto, editPhoto, removePhoto };
