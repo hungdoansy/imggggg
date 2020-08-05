@@ -1,11 +1,13 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { Tab, toast, Icon } from "@gotitinc/design-system";
 import { Link } from "react-router-dom";
+
 import { CreateCategoryModal, useCreateModal } from "../CreateCategoryModal";
 import { selectors } from "../../reducers";
 import { useAuthContext } from "../../context/auth";
+import { fetchCategories } from "../../actions/category";
 
 const SeparatorView = ({ className }) => {
   return <div className={className}></div>;
@@ -23,6 +25,8 @@ const Separator = styled(SeparatorView)`
 `;
 
 const TabBarView = ({ className }) => {
+  const dispatch = useDispatch();
+
   const { hasSignedIn } = useAuthContext();
   const categories = useSelector(selectors.getCategoriesByPageNumber);
 
@@ -65,6 +69,10 @@ const TabBarView = ({ className }) => {
       );
     }
   };
+
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
 
   return (
     <div className={"Container Container--fluid " + className}>

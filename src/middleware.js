@@ -1,12 +1,9 @@
 import { requestRegex } from "./constants/action.types";
 
-const isAsyncAction = (action) => {
-  return (
-    requestRegex.test(action.type) &&
-    !!action.promise &&
-    typeof action.promise.then === "function"
-  );
-};
+const isAsyncAction = (action) =>
+  requestRegex.test(action.type) &&
+  !!action.promise &&
+  typeof action.promise.then === "function";
 
 const getSuccessType = (action) => {
   return action.type.replace(requestRegex, "_SUCCESS");

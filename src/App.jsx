@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router";
 import { BrowserRouter } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { ToastContainer } from "@gotitinc/design-system";
 
 import { Header } from "./components/Header";
@@ -14,7 +13,6 @@ import { AuthContext } from "./context/auth";
 import { ProfileContext } from "./context/profile";
 
 import { getUserProfile } from "./utils/apis/user";
-import { fetchCategories } from "./actions/category";
 
 const useAuthTokens = () => {
   const [authTokens, setTokens] = useState(() => {
@@ -61,8 +59,6 @@ function App() {
   const [hasSignedIn, authTokens, setAuthTokens] = useAuthTokens();
   const [profile, storeProfile] = useProfile();
 
-  const dispatch = useDispatch();
-
   // TODO: fix re-rendering too much when using suggested dependency list
   useEffect(() => {
     if (authTokens !== null) {
@@ -78,10 +74,6 @@ function App() {
     }
   }, [authTokens]);
 
-  useEffect(() => {
-    dispatch(fetchCategories());
-  }, [dispatch]);
-
   // TODO: merge 2 contexts into one and expose SignOut func
   // TODO: use const/memorize { hasSignedIn, authTokens, setAuthTokens } ?
   return (
@@ -94,6 +86,12 @@ function App() {
               path="/categories/:categoryId/items"
               exact
               component={PhotoContainer}
+            />
+
+            <Redirect
+              exact
+              from="/categories/:categoryId"
+              to="/categories/:categoryId/items"
             />
 
             <Route path="/categories" exact component={CategoryContainer} />

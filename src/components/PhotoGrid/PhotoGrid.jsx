@@ -19,14 +19,13 @@ const PhotoGridView = ({
   const photos = useSelector((state) =>
     selectors.getPhotos(state, categoryId, currentPage)
   );
-
   console.log("photos", photos);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchPhotos(categoryId, currentPage));
-  }, [categoryId, currentPage]);
+  }, [categoryId, currentPage, dispatch]);
 
   const Photos = photos.map((p) => (
     <li key={p.id}>

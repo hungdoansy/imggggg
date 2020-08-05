@@ -1,5 +1,5 @@
-export const requestRegex = /_REQUEST$/g;
-export const failureRegex = /_FAILURE$/g;
+export const requestRegex = /_REQUEST$/;
+export const failureRegex = /_FAILURE$/;
 
 export const FETCH_CATEGORIES_REQUEST = "FETCH_CATEGORIES_REQUEST";
 export const FETCH_CATEGORIES_SUCCESS = "FETCH_CATEGORIES_SUCCESS";
