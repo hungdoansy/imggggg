@@ -65,12 +65,7 @@ const editPhoto = (
     .catch((e) => ({ status, data: e })); // TODO: network failure
 };
 
-const removePhoto = (
-  categoryId,
-  photoId,
-  { description, imageUrl: image_url },
-  tokens
-) => {
+const removePhoto = (categoryId, photoId, tokens) => {
   let status = null;
 
   return fetch(`${API_HOST}/categories/${categoryId}/items/${photoId}`, {
@@ -79,7 +74,6 @@ const removePhoto = (
       Authorization: `Bearer ${tokens}`,
       "Content-Type": "application/json;charset=utf-8",
     },
-    body: JSON.stringify({ image_url, description }),
   })
     .then((response) => {
       status = response.status;
