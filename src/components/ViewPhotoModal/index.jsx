@@ -11,6 +11,8 @@ import {
 } from "./components/RemoveConfirmModal";
 
 import { useProfileContext } from "../../context/profile";
+import { useDispatch } from "react-redux";
+import { fetchPhotos } from "../../actions/photo";
 
 const RemoveIcon = () => {
   return (
@@ -65,10 +67,13 @@ export const ViewPhotoModal = ({
   categoryId,
   url,
   description,
+  page,
 }) => {
   const { authTokens } = useAuthContext();
   const { hasSignedIn } = useAuthContext();
   const { profile } = useProfileContext();
+
+  const dispatch = useDispatch();
 
   const shouldShowButtons = hasSignedIn && profile && profile.id === author.id;
 
@@ -79,29 +84,38 @@ export const ViewPhotoModal = ({
     hideRemoveModal,
   ] = useRemoveModal();
 
-  const onClick = () => {
-    // TODO: sanitize inputs
-    const info = {
-      description,
-      imageUrl: url,
-    };
+  const AuthorName =
+    profile && profile.id === author.id ? "you" : <b>{author.name}</b>;
 
-    removePhoto(categoryId, photoId, info, authTokens).then((response) => {
-      hide();
+  const onClickEditButton = (e) => {
+    showEditModal();
+    e.preventDefault();
+  };
 
+  const onClickRemoveButton = (e) => {
+    showRemoveModal();
+    e.preventDefault();
+  };
+
+  const onClickRemoveConfirm = (e) => {
+    removePhoto(categoryId, photoId, authTokens).then((response) => {
       if (response.status === 200) {
-        // TODO: refresh the view when this's done
-        toast(() => (
-          <div className="u-flex u-flexGrow-1 u-cursorDefault">
-            <div className="u-marginRightExtraSmall">
-              <Icon name="checkmarkCircle" size="medium" />
+        toast.info(
+          () => (
+            <div className="u-flex u-flexGrow-1">
+              <div className="u-marginRightExtraSmall">
+                <Icon name="informationCircle" size="medium" />
+              </div>
+              <div className="u-flexGrow-1">
+                <div className="u-fontMedium u-marginBottomExtraSmall">Yup</div>
+                <div>The photo has been just removed</div>
+              </div>
             </div>
-            <div className="u-flexGrow-1">
-              <div className="u-fontMedium u-marginBottomExtraSmall">Yup</div>
-              <div>Your photo has just been removed...</div>
-            </div>
-          </div>
-        ));
+          ),
+          {}
+        );
+
+        dispatch(fetchPhotos(categoryId, page));
       } else {
         toast.error(() => (
           <div className="u-flex u-flexGrow-1 u-cursorDefault">
@@ -115,20 +129,9 @@ export const ViewPhotoModal = ({
           </div>
         ));
       }
+
+      hide();
     });
-  };
-
-  const onClickEditButton = () => {
-    showEditModal();
-  };
-
-  const onClickRemoveButton = (e) => {
-    showRemoveModal();
-    e.preventDefault();
-  };
-
-  const onClickRemoveConfirm = (e) => {
-    console.log("removed");
     e.preventDefault();
   };
 
@@ -171,9 +174,7 @@ export const ViewPhotoModal = ({
               </div>
             </div>
             <div className="bottom">
-              <p style={{ margin: 0 }}>
-                Posted by <b>Hung</b>
-              </p>
+              <p style={{ margin: 0 }}>Posted by {AuthorName}</p>
               <p className="u-textGray u-text300">description</p>
             </div>
           </BodyContainer>
@@ -214,8 +215,8 @@ const BodyContainer = styled.div`
     display: inline-block;
 
     img {
-      height: 100%;
-      width: auto;
+      width: 100%;
+      height: auto;
 
       margin: 0;
       padding: 0;

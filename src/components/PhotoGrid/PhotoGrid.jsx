@@ -37,6 +37,7 @@ const PhotoGridView = ({
         categoryId={categoryId}
         categoryName={categoryName}
         author={p.author}
+        page={currentPage}
       />
     </li>
   ));

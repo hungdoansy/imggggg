@@ -14,6 +14,7 @@ const PhotoCellView = ({
   categoryId,
   categoryName,
   author,
+  page,
 }) => {
   const { profile } = useProfileContext();
 
@@ -25,12 +26,6 @@ const PhotoCellView = ({
     showViewModal();
     e.preventDefault();
   };
-
-  useEffect(() => {
-    if (id === 2) {
-      showViewModal();
-    }
-  }, []);
 
   return (
     <div className={className}>
@@ -54,6 +49,7 @@ const PhotoCellView = ({
           categoryName={categoryName}
           url={src}
           description={description}
+          page={page}
         />
       )}
     </div>
@@ -74,6 +70,8 @@ export const PhotoCell = styled(PhotoCellView)`
   > a {
     height: 100%;
     min-width: 100%;
+
+    cursor: zoom-in;
 
     &:hover {
       .info-overlay {
