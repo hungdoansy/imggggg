@@ -1,18 +1,23 @@
-import React, { useState } from "react";
-import { Button, Modal, toast, Icon } from "@gotitinc/design-system";
+import React, { useState, useEffect } from "react";
+import { Modal, toast, Icon } from "@gotitinc/design-system";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
 
 import { removePhoto } from "../../utils/apis/photo";
 import { useAuthContext } from "../../context/auth";
-import { useEditModal, EditPhotoModal } from "../EditPhotoModal";
+import {
+  useEditOrSubmitModal as useEditModal,
+  EditOrSubmitPhotoModal as EditPhotoModal,
+  Types,
+} from "../EditOrSubmitPhotoModal";
 import {
   useRemoveModal,
   RemoveConfirmModal,
 } from "./components/RemoveConfirmModal";
 
 import { useProfileContext } from "../../context/profile";
-import { useDispatch } from "react-redux";
-import { fetchPhotos } from "../../actions/photo";
+import { fetchPhotos, fetchPhotoDetail } from "../../actions/photo";
+import { selectors } from "../../reducers";
 
 const RemoveIcon = () => {
   return (
@@ -62,11 +67,8 @@ export const ViewPhotoModal = ({
   isOpen,
   show,
   hide,
-  author,
   photoId,
   categoryId,
-  url,
-  description,
   page,
 }) => {
   const { authTokens } = useAuthContext();
@@ -75,7 +77,15 @@ export const ViewPhotoModal = ({
 
   const dispatch = useDispatch();
 
-  const shouldShowButtons = hasSignedIn && profile && profile.id === author.id;
+  const photoInfo = useSelector((state) =>
+    selectors.getPhotoDetail(state, photoId)
+  );
+
+  const shouldShowButtons =
+    hasSignedIn && profile && profile.id === photoInfo.author.id;
+  const categoryInfo = useSelector((state) =>
+    selectors.getCategoryInfo(state, categoryId)
+  );
 
   const [isEditModalOpen, showEditModal, hideEditModal] = useEditModal();
   const [
@@ -85,7 +95,11 @@ export const ViewPhotoModal = ({
   ] = useRemoveModal();
 
   const AuthorName =
-    profile && profile.id === author.id ? "you" : <b>{author.name}</b>;
+    profile && profile.id === photoInfo.author.id ? (
+      "you"
+    ) : (
+      <b>{photoInfo.author.name}</b>
+    );
 
   const onClickEditButton = (e) => {
     showEditModal();
@@ -135,6 +149,10 @@ export const ViewPhotoModal = ({
     e.preventDefault();
   };
 
+  useEffect(() => {
+    dispatch(fetchPhotoDetail(categoryId, photoId));
+  }, []);
+
   return (
     <>
       <Modal size="extraLarge" show={isOpen} onHide={hide}>
@@ -150,7 +168,11 @@ export const ViewPhotoModal = ({
             <div className="top">
               <div className="u-textCenter">
                 <div className="img-wrapper">
-                  <img className="u-maxWidthFull" alt={description} src={url} />
+                  <img
+                    className="u-maxWidthFull"
+                    alt={photoInfo.description}
+                    src={photoInfo.src}
+                  />
                   <div className="overlay">
                     {shouldShowButtons && (
                       <div className="controls">
@@ -175,7 +197,7 @@ export const ViewPhotoModal = ({
             </div>
             <div className="bottom">
               <p style={{ margin: 0 }}>Posted by {AuthorName}</p>
-              <p className="u-textGray u-text300">description</p>
+              <p className="u-textGray u-text300">{photoInfo.description}</p>
             </div>
           </BodyContainer>
         </Modal.Body>
@@ -183,14 +205,13 @@ export const ViewPhotoModal = ({
 
       {isEditModalOpen && (
         <EditPhotoModal
+          type={Types.EDIT}
           isOpen={isEditModalOpen}
           show={showEditModal}
           hide={hideEditModal}
-          photoId={1}
           categoryId={categoryId}
-          categoryName={"he"}
-          url={"sdasdsd"}
-          description={description}
+          categoryName={categoryInfo ? categoryInfo.name : ""}
+          photoInfo={photoInfo}
         />
       )}
 

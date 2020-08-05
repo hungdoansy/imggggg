@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import { useViewModal, ViewPhotoModal } from "../ViewPhotoModal";
@@ -22,6 +22,7 @@ const PhotoCellView = ({
     profile && profile.id === author.id ? "you" : <b>{author.name}</b>;
 
   const [isViewModalOpen, showViewModal, hideViewModal] = useViewModal();
+
   const onClickImage = (e) => {
     showViewModal();
     e.preventDefault();
