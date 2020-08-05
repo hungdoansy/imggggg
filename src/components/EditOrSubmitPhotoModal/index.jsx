@@ -5,10 +5,10 @@ import { Button, Modal, Form, toast, Icon } from "@gotitinc/design-system";
 import { editPhoto, submitPhoto } from "../../utils/apis/photo";
 import { validators } from "../../utils/validators";
 
-import { useSafeSetState, useDebounce } from "../../utils/hooks";
+import { useSafeSetState, useDebounce, useHashParams } from "../../utils/hooks";
 import { useAuthContext } from "../../context/auth";
 import { useDispatch } from "react-redux";
-import { fetchPhotoDetail } from "../../actions/photo";
+import { fetchPhotoDetail, fetchPhotos } from "../../actions/photo";
 
 export const Types = {
   EDIT: "EDIT",
@@ -60,14 +60,15 @@ export const EditOrSubmitPhotoModal = ({
 }) => {
   const { authTokens } = useAuthContext();
   const dispatch = useDispatch();
+  const hashParams = useHashParams();
 
   const [state, setState] = useSafeSetState({
     description: {
-      value: photoInfo.description,
+      value: photoInfo ? photoInfo.description : "",
       feedback: "",
     },
     imageUrl: {
-      value: photoInfo.src,
+      value: photoInfo ? photoInfo.src : "",
       feedback: "",
     },
     feedback: "",
@@ -102,7 +103,7 @@ export const EditOrSubmitPhotoModal = ({
     setDisabled(true);
 
     const info = {
-      id: photoInfo.id,
+      id: photoInfo ? photoInfo.id : null,
       description: state.description.value,
       imageUrl: state.imageUrl.value,
     };
@@ -129,7 +130,11 @@ export const EditOrSubmitPhotoModal = ({
 
         case 200:
         case 201: {
-          dispatch(fetchPhotoDetail(categoryId, photoInfo.id));
+          if (type === Types.EDIT) {
+            dispatch(fetchPhotoDetail(categoryId, photoInfo.id));
+          } else if (type === Types.SUBMIT) {
+            dispatch(fetchPhotos(categoryId, hashParams.getPage()));
+          }
 
           toast(() => (
             <div className="u-flex u-flexGrow-1 u-cursorDefault">
@@ -183,11 +188,7 @@ export const EditOrSubmitPhotoModal = ({
         <Modal.Body>
           <Form.Group controlId="submitform.category">
             <Form.Label>Category</Form.Label>
-            <Form.Input
-              type="text"
-              defaultValue={categoryName}
-              readOnly={type === Types.EDIT}
-            />
+            <Form.Input type="text" defaultValue={categoryName} />
           </Form.Group>
           <Form.Group controlId="submitform.url">
             <Form.Label>URL</Form.Label>

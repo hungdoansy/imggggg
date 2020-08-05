@@ -8,7 +8,11 @@ import { useHashParams } from "../../utils/hooks";
 import { Container } from "../Container";
 
 import { useAuthContext } from "../../context/auth";
-import { SubmitPhotoModal, useSubmitModal } from "../SubmitPhotoModal";
+import {
+  EditOrSubmitPhotoModal as SubmitPhotoModal,
+  useEditOrSubmitModal as useSubmitModal,
+  Types,
+} from "../EditOrSubmitPhotoModal";
 
 import { CategoryInfo } from "./CategoryInfo";
 import { Pagination } from "../Pagination";
@@ -114,6 +118,7 @@ const PhotoContainerView = ({ className, match }) => {
 
       {isSubmitModalOpen && (
         <SubmitPhotoModal
+          type={Types.SUBMIT}
           isOpen={isSubmitModalOpen}
           show={showSubmitModal}
           hide={hideSubmitModal}
