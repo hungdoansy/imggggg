@@ -1,56 +1,15 @@
 import React, { useState } from "react";
-import { Button, Modal, Form, toast, Icon } from "@gotitinc/design-system";
+import { useDispatch } from "react-redux";
 import produce from "immer";
+import { Button, Modal, Form, toast, Icon } from "@gotitinc/design-system";
 
 import { createCategory } from "../../utils/apis/category";
 import { useSafeSetState, useDebounce } from "../../utils/hooks";
 import { useAuthContext } from "../../context/auth";
 import { fetchCategories } from "../../actions/category";
-import { useDispatch } from "react-redux";
+import { validators } from "../../utils/validators";
 
 // TODO: sanitize inputs
-
-const validators = {
-  name: (value) => {
-    if (value.length < 1 || value.length > 30) {
-      return {
-        passed: false,
-        message: "name should be between 1 and 30 characters",
-      };
-    }
-
-    return {
-      passed: true,
-    };
-  },
-
-  description: (value) => {
-    if (value.length < 1 || value.length > 200) {
-      return {
-        passed: false,
-        message: "description should be between 1 and 200 characters",
-      };
-    }
-
-    return {
-      passed: true,
-    };
-  },
-
-  imageUrl: (value) => {
-    // TODO: find a good regex for this
-    if (value.length < 1 || value.length > 200) {
-      return {
-        passed: false,
-        message: "url should be maximum of 200 characters",
-      };
-    }
-
-    return {
-      passed: true,
-    };
-  },
-};
 
 export const useCreateModal = () => {
   const [isCreateModalOpen, setModalOpen] = useState(false);

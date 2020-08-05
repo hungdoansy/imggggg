@@ -1,1 +1,1 @@
-export { CreateCategoryModal } from "./CreateCategoryModal";
+export { useCreateModal, CreateCategoryModal } from "./CreateCategoryModal";
