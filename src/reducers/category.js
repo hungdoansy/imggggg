@@ -1,7 +1,7 @@
 import {
   FETCH_CATEGORIES_SUCCESS,
   FETCH_PHOTOS_SUCCESS,
-  FETCH_CATEGORY_DETAIL_REQUEST,
+  FETCH_CATEGORY_DETAIL_SUCCESS,
 } from "../constants/action.types";
 import { CATEGORIES_PER_PAGE } from "../constants/settings";
 
@@ -96,7 +96,7 @@ const category = (state = initialState, action) => {
       return nextState;
     }
 
-    case FETCH_CATEGORY_DETAIL_REQUEST: {
+    case FETCH_CATEGORY_DETAIL_SUCCESS: {
       const nextState = JSON.parse(JSON.stringify(state));
 
       updateOnFetchCategoryDetailSuccess(nextState, action.data, action.extra);
