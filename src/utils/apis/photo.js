@@ -42,13 +42,12 @@ const submitPhoto = (
 
 const editPhoto = (
   categoryId,
-  photoId,
-  { description, imageUrl: image_url },
+  { id, description, imageUrl: image_url },
   tokens
 ) => {
   let status = null;
 
-  return fetch(`${API_HOST}/categories/${categoryId}/items/${photoId}`, {
+  return fetch(`${API_HOST}/categories/${categoryId}/items/${id}`, {
     method: "PUT",
     headers: {
       Authorization: `Bearer ${tokens}`,
@@ -84,4 +83,12 @@ const removePhoto = (categoryId, photoId, tokens) => {
     .catch((e) => ({ status, data: e })); // TODO: network failure
 };
 
-export { getPhotos, submitPhoto, editPhoto, removePhoto };
+const getPhotoDetail = (categoryId, photoId) => {
+  return fetch(`${API_HOST}/categories/${categoryId}/items/${photoId}`).then(
+    (response) => {
+      return response.json();
+    }
+  );
+};
+
+export { getPhotos, submitPhoto, editPhoto, removePhoto, getPhotoDetail };

@@ -1,4 +1,7 @@
-const { FETCH_PHOTOS_SUCCESS } = require("../constants/action.types");
+import {
+  FETCH_PHOTOS_SUCCESS,
+  FETCH_PHOTO_DETAIL_SUCCESS,
+} from "../constants/action.types";
 
 const initialState = {
   allCategoryIds: [],
@@ -8,7 +11,7 @@ const initialState = {
   byPhotoId: {},
 };
 
-const updateState = (state, data, extra) => {
+const updateStateOnFetchPhotosSuccess = (state, data, extra) => {
   const categoryId = extra.categoryId;
   const page = extra.page;
   const photoIds = data["items"].map((p) => p.id);
@@ -44,12 +47,40 @@ const updateState = (state, data, extra) => {
   });
 };
 
+const updateStateOnFetchPhotoDetailSuccess = (state, data, extra) => {
+  const id = extra.photoId;
+
+  if (!state.byPhotoId[id]) {
+    state.byPhotoId[id] = {};
+  }
+
+  state.byPhotoId[data.id] = {
+    id,
+    description: data.description,
+    src: data.image_url,
+    author: data.author,
+    categoryId: data.category_id,
+  };
+};
+
 const photo = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_PHOTOS_SUCCESS: {
       const nextState = JSON.parse(JSON.stringify(state));
 
-      updateState(nextState, action.data, action.extra);
+      updateStateOnFetchPhotosSuccess(nextState, action.data, action.extra);
+
+      return nextState;
+    }
+
+    case FETCH_PHOTO_DETAIL_SUCCESS: {
+      const nextState = JSON.parse(JSON.stringify(state));
+
+      updateStateOnFetchPhotoDetailSuccess(
+        nextState,
+        action.data,
+        action.extra
+      );
 
       return nextState;
     }
@@ -60,8 +91,8 @@ const photo = (state = initialState, action) => {
   }
 };
 
-const getPhotos = (whoteState, categoryId, page) => {
-  const { photo } = whoteState;
+const getPhotos = (wholeState, categoryId, page) => {
+  const { photo } = wholeState;
 
   const categoryIndex = photo.allCategoryIds.indexOf(categoryId);
   if (categoryIndex === -1) {
@@ -79,8 +110,15 @@ const getPhotos = (whoteState, categoryId, page) => {
   return photoIds.map((id) => photo.byPhotoId[id]);
 };
 
+const getPhotoDetail = (wholeState, id) => {
+  const { photo } = wholeState;
+
+  return photo.byPhotoId[id];
+};
+
 const selectors = {
   getPhotos,
+  getPhotoDetail,
 };
 
 export { photo, selectors };

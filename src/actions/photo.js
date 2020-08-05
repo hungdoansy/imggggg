@@ -1,5 +1,8 @@
-import { FETCH_PHOTOS_REQUEST } from "../constants/action.types";
-import { getPhotos } from "../utils/apis/photo";
+import {
+  FETCH_PHOTOS_REQUEST,
+  FETCH_PHOTO_DETAIL_REQUEST,
+} from "../constants/action.types";
+import { getPhotos, getPhotoDetail } from "../utils/apis/photo";
 
 export const fetchPhotos = (categoryId, page = 1) => {
   return {
@@ -7,6 +10,17 @@ export const fetchPhotos = (categoryId, page = 1) => {
     promise: getPhotos(categoryId, page),
     extra: {
       page,
+      categoryId,
+    },
+  };
+};
+
+export const fetchPhotoDetail = (categoryId, photoId) => {
+  return {
+    type: FETCH_PHOTO_DETAIL_REQUEST,
+    promise: getPhotoDetail(categoryId, photoId),
+    extra: {
+      photoId,
       categoryId,
     },
   };
