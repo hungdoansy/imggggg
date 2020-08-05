@@ -73,7 +73,9 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
+    "start:prod": "node scripts/start.js --env=prod",
     "build": "node scripts/build.js",
+    "build:prod": "node scripts/build.js --env=prod",
     "test": "node scripts/test.js --watchAll=false",
     "test:watch": "node scripts/test.js",
     "format": "prettier --write ."
@@ -153,6 +155,7 @@
   "devDependencies": {
     "@types/jest": "^26.0.8",
     "prettier": "^2.0.5",
-    "redux-devtools-extension": "^2.13.8"
+    "redux-devtools-extension": "^2.13.8",
+    "yargs": "^15.4.1"
   }
 }
