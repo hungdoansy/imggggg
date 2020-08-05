@@ -1,27 +1,43 @@
-import { getPhotosWithParams as syncGetPhotosWithParams } from "../../mocks";
-import { submitPhoto as syncSubmitPhoto } from "../../mocks";
+import { PHOTOS_PER_PAGE } from "../../constants/settings";
 
-export const getPhotos = (categoryId, page) => {
-  return new Promise((resolve) => {
-    const photos = syncGetPhotosWithParams(categoryId, page);
+const API_HOST = process.env.REACT_APP_API_HOST;
 
-    setTimeout(() => {
-      resolve(photos);
-    }, 1000);
-  });
+const getPhotos = (categoryId, page = 1) => {
+  const offset = (page - 1) * PHOTOS_PER_PAGE;
+  const limit = PHOTOS_PER_PAGE;
+
+  return fetch(
+    `${API_HOST}/categories/${categoryId}/items?offset=${offset}&limit=${limit}`
+  )
+    .then((response) => response.json())
+    .catch((e) => {
+      console.log("Error while fetching photos", e);
+      return [];
+    }); // TODO: network failure
 };
 
-export const submitPhoto = ({ categoryId, userId, description, imageUrl }) => {
-  return new Promise((resolve) => {
-    const submittedPhoto = syncSubmitPhoto({
-      categoryId,
-      userId,
-      description,
-      imageUrl,
-    });
+const submitPhoto = (
+  categoryId,
+  { description, imageUrl: image_url },
+  tokens
+) => {
+  let status = null;
 
-    setTimeout(() => {
-      resolve(submittedPhoto);
-    }, 1000);
-  });
+  return fetch(`${API_HOST}/categories/${categoryId}/items`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${tokens}`,
+      "Content-Type": "application/json;charset=utf-8",
+    },
+    body: JSON.stringify({ image_url, description }),
+  })
+    .then((response) => {
+      status = response.status;
+
+      return response.json();
+    })
+    .then((data) => console.log({ status, data }))
+    .catch((e) => ({ status, data: e })); // TODO: network failure
 };
+
+export { getPhotos, submitPhoto };
