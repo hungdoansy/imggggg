@@ -84,25 +84,6 @@ export const CreateCategoryModal = ({ isOpen, show, hide }) => {
       console.log("response", response);
 
       switch (response.status) {
-        case 401: {
-          hide();
-
-          toast.error(() => (
-            <div className="u-flex u-flexGrow-1 u-cursorDefault">
-              <div className="u-marginRightExtraSmall">
-                <Icon name="alert" size="medium" />
-              </div>
-              <div className="u-flexGrow-1">
-                <div className="u-fontMedium u-marginBottomExtraSmall">
-                  Error
-                </div>
-                <div>Please reload and try again</div>
-              </div>
-            </div>
-          ));
-          break;
-        }
-
         case 400: {
           setDisabled(true);
           setState(
@@ -149,7 +130,22 @@ export const CreateCategoryModal = ({ isOpen, show, hide }) => {
         }
 
         default: {
-          return;
+          hide();
+
+          toast.error(() => (
+            <div className="u-flex u-flexGrow-1 u-cursorDefault">
+              <div className="u-marginRightExtraSmall">
+                <Icon name="alert" size="medium" />
+              </div>
+              <div className="u-flexGrow-1">
+                <div className="u-fontMedium u-marginBottomExtraSmall">
+                  Error
+                </div>
+                <div>Please reload and try again</div>
+              </div>
+            </div>
+          ));
+          break;
         }
       }
     });
