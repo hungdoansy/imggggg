@@ -16,11 +16,7 @@ import { ProfileContext } from "./context/profile";
 import { getUserProfile } from "./utils/apis/user";
 import { fetchCategories } from "./actions/category";
 
-// TODO: at startup, check for validity of the tokens
-// /me endpoint
-
 const useAuthTokens = () => {
-  // TODO: do I need parse/stringify?
   const [authTokens, setTokens] = useState(() => {
     try {
       const serializedTokens = JSON.parse(localStorage.getItem("tokens"));
@@ -67,6 +63,7 @@ function App() {
 
   const dispatch = useDispatch();
 
+  // TODO: fix re-rendering too much when using suggested dependency list
   useEffect(() => {
     if (authTokens !== null) {
       getUserProfile(authTokens)
@@ -83,9 +80,10 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchCategories());
-  }, []);
+  }, [dispatch]);
 
   // TODO: merge 2 contexts into one and expose SignOut func
+  // TODO: use const/memorize { hasSignedIn, authTokens, setAuthTokens } ?
   return (
     <AuthContext.Provider value={{ hasSignedIn, authTokens, setAuthTokens }}>
       <ProfileContext.Provider value={{ profile, storeProfile }}>
@@ -102,7 +100,6 @@ function App() {
 
             <Route path="/" exact component={HomeContainer} />
 
-            {/* TODO: Show a error page instead of redirecting to home */}
             <Redirect to="/" />
           </Switch>
         </BrowserRouter>
