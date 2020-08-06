@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 
@@ -25,7 +25,7 @@ const CategoryGridView = ({ className, currentPage }) => {
     dispatch(fetchCategories(currentPage));
 
     // TODO: handle error
-  }, [currentPage]);
+  }, [currentPage, dispatch]);
 
   const CategoryCells = categories.map((category) => (
     <div key={category.id}>

@@ -2,7 +2,6 @@ import React from "react";
 import { Pagination } from "@gotitinc/design-system";
 import { v4 as newId } from "uuid";
 
-const TOTAL_NUMBER_OF_VISIBLE_ITEMS = 7; // should be odd
 const BE_ELLIPSIS = -10;
 
 const MyItem = ({ baseUrl, page, currentPage }) => {

@@ -72,7 +72,7 @@ function App() {
     } else {
       storeProfile("");
     }
-  }, [authTokens]);
+  }, [authTokens, setAuthTokens, storeProfile]);
 
   // TODO: merge 2 contexts into one and expose SignOut func
   // TODO: use const/memorize { hasSignedIn, authTokens, setAuthTokens } ?

@@ -148,7 +148,7 @@ export const ViewPhotoModal = ({
 
   useEffect(() => {
     dispatch(fetchPhotoDetail(categoryId, photoId));
-  }, []);
+  }, [dispatch, categoryId, photoId]);
 
   return (
     <>

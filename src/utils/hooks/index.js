@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useReducer } from "react";
+import { useRef, useEffect, useReducer } from "react";
 import { useLocation } from "react-router-dom";
 import merge from "lodash/merge";
 
