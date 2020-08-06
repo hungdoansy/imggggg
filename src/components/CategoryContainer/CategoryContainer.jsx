@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router";
+import { Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import { CategoryGrid } from "./components/CategoryGrid/CategoryGrid";
 import { useHashParams } from "../../utils/hooks";
 
 import { Container } from "../common/Container/Container";
 import { selectors } from "../../reducers";
-import { useSelector } from "react-redux";
 
 export const CategoryContainer = withRouter(() => {
   const hashParams = useHashParams();
@@ -16,6 +17,11 @@ export const CategoryContainer = withRouter(() => {
   useEffect(() => {
     setPage(hashParams.getPage());
   }, [hashParams]);
+
+  // check the params
+  if (isNaN(page)) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <Container>

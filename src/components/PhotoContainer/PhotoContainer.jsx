@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast, Icon } from "@gotitinc/design-system";
 import styled from "styled-components";
+import { Redirect } from "react-router-dom";
 
 import { PhotoGrid } from "./components/PhotoGrid/PhotoGrid";
 import { useHashParams } from "../../utils/hooks";
@@ -25,15 +26,13 @@ const PhotoContainerView = ({ className, match }) => {
   const dispatch = useDispatch();
   const { hasSignedIn } = useAuthContext();
   const hashParams = useHashParams();
+
   const page = hashParams.getPage();
   const categoryId = parseInt(match.params.categoryId);
 
   const categoryInfo = useSelector((state) =>
     selectors.getCategoryInfo(state, categoryId)
   );
-  // const { name: categoryName, totalNumberOfPhotos: totalPhotos } = categoryInfo;
-
-  console.log("match", match);
 
   useEffect(() => {
     if (!categoryInfo) {
@@ -50,6 +49,11 @@ const PhotoContainerView = ({ className, match }) => {
     showSubmitModal,
     hideSubmitModal,
   ] = useSubmitModal();
+
+  // check the params
+  if (isNaN(categoryId) || isNaN(page)) {
+    return <Redirect to="/" />;
+  }
 
   const onClickSubmitPhoto = () => {
     if (hasSignedIn) {
