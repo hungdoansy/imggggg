@@ -3,6 +3,7 @@
 const fs = require("fs");
 const path = require("path");
 const paths = require("./paths");
+const { argv } = require("yargs");
 
 // Make sure that including paths.js after env.js will read .env variables.
 delete require.cache[require.resolve("./paths")];
@@ -14,10 +15,16 @@ if (!NODE_ENV) {
   );
 }
 
+// Specify which kind of API_HOST we should use
+// dev => localhost:5000
+// prod => somewhere.onearth.com/real/apis
+const ENV = argv.env ? argv.env : "dev";
+
 // https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use
 const dotenvFiles = [
   `${paths.dotenv}.${NODE_ENV}.local`,
   `${paths.dotenv}.${NODE_ENV}`,
+  `${paths.dotenv}.${ENV}`,
   // Don't include `.env.local` for `test` environment
   // since normally you expect tests to produce the same
   // results for everyone

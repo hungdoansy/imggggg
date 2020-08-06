@@ -3,15 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast, Icon } from "@gotitinc/design-system";
 import styled from "styled-components";
 
-import { PhotoGrid } from "../../components/PhotoGrid/PhotoGrid";
+import { PhotoGrid } from "./components/PhotoGrid/PhotoGrid";
 import { useHashParams } from "../../utils/hooks";
-import { Container } from "../Container";
+import { Container } from "../common/Container/Container";
 
 import { useAuthContext } from "../../context/auth";
-import { SubmitPhotoModal, useSubmitModal } from "../SubmitPhotoModal";
+import {
+  EditOrSubmitPhotoModal as SubmitPhotoModal,
+  useEditOrSubmitModal as useSubmitModal,
+  Types,
+} from "./components/EditOrSubmitPhotoModal/EditOrSubmitPhotoModal";
 
-import { CategoryInfo } from "./CategoryInfo";
-import { Pagination } from "../Pagination";
+import { CategoryInfo } from "./components/CategoryInfo/CategoryInfo";
+import { Pagination } from "../common/Pagination/Pagination";
 import { selectors } from "../../reducers/category";
 import { fetchCategoryDetail } from "../../actions/category";
 
@@ -26,6 +30,8 @@ const PhotoContainerView = ({ className, match }) => {
     selectors.getCategoryInfo(state, categoryId)
   );
   // const { name: categoryName, totalNumberOfPhotos: totalPhotos } = categoryInfo;
+
+  console.log("match", match);
 
   console.log("categoryInfo", categoryInfo);
   // console.log(Math.ceil(categoryInfo.totalPhotos / 10));
@@ -107,13 +113,14 @@ const PhotoContainerView = ({ className, match }) => {
           <Pagination
             currentPage={page}
             totalNumberOfPages={Math.ceil(categoryInfo.totalPhotos / 10)}
-            baseUrl={`/categories/${categoryId}/items/#page=`}
+            baseUrl={`/categories/${categoryId}/photos/#page=`}
           />
         </div>
       )}
 
       {isSubmitModalOpen && (
         <SubmitPhotoModal
+          type={Types.SUBMIT}
           isOpen={isSubmitModalOpen}
           show={showSubmitModal}
           hide={hideSubmitModal}

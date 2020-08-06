@@ -1,26 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router";
 import { BrowserRouter } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { ToastContainer } from "@gotitinc/design-system";
 
-import { Header } from "./components/Header";
+import { Header } from "./components/Header/Header";
 
-import { CategoryContainer } from "./components/CategoryContainer";
-import { HomeContainer } from "./components/HomeContainer";
-import { PhotoContainer } from "./components/PhotoContainer";
+import { CategoryContainer } from "./components/CategoryContainer/CategoryContainer";
+import { HomeContainer } from "./components/HomeContainer/HomeContainer";
+import { PhotoContainer } from "./components/PhotoContainer/PhotoContainer";
 
 import { AuthContext } from "./context/auth";
 import { ProfileContext } from "./context/profile";
 
 import { getUserProfile } from "./utils/apis/user";
-import { fetchCategories } from "./actions/category";
-
-// TODO: at startup, check for validity of the tokens
-// /me endpoint
 
 const useAuthTokens = () => {
-  // TODO: do I need parse/stringify?
   const [authTokens, setTokens] = useState(() => {
     try {
       const serializedTokens = JSON.parse(localStorage.getItem("tokens"));
@@ -65,8 +59,7 @@ function App() {
   const [hasSignedIn, authTokens, setAuthTokens] = useAuthTokens();
   const [profile, storeProfile] = useProfile();
 
-  const dispatch = useDispatch();
-
+  // TODO: fix re-rendering too much when using suggested dependency list
   useEffect(() => {
     if (authTokens !== null) {
       getUserProfile(authTokens)
@@ -81,28 +74,36 @@ function App() {
     }
   }, [authTokens]);
 
-  useEffect(() => {
-    dispatch(fetchCategories());
-  }, []);
-
   // TODO: merge 2 contexts into one and expose SignOut func
+  // TODO: use const/memorize { hasSignedIn, authTokens, setAuthTokens } ?
   return (
     <AuthContext.Provider value={{ hasSignedIn, authTokens, setAuthTokens }}>
       <ProfileContext.Provider value={{ profile, storeProfile }}>
         <BrowserRouter>
           <Header />
           <Switch>
-            <Route
-              path="/categories/:categoryId/items"
+            {/* <Route
+              path="/categories/:categoryId/photos/:photoId"
               exact
               component={PhotoContainer}
+            /> */}
+
+            <Route
+              path="/categories/:categoryId/photos"
+              exact
+              component={PhotoContainer}
+            />
+
+            <Redirect
+              exact
+              from="/categories/:categoryId"
+              to="/categories/:categoryId/photos"
             />
 
             <Route path="/categories" exact component={CategoryContainer} />
 
             <Route path="/" exact component={HomeContainer} />
 
-            {/* TODO: Show a error page instead of redirecting to home */}
             <Redirect to="/" />
           </Switch>
         </BrowserRouter>

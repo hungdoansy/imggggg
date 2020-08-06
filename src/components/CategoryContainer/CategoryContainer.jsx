@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router";
 
-import { CategoryGrid } from "../CategoryGrid/CategoryGrid";
+import { CategoryGrid } from "./components/CategoryGrid/CategoryGrid";
 import { useHashParams } from "../../utils/hooks";
 
-import { Container } from "../Container";
+import { Container } from "../common/Container/Container";
 import { selectors } from "../../reducers";
 import { useSelector } from "react-redux";
 
