@@ -88,18 +88,18 @@ export const CreateCategoryModal = ({ isOpen, show, hide }) => {
           setDisabled(true);
           setState(
             produce(state, (draftState) => {
-              const { message } = response.data;
+              const { error } = response.data;
 
-              if (message.name) {
-                draftState.name.feedback = message.name[0];
+              if (error.name) {
+                draftState.name.feedback = error.name[0];
               }
 
-              if (message.image_url) {
-                draftState.imageUrl.feedback = message.image_url[0];
+              if (error.image_url) {
+                draftState.imageUrl.feedback = error.image_url[0];
               }
 
-              if (message.description) {
-                draftState.description.feedback = message.description[0];
+              if (error.description) {
+                draftState.description.feedback = error.description[0];
               }
             })
           );

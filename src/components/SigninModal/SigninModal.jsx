@@ -49,7 +49,7 @@ export const SigninModal = ({ isOpen, show, hide }) => {
         }
       })
       .catch((e) => {
-        setFeedback(e.response.data.message);
+        setFeedback(e.response.data.error);
         setDisabled(false);
       });
   };

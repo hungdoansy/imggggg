@@ -85,13 +85,11 @@ export const SignupModal = ({ isOpen, show, hide }) => {
         }
       })
       .catch((e) => {
-        // const { email, name, password } = e.response.data.message;
-
         ["email", "name", "password"].forEach((which) => {
-          if (e.response.data.message[which]) {
+          if (e.response.data.error[which]) {
             setState(
               produce(state, (draftState) => {
-                draftState[which].feedback = e.response.data.message[which][0];
+                draftState[which].feedback = e.response.data.error[which][0];
               })
             );
           }
