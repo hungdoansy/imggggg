@@ -166,6 +166,8 @@ const TabBar = styled(TabBarView)`
           margin-left: 6px;
           margin-right: 6px;
 
+          transition: color 0.1s linear;
+
           &:first-child {
             margin-left: 0;
           }
@@ -176,6 +178,14 @@ const TabBar = styled(TabBarView)`
 
           &.active {
             border-bottom: 3px solid #375de7;
+
+            > span {
+              color: #375de7;
+            }
+          }
+
+          &:hover {
+            text-decoration: none;
 
             > span {
               color: #375de7;

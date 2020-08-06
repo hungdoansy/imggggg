@@ -137,7 +137,7 @@ const PhotoContainerView = ({ className, match }) => {
           <Pagination
             currentPage={page}
             totalNumberOfPages={Math.ceil(categoryInfo.totalPhotos / 10)}
-            baseUrl={`/categories/${categoryId}/photos/#page=`}
+            baseUrl={`/categories/${categoryId}/photos#page=`}
           />
         </div>
       ) : null}
