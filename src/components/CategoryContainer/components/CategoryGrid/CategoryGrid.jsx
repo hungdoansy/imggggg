@@ -31,7 +31,7 @@ const CategoryGridView = ({ className, currentPage }) => {
     <div key={category.id}>
       <CategoryCell
         id={category.id}
-        imageUrl={category.image_url}
+        imageUrl={category.imageUrl}
         name={category.name}
         description={category.description}
       />

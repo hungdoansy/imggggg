@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { isNumber } from "lodash";
 
 const CategoryInfoView = ({ className, name, description, totalPhotos }) => {
   return (
@@ -12,10 +13,11 @@ const CategoryInfoView = ({ className, name, description, totalPhotos }) => {
         <p className="u-textGray u-text300">{description}</p>
       </div>
 
-      {totalPhotos && (
+      {isNumber(totalPhotos) && totalPhotos > 0 && (
         <div className="category-stats">
           <p className="u-textGray u-text300">
-            A total of <b>{totalPhotos}</b> contributions by awesome people !
+            A total of <b>{totalPhotos}</b> contribution
+            {totalPhotos > 1 ? "s" : ""} by awesome people !
           </p>
         </div>
       )}

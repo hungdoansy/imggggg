@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast, Icon } from "@gotitinc/design-system";
 import styled from "styled-components";
+import { Redirect } from "react-router-dom";
 
 import { PhotoGrid } from "./components/PhotoGrid/PhotoGrid";
 import { useHashParams } from "../../utils/hooks";
@@ -18,37 +19,37 @@ import { CategoryInfo } from "./components/CategoryInfo/CategoryInfo";
 import { Pagination } from "../common/Pagination/Pagination";
 import { selectors } from "../../reducers/category";
 import { fetchCategoryDetail } from "../../actions/category";
+import { fetchPhotos } from "../../actions/photo";
+import { PHOTOS_PER_PAGE } from "../../constants/settings";
 
 // TODO: fetch categoryInfo on load
 const PhotoContainerView = ({ className, match }) => {
   const dispatch = useDispatch();
   const { hasSignedIn } = useAuthContext();
   const hashParams = useHashParams();
+
+  const page = hashParams.getPage();
   const categoryId = parseInt(match.params.categoryId);
 
   const categoryInfo = useSelector((state) =>
     selectors.getCategoryInfo(state, categoryId)
   );
-  // const { name: categoryName, totalNumberOfPhotos: totalPhotos } = categoryInfo;
-
-  console.log("match", match);
-
-  console.log("categoryInfo", categoryInfo);
-  // console.log(Math.ceil(categoryInfo.totalPhotos / 10));
 
   useEffect(() => {
     if (!categoryInfo) {
       dispatch(fetchCategoryDetail(categoryId));
     }
-  });
+  }, [dispatch, categoryId, categoryInfo]);
+
+  useEffect(() => {
+    dispatch(fetchPhotos(categoryId, page));
+  }, [dispatch, categoryId, page]);
 
   const [
     isSubmitModalOpen,
     showSubmitModal,
     hideSubmitModal,
   ] = useSubmitModal();
-
-  const page = hashParams.getPage();
 
   const onClickSubmitPhoto = () => {
     if (hasSignedIn) {
@@ -72,6 +73,20 @@ const PhotoContainerView = ({ className, match }) => {
       );
     }
   };
+
+  if (
+    isNaN(categoryId) ||
+    isNaN(page) ||
+    (categoryInfo && !categoryInfo.exist)
+  ) {
+    return <Redirect to="/" />;
+  } else if (
+    categoryInfo &&
+    page > 1 &&
+    page > Math.ceil(categoryInfo.totalPhotos / PHOTOS_PER_PAGE)
+  ) {
+    return <Redirect to={`/categories/${categoryId}/photos`} />;
+  }
 
   return (
     <Container className={className}>
@@ -102,13 +117,22 @@ const PhotoContainerView = ({ className, match }) => {
         </div>
       </div>
 
-      <PhotoGrid
-        categoryId={categoryId}
-        categoryName={categoryInfo && categoryInfo.name}
-        currentPage={page}
-      />
+      {categoryInfo?.totalPhotos ? (
+        <PhotoGrid
+          categoryId={categoryId}
+          categoryName={categoryInfo && categoryInfo.name}
+          currentPage={page}
+        />
+      ) : (
+        <p className="u-text600 u-textCenter">
+          Be the first contributor{" "}
+          <span role="img" aria-label="">
+            🤘
+          </span>
+        </p>
+      )}
 
-      {categoryInfo && categoryInfo.totalPhotos && (
+      {categoryInfo?.totalPhotos ? (
         <div className="u-textCenter">
           <Pagination
             currentPage={page}
@@ -116,7 +140,7 @@ const PhotoContainerView = ({ className, match }) => {
             baseUrl={`/categories/${categoryId}/photos/#page=`}
           />
         </div>
-      )}
+      ) : null}
 
       {isSubmitModalOpen && (
         <SubmitPhotoModal

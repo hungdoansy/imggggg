@@ -29,19 +29,25 @@ export const getCategories = (page) => {
   const offset = (page - 1) * CATEGORIES_PER_PAGE;
   const limit = CATEGORIES_PER_PAGE;
 
+  let status = null;
+
   return fetch(`${API_HOST}/categories?offset=${offset}&limit=${limit}`)
-    .then((response) => response.json())
-    .catch((e) => {
-      console.log("Error while fetching categories", e);
-      return [];
-    }); // TODO: network failure
+    .then((response) => {
+      status = response.status;
+      return response.json();
+    })
+    .then((data) => ({ status, data }))
+    .catch((e) => ({ status, data: e })); // TODO: network failure
 };
 
 export const getCategoryDetail = (categoryId) => {
+  let status = null;
+
   return fetch(`${API_HOST}/categories/${categoryId}`)
-    .then((response) => response.json())
-    .catch((e) => {
-      console.log("Error while fetching categories", e);
-      return [];
-    }); // TODO: network failure
+    .then((response) => {
+      status = response.status;
+      return response.json();
+    })
+    .then((data) => ({ status, data }))
+    .catch((e) => ({ status, data: e })); // TODO: network failure
 };

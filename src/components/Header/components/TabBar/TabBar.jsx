@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
-import { Tab, toast, Icon } from "@gotitinc/design-system";
-import { Link } from "react-router-dom";
+import { toast, Icon } from "@gotitinc/design-system";
+import { Link, NavLink } from "react-router-dom";
 
 import {
   CreateCategoryModal,
@@ -31,10 +31,7 @@ const TabBarView = ({ className }) => {
   const dispatch = useDispatch();
 
   const { hasSignedIn } = useAuthContext();
-  const categories = useSelector(selectors.getCategoriesByPageNumber);
-
-  // TODO: set the current page
-  const [current, setCurrent] = useState("tab_0");
+  const categories = useSelector(selectors.getSomeFirstCategories);
 
   const [
     isCreateModalOpen,
@@ -44,9 +41,13 @@ const TabBarView = ({ className }) => {
 
   const tabs = categories.map((c, i) => {
     return (
-      <Tab.Item key={i} eventKey={c.name}>
-        <Link to={`/categories/${c.id}/photos`}>{c.name}</Link>
-      </Tab.Item>
+      <NavLink
+        key={i}
+        to={`/categories/${c.id}/photos`}
+        activeClassName="active"
+      >
+        <span className="centered u-text200 u-textGray">{c.name}</span>
+      </NavLink>
     );
   });
 
@@ -74,7 +75,9 @@ const TabBarView = ({ className }) => {
   };
 
   useEffect(() => {
-    dispatch(fetchCategories());
+    dispatch(fetchCategories(1));
+    dispatch(fetchCategories(2));
+    dispatch(fetchCategories(3));
   }, [dispatch]);
 
   return (
@@ -88,10 +91,8 @@ const TabBarView = ({ className }) => {
         </button>
       </div>
       <Separator />
-      <div className="tabs">
-        <Tab current={current} onSelect={setCurrent}>
-          {tabs}
-        </Tab>
+      <div className="tabs-container">
+        <div className="tabs">{tabs}</div>
       </div>
       <Separator />
       <div
@@ -141,7 +142,7 @@ const TabBar = styled(TabBarView)`
       }
     }
 
-    &.tabs {
+    &.tabs-container {
       flex-grow: 1;
       overflow-x: scroll;
 
@@ -155,12 +156,40 @@ const TabBar = styled(TabBarView)`
       flex-direction: column;
       justify-content: center;
 
-      > div > div > div {
+      div.tabs {
+        height: 100%;
+
         > a {
-          white-space: nowrap;
-          text-decoration: none;
-          color: inherit;
+          display: inline-block;
+          height: 100%;
+
+          margin-left: 6px;
+          margin-right: 6px;
+
+          &:first-child {
+            margin-left: 0;
+          }
+
+          &:last-child {
+            margin-right: 0;
+          }
+
+          &.active {
+            border-bottom: 3px solid #375de7;
+
+            > span {
+              color: #375de7;
+            }
+          }
+
+          > span {
+            line-height: 50px;
+          }
         }
+      }
+
+      div.tab-link {
+        display: inline-block;
       }
     }
 

@@ -2,6 +2,8 @@ import {
   FETCH_CATEGORIES_SUCCESS,
   FETCH_PHOTOS_SUCCESS,
   FETCH_CATEGORY_DETAIL_SUCCESS,
+  FETCH_CATEGORY_DETAIL_FAILURE,
+  FETCH_PHOTOS_FAILURE,
 } from "../constants/action.types";
 import { CATEGORIES_PER_PAGE } from "../constants/settings";
 
@@ -39,7 +41,11 @@ const updateOnFetchCategoriesSuccess = (state, data, extra) => {
   data["categories"].forEach((c) => {
     state.byId[c.id] = {
       ...state.byId[c.id],
-      ...c,
+      exist: true,
+      id: c.id,
+      name: c.name,
+      description: c.description,
+      imageUrl: c.image_url,
     };
   });
 };
@@ -70,10 +76,27 @@ const updateOnFetchCategoryDetailSuccess = (state, data, extra) => {
 
   state.byId[categoryId] = {
     ...thatCategory,
+    exist: true,
     id: data.id,
     name: data.name,
     description: data.description,
-    imageUrl: data.imageUrl,
+    imageUrl: data.image_url,
+  };
+};
+
+const updateOnFetchCategoryDetailFailure = (state, data, extra) => {
+  const categoryId = extra.categoryId;
+
+  state.byId[categoryId] = {
+    exist: false,
+  };
+};
+
+const updateOnFetchPhotosFailure = (state, data, extra) => {
+  const categoryId = extra.categoryId;
+
+  state.byId[categoryId] = {
+    exist: false,
   };
 };
 
@@ -96,10 +119,26 @@ const category = (state = initialState, action) => {
       return nextState;
     }
 
+    case FETCH_PHOTOS_FAILURE: {
+      const nextState = JSON.parse(JSON.stringify(state));
+
+      updateOnFetchPhotosFailure(nextState, action.data, action.extra);
+
+      return nextState;
+    }
+
     case FETCH_CATEGORY_DETAIL_SUCCESS: {
       const nextState = JSON.parse(JSON.stringify(state));
 
       updateOnFetchCategoryDetailSuccess(nextState, action.data, action.extra);
+
+      return nextState;
+    }
+
+    case FETCH_CATEGORY_DETAIL_FAILURE: {
+      const nextState = JSON.parse(JSON.stringify(state));
+
+      updateOnFetchCategoryDetailFailure(nextState, action.data, action.extra);
 
       return nextState;
     }
@@ -133,6 +172,20 @@ const getCategoriesByPageNumber = (wholeState, page = 1) => {
   }
 };
 
+const getSomeFirstCategories = (wholeState) => {
+  const { category } = wholeState;
+
+  const ids = [1, 2, 3].reduce((acc, page) => {
+    if (!category.idsByPageNumber[page]) {
+      return acc;
+    } else {
+      return [...acc, ...category.idsByPageNumber[page]];
+    }
+  }, []);
+
+  return ids.map((id) => category.byId[id]);
+};
+
 const getTotalNumberOfRemotePages = (wholeState) =>
   wholeState.category.totalNumberOfRemotePages;
 
@@ -154,6 +207,7 @@ const selectors = {
   getTotalNumberOfCategories,
   getTotalNumberOfPhotosByCategoryId,
   getCategoryInfo,
+  getSomeFirstCategories,
 };
 
 export {

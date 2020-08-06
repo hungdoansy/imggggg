@@ -2,14 +2,23 @@ import { PHOTOS_PER_PAGE } from "../../constants/settings";
 
 const API_HOST = process.env.REACT_APP_API_HOST;
 
+// TODO: create myFetch
+
 const getPhotos = (categoryId, page = 1) => {
   const offset = (page - 1) * PHOTOS_PER_PAGE;
   const limit = PHOTOS_PER_PAGE;
 
+  let status = null;
+
   return fetch(
     `${API_HOST}/categories/${categoryId}/items?offset=${offset}&limit=${limit}`
   )
-    .then((response) => response.json())
+    .then((response) => {
+      status = response.status;
+
+      return response.json();
+    })
+    .then((data) => ({ status, data }))
     .catch((e) => {
       console.log("Error while fetching photos", e);
       return [];
@@ -84,11 +93,15 @@ const removePhoto = (categoryId, photoId, tokens) => {
 };
 
 const getPhotoDetail = (categoryId, photoId) => {
-  return fetch(`${API_HOST}/categories/${categoryId}/items/${photoId}`).then(
-    (response) => {
+  let status = null;
+
+  return fetch(`${API_HOST}/categories/${categoryId}/items/${photoId}`)
+    .then((response) => {
+      status = response.status;
       return response.json();
-    }
-  );
+    })
+    .then((data) => ({ status, data }))
+    .catch((e) => ({ status, data: e })); // TODO: network failure
 };
 
 export { getPhotos, submitPhoto, editPhoto, removePhoto, getPhotoDetail };

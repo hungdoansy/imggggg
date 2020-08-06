@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { PhotoCell } from "./PhotoCell";
 
 import { selectors } from "../../../../reducers";
-import { fetchPhotos } from "../../../../actions/photo";
 
 // TODO: store photos to redux
 // TODO: move pagination one level up
@@ -20,12 +19,6 @@ const PhotoGridView = ({
     selectors.getPhotos(state, categoryId, currentPage)
   );
   console.log("photos", photos);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchPhotos(categoryId, currentPage));
-  }, [categoryId, currentPage, dispatch]);
 
   const Photos = photos.map((p) => (
     <li key={p.id}>
