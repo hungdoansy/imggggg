@@ -18,12 +18,14 @@ import { CategoryInfo } from "./components/CategoryInfo/CategoryInfo";
 import { Pagination } from "../common/Pagination/Pagination";
 import { selectors } from "../../reducers/category";
 import { fetchCategoryDetail } from "../../actions/category";
+import { fetchPhotos } from "../../actions/photo";
 
 // TODO: fetch categoryInfo on load
 const PhotoContainerView = ({ className, match }) => {
   const dispatch = useDispatch();
   const { hasSignedIn } = useAuthContext();
   const hashParams = useHashParams();
+  const page = hashParams.getPage();
   const categoryId = parseInt(match.params.categoryId);
 
   const categoryInfo = useSelector((state) =>
@@ -33,22 +35,21 @@ const PhotoContainerView = ({ className, match }) => {
 
   console.log("match", match);
 
-  console.log("categoryInfo", categoryInfo);
-  // console.log(Math.ceil(categoryInfo.totalPhotos / 10));
-
   useEffect(() => {
     if (!categoryInfo) {
       dispatch(fetchCategoryDetail(categoryId));
     }
-  });
+  }, [dispatch, categoryId, categoryInfo]);
+
+  useEffect(() => {
+    dispatch(fetchPhotos(categoryId, page));
+  }, [dispatch, categoryId, page]);
 
   const [
     isSubmitModalOpen,
     showSubmitModal,
     hideSubmitModal,
   ] = useSubmitModal();
-
-  const page = hashParams.getPage();
 
   const onClickSubmitPhoto = () => {
     if (hasSignedIn) {
@@ -102,13 +103,22 @@ const PhotoContainerView = ({ className, match }) => {
         </div>
       </div>
 
-      <PhotoGrid
-        categoryId={categoryId}
-        categoryName={categoryInfo && categoryInfo.name}
-        currentPage={page}
-      />
+      {categoryInfo?.totalPhotos ? (
+        <PhotoGrid
+          categoryId={categoryId}
+          categoryName={categoryInfo && categoryInfo.name}
+          currentPage={page}
+        />
+      ) : (
+        <p className="u-text600 u-textCenter">
+          Be the first contributor{" "}
+          <span role="img" aria-label="">
+            🤘
+          </span>
+        </p>
+      )}
 
-      {categoryInfo && categoryInfo.totalPhotos && (
+      {categoryInfo?.totalPhotos ? (
         <div className="u-textCenter">
           <Pagination
             currentPage={page}
@@ -116,7 +126,7 @@ const PhotoContainerView = ({ className, match }) => {
             baseUrl={`/categories/${categoryId}/photos/#page=`}
           />
         </div>
-      )}
+      ) : null}
 
       {isSubmitModalOpen && (
         <SubmitPhotoModal
