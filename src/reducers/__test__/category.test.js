@@ -1,20 +1,6 @@
 import { CATEGORIES_PER_PAGE } from "../../constants/settings";
 
-import {
-  FETCH_CATEGORIES_SUCCESS,
-  FETCH_PHOTOS_SUCCESS,
-  FETCH_CATEGORY_DETAIL_REQUEST,
-} from "../../constants/action.types";
-
 const fromCategory = require("../category");
-
-// {
-//   updateOnFetchCategoriesSuccess,
-//   updateOnFetchPhotosSuccess,
-//   updateOnFetchCategoryDetailSuccess,
-//   category,
-//   selectors,
-// }
 
 const initialState = {
   allPageNumbers: [],
@@ -71,8 +57,14 @@ describe("Category reducer", () => {
     });
 
     it("should update byId", () => {
-      expect(afterState.byId[1]).toEqual({ id: "1" });
-      expect(afterState.byId[2]).toEqual({ id: "2" });
+      expect(afterState.byId[1]).toEqual({
+        id: "1",
+        exist: true,
+      });
+      expect(afterState.byId[2]).toEqual({
+        id: "2",
+        exist: true,
+      });
     });
   });
 
@@ -98,7 +90,7 @@ describe("Category reducer", () => {
       id: 2,
       name: "Something",
       description: "Some random text",
-      imageUrl: "http://somewhere.com",
+      image_url: "http://somewhere.com",
     };
 
     const extra = {
@@ -109,7 +101,13 @@ describe("Category reducer", () => {
       const afterState = clone(initialState);
       fromCategory.updateOnFetchCategoryDetailSuccess(afterState, data, extra);
 
-      expect(afterState.byId[extra.categoryId]).toEqual(data);
+      expect(afterState.byId[extra.categoryId]).toEqual({
+        id: 2,
+        name: "Something",
+        description: "Some random text",
+        imageUrl: "http://somewhere.com",
+        exist: true,
+      });
     });
   });
 
