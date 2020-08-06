@@ -2,7 +2,7 @@ import React from "react";
 import { Pagination } from "@gotitinc/design-system";
 import { v4 as newId } from "uuid";
 
-const BE_ELLIPSIS = -10;
+export const BE_ELLIPSIS = -10;
 
 const MyItem = ({ baseUrl, page, currentPage }) => {
   return (
@@ -16,7 +16,7 @@ const MyItem = ({ baseUrl, page, currentPage }) => {
 };
 
 // To decide if an ellipsis should be displayed
-const pageNumbersCreator = (currentPage, totalNumberOfPages) => {
+export const pageNumbersCreator = (currentPage, totalNumberOfPages) => {
   if (totalNumberOfPages <= 7) {
     return Array(totalNumberOfPages)
       .fill(0)
@@ -67,9 +67,11 @@ const itemsCreator = (currentPage, totalNumberOfPages, baseUrl) => {
 const MyPagination = ({ currentPage, totalNumberOfPages, baseUrl }) => {
   return (
     <Pagination>
-      <Pagination.Prev />
+      <Pagination.Prev href={`${baseUrl}${Math.max(1, currentPage - 1)}`} />
       {itemsCreator(currentPage, totalNumberOfPages, baseUrl)}
-      <Pagination.Next />
+      <Pagination.Next
+        href={`${baseUrl}${Math.min(totalNumberOfPages, currentPage + 1)}`}
+      />
     </Pagination>
   );
 };
