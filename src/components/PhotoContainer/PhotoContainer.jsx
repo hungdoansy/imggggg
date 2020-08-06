@@ -20,6 +20,7 @@ import { Pagination } from "../common/Pagination/Pagination";
 import { selectors } from "../../reducers/category";
 import { fetchCategoryDetail } from "../../actions/category";
 import { fetchPhotos } from "../../actions/photo";
+import { PHOTOS_PER_PAGE } from "../../constants/settings";
 
 // TODO: fetch categoryInfo on load
 const PhotoContainerView = ({ className, match }) => {
@@ -50,11 +51,6 @@ const PhotoContainerView = ({ className, match }) => {
     hideSubmitModal,
   ] = useSubmitModal();
 
-  // check the params
-  if (isNaN(categoryId) || isNaN(page)) {
-    return <Redirect to="/" />;
-  }
-
   const onClickSubmitPhoto = () => {
     if (hasSignedIn) {
       showSubmitModal();
@@ -77,6 +73,20 @@ const PhotoContainerView = ({ className, match }) => {
       );
     }
   };
+
+  if (
+    isNaN(categoryId) ||
+    isNaN(page) ||
+    (categoryInfo && !categoryInfo.exist)
+  ) {
+    return <Redirect to="/" />;
+  } else if (
+    categoryInfo &&
+    page > 1 &&
+    page > Math.ceil(categoryInfo.totalPhotos / PHOTOS_PER_PAGE)
+  ) {
+    return <Redirect to={`/categories/${categoryId}/photos`} />;
+  }
 
   return (
     <Container className={className}>

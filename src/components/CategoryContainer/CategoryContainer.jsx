@@ -8,6 +8,7 @@ import { useHashParams } from "../../utils/hooks";
 
 import { Container } from "../common/Container/Container";
 import { selectors } from "../../reducers";
+import { CATEGORIES_PER_PAGE } from "../../constants/settings";
 
 export const CategoryContainer = withRouter(() => {
   const hashParams = useHashParams();
@@ -19,8 +20,8 @@ export const CategoryContainer = withRouter(() => {
   }, [hashParams]);
 
   // check the params
-  if (isNaN(page)) {
-    return <Redirect to="/" />;
+  if (isNaN(page) || page > Math.ceil(totalCategories / CATEGORIES_PER_PAGE)) {
+    return <Redirect to="/categories" />;
   }
 
   return (
