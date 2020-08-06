@@ -172,6 +172,20 @@ const getCategoriesByPageNumber = (wholeState, page = 1) => {
   }
 };
 
+const getSomeFirstCategories = (wholeState) => {
+  const { category } = wholeState;
+
+  const ids = [1, 2, 3].reduce((acc, page) => {
+    if (!category.idsByPageNumber[page]) {
+      return acc;
+    } else {
+      return [...acc, ...category.idsByPageNumber[page]];
+    }
+  }, []);
+
+  return ids.map((id) => category.byId[id]);
+};
+
 const getTotalNumberOfRemotePages = (wholeState) =>
   wholeState.category.totalNumberOfRemotePages;
 
@@ -193,6 +207,7 @@ const selectors = {
   getTotalNumberOfCategories,
   getTotalNumberOfPhotosByCategoryId,
   getCategoryInfo,
+  getSomeFirstCategories,
 };
 
 export {

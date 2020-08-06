@@ -31,7 +31,7 @@ const TabBarView = ({ className }) => {
   const dispatch = useDispatch();
 
   const { hasSignedIn } = useAuthContext();
-  const categories = useSelector(selectors.getCategoriesByPageNumber);
+  const categories = useSelector(selectors.getSomeFirstCategories);
 
   const [
     isCreateModalOpen,
@@ -75,7 +75,9 @@ const TabBarView = ({ className }) => {
   };
 
   useEffect(() => {
-    dispatch(fetchCategories());
+    dispatch(fetchCategories(1));
+    dispatch(fetchCategories(2));
+    dispatch(fetchCategories(3));
   }, [dispatch]);
 
   return (
