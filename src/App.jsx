@@ -82,8 +82,14 @@ function App() {
         <BrowserRouter>
           <Header />
           <Switch>
+            {/* <Route
+              path="/categories/:categoryId/photos/:photoId"
+              exact
+              component={PhotoContainer}
+            /> */}
+
             <Route
-              path="/categories/:categoryId/items"
+              path="/categories/:categoryId/photos"
               exact
               component={PhotoContainer}
             />
@@ -91,7 +97,7 @@ function App() {
             <Redirect
               exact
               from="/categories/:categoryId"
-              to="/categories/:categoryId/items"
+              to="/categories/:categoryId/photos"
             />
 
             <Route path="/categories" exact component={CategoryContainer} />
