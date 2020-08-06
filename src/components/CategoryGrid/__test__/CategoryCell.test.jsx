@@ -24,7 +24,7 @@ describe("CategoryCell", () => {
     expect(document.querySelector("a")).toBeDefined();
 
     expect(document.querySelector("a").getAttribute("href")).toBe(
-      "/categories/1/items"
+      "/categories/1/photos"
     );
 
     expect(document.querySelector("a > img")).toBeDefined();

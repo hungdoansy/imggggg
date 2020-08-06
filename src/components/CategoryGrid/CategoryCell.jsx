@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const CategoryCellView = ({ className, id, name, imageUrl, description }) => {
   return (
     <div className={className}>
-      <Link to={`/categories/${id}/items`}>
+      <Link to={`/categories/${id}/photos`}>
         <img
           src={imageUrl}
           alt={description}

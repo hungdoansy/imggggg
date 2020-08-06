@@ -42,7 +42,7 @@ const TabBarView = ({ className }) => {
   const tabs = categories.map((c, i) => {
     return (
       <Tab.Item key={i} eventKey={c.name}>
-        <Link to={`/categories/${c.id}/items`}>{c.name}</Link>
+        <Link to={`/categories/${c.id}/photos`}>{c.name}</Link>
       </Tab.Item>
     );
   });
