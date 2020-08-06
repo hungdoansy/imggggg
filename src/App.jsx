@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Route, Switch, Redirect } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "@gotitinc/design-system";
@@ -58,13 +58,15 @@ const useProfile = () => {
 function App() {
   const [hasSignedIn, authTokens, setAuthTokens] = useAuthTokens();
   const [profile, storeProfile] = useProfile();
+  const fetched = useRef(false);
 
   // TODO: fix re-rendering too much when using suggested dependency list
   useEffect(() => {
-    if (authTokens !== null) {
+    if (authTokens !== null && !fetched.current) {
       getUserProfile(authTokens)
         .then((response) => {
           storeProfile(response.data);
+          fetched.current = true;
         })
         .catch((e) => {
           setAuthTokens("");
