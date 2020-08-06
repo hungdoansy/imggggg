@@ -3,11 +3,11 @@ import { Route, Switch, Redirect } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "@gotitinc/design-system";
 
-import { Header } from "./components/Header";
+import { Header } from "./components/Header/Header";
 
-import { CategoryContainer } from "./components/CategoryContainer";
-import { HomeContainer } from "./components/HomeContainer";
-import { PhotoContainer } from "./components/PhotoContainer";
+import { CategoryContainer } from "./components/CategoryContainer/CategoryContainer";
+import { HomeContainer } from "./components/HomeContainer/HomeContainer";
+import { PhotoContainer } from "./components/PhotoContainer/PhotoContainer";
 
 import { AuthContext } from "./context/auth";
 import { ProfileContext } from "./context/profile";

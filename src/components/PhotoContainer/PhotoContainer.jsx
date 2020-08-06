@@ -3,19 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast, Icon } from "@gotitinc/design-system";
 import styled from "styled-components";
 
-import { PhotoGrid } from "../../components/PhotoGrid/PhotoGrid";
+import { PhotoGrid } from "./components/PhotoGrid/PhotoGrid";
 import { useHashParams } from "../../utils/hooks";
-import { Container } from "../Container";
+import { Container } from "../common/Container/Container";
 
 import { useAuthContext } from "../../context/auth";
 import {
   EditOrSubmitPhotoModal as SubmitPhotoModal,
   useEditOrSubmitModal as useSubmitModal,
   Types,
-} from "../EditOrSubmitPhotoModal";
+} from "./components/EditOrSubmitPhotoModal/EditOrSubmitPhotoModal";
 
-import { CategoryInfo } from "./CategoryInfo";
-import { Pagination } from "../Pagination";
+import { CategoryInfo } from "./components/CategoryInfo/CategoryInfo";
+import { Pagination } from "../common/Pagination/Pagination";
 import { selectors } from "../../reducers/category";
 import { fetchCategoryDetail } from "../../actions/category";
 
