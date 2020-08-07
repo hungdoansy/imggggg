@@ -75,7 +75,7 @@
     "start:prod": "node scripts/start.js --env=prod",
     "build": "node scripts/build.js",
     "build:prod": "node scripts/build.js --env=prod && cp _redirects build/_redirects",
-    "test": "node scripts/test.js --watchAll=false",
+    "test": "rm -rf coverage && node scripts/test.js --coverage --verbose=false --watchAll=false",
     "test:watch": "node scripts/test.js",
     "format": "prettier --write ."
   },
