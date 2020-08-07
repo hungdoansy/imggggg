@@ -3,11 +3,11 @@ import { useDispatch } from "react-redux";
 import produce from "immer";
 import { Button, Modal, Form, toast, Icon } from "@gotitinc/design-system";
 
-import { createCategory } from "../../../../../../utils/apis/category";
-import { useSafeSetState, useDebounce } from "../../../../../../utils/hooks";
-import { useAuthContext } from "../../../../../../context/auth";
-import { fetchCategories } from "../../../../../../actions/category";
-import { validators } from "../../../../../../utils/validators";
+import { createCategory } from "../../../../utils/apis/category";
+import { useSafeSetState, useDebounce } from "../../../../utils/hooks";
+import { useAuthContext } from "../../../../context/auth";
+import { fetchCategories } from "../../../../actions/category";
+import { validators } from "../../../../utils/validators";
 
 // TODO: sanitize inputs
 
