@@ -7,7 +7,7 @@ import { createCategory } from "../../../../../../utils/apis/category";
 import { useSafeSetState, useDebounce } from "../../../../../../utils/hooks";
 import { useAuthContext } from "../../../../../../context/auth";
 import { fetchCategories } from "../../../../../../actions/category";
-import { validators } from "../../../../../../utils/validators";
+import { categoryValidator } from "../../../../../../utils/validators";
 
 // TODO: sanitize inputs
 
@@ -58,7 +58,7 @@ const CreateCategoryModal = ({ isOpen, show, hide }) => {
   const setValue = (which, value) => {
     setState(
       produce(state, (draft) => {
-        const check = validators[which](value);
+        const check = categoryValidator[which](value);
 
         draft[which].value = value;
         draft[which].feedback = check.passed ? "" : check.message;
