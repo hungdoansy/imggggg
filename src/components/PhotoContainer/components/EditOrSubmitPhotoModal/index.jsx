@@ -4,7 +4,7 @@ import { Button, Modal, Form, toast, Icon } from "@gotitinc/design-system";
 import { useDispatch } from "react-redux";
 
 import { editPhoto, submitPhoto } from "../../../../utils/apis/photo";
-import { validators } from "../../../../utils/validators";
+import { photoValidator } from "../../../../utils/validators";
 import {
   useSafeSetState,
   useDebounce,
@@ -88,7 +88,7 @@ const EditOrSubmitPhotoModal = ({
   const setValue = (which, value) => {
     setState(
       produce(state, (draft) => {
-        const check = validators[which](value);
+        const check = photoValidator[which](value);
 
         draft[which].value = value;
         draft[which].feedback = check.passed ? "" : check.message;

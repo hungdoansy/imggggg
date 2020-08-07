@@ -5,12 +5,12 @@ import produce from "immer";
 import { useAuthContext } from "../../../../context/auth";
 import { signup, signin } from "../../../../utils/apis/auth";
 import { useSafeSetState } from "../../../../utils/hooks";
+import { userInfoValidator } from "../../../../utils/validators";
+import { useDebounce } from "../../../../utils/hooks";
 
 // TODO: sanitize inputs
 const SignupModal = ({ isOpen, show, hide }) => {
   const { setAuthTokens } = useAuthContext();
-
-  const [disabled, setDisabled] = useState(false);
   const [state, setState] = useSafeSetState({
     name: {
       value: "",
@@ -27,28 +27,32 @@ const SignupModal = ({ isOpen, show, hide }) => {
     feedback: "",
   });
 
-  const onNameInputChange = (e) => {
+  const [disabled, setDisabled] = useState(false);
+  const checkDisabled = useDebounce(() => {
+    const shouldBeDisabled =
+      state.name.feedback !== "" ||
+      state.email.feedback !== "" ||
+      state.password.feedback !== "";
+    setDisabled(shouldBeDisabled);
+  }, 800);
+  checkDisabled();
+
+  const setValue = (which, value) => {
     setState(
-      produce(state, (draftState) => {
-        draftState.name.value = e.target.value;
+      produce(state, (draft) => {
+        const check = userInfoValidator[which](value);
+
+        draft.feedback = "";
+        draft[which].value = value;
+        draft[which].feedback = check.passed ? "" : check.message;
       })
     );
   };
 
-  const onEmailInputChange = (e) => {
-    setState(
-      produce(state, (draftState) => {
-        draftState.email.value = e.target.value;
-      })
-    );
-  };
+  const onInputChange = (e) => {
+    const { name: which, value } = e.target;
 
-  const onPasswordInputChange = (e) => {
-    setState(
-      produce(state, (draftState) => {
-        draftState.password.value = e.target.value;
-      })
-    );
+    setValue(which, value);
   };
 
   const onClick = () => {
@@ -59,44 +63,46 @@ const SignupModal = ({ isOpen, show, hide }) => {
     };
 
     setDisabled(true);
-    signup(info)
-      .then((response) => {
-        if (response.status === 201) {
-          signin(info)
-            .then((response) => {
-              if (response.status === 200) {
-                setAuthTokens(response.data["access_token"]);
-                hide();
-              } else {
-                setState(
-                  (state) =>
-                    (state.feedback =
-                      "Something happened, please reload and log in...")
-                );
-              }
-            })
-            .catch((e) => {
+    signup(info).then((response) => {
+      if (response.status === 201) {
+        signin(info)
+          .then((response) => {
+            if (response.status === 200) {
+              setAuthTokens(response.data["access_token"]);
+              hide();
+            } else {
               setState(
                 (state) =>
                   (state.feedback =
                     "Something happened, please reload and log in...")
               );
-            });
-        }
-      })
-      .catch((e) => {
-        ["email", "name", "password"].forEach((which) => {
-          if (e.response.data.error[which]) {
+            }
+          })
+          .catch((e) => {
             setState(
-              produce(state, (draftState) => {
-                draftState[which].feedback = e.response.data.error[which][0];
-              })
+              (state) =>
+                (state.feedback =
+                  "Something happened, please reload and log in...")
             );
-          }
-        });
-
-        setDisabled(false);
-      });
+          });
+      } else {
+        setState(
+          produce(state, (draftState) => {
+            if (typeof response.data.error === "string") {
+              draftState.feedback = response.data.error;
+            } else if (Array.isArray(response.data.error)) {
+              ["email", "name", "password"].forEach((which) => {
+                if (response.data.error[which]) {
+                  draftState[which].feedback = response.data.error[which].join(
+                    " "
+                  );
+                }
+              });
+            }
+          })
+        );
+      }
+    });
   };
 
   return (
@@ -115,9 +121,10 @@ const SignupModal = ({ isOpen, show, hide }) => {
             <Form.Label>Name</Form.Label>
             <Form.Input
               type="text"
+              name="name"
               placeholder="What's your name?"
               value={state.name.value}
-              onChange={onNameInputChange}
+              onChange={onInputChange}
               isInvalid={state.name.feedback !== ""}
             />
             <Form.Feedback type="invalid">{state.name.feedback}</Form.Feedback>
@@ -127,9 +134,10 @@ const SignupModal = ({ isOpen, show, hide }) => {
             <Form.Label>Email</Form.Label>
             <Form.Input
               type="email"
+              name="email"
               placeholder="Your email so we contact you"
               value={state.email.value}
-              onChange={onEmailInputChange}
+              onChange={onInputChange}
               isInvalid={state.email.feedback !== ""}
             />
             <Form.Feedback type="invalid">{state.email.feedback}</Form.Feedback>
@@ -139,15 +147,22 @@ const SignupModal = ({ isOpen, show, hide }) => {
             <Form.Label>Password</Form.Label>
             <Form.Input
               type="password"
+              name="password"
               placeholder="To secure your account"
               value={state.password.value}
-              onChange={onPasswordInputChange}
+              onChange={onInputChange}
               isInvalid={state.password.feedback !== ""}
             />
             <Form.Feedback type="invalid">
               {state.password.feedback}
             </Form.Feedback>
           </Form.Group>
+
+          {state.feedback !== "" && (
+            <div className="u-marginTopTiny u-widthFull u-text100 invalid-feedback is-visible">
+              {state.feedback}
+            </div>
+          )}
         </Modal.Body>
         <Modal.Footer>
           <div className="u-flexGrow-1">

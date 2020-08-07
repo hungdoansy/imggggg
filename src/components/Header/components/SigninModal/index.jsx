@@ -45,7 +45,7 @@ const SigninModal = ({ isOpen, show, hide }) => {
           setAuthTokens(response.data["access_token"]);
           hide();
         } else {
-          setFeedback("Something happened, please try later...");
+          setFeedback(response.data.error);
         }
       })
       .catch((e) => {
