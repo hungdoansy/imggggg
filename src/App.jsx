@@ -36,19 +36,9 @@ const useAuthTokens = () => {
 };
 
 const useProfile = () => {
-  const [profile, setProfile] = useState(() => {
-    try {
-      const serializedProfile = JSON.parse(localStorage.getItem("profile"));
-
-      return serializedProfile ? serializedProfile : null;
-    } catch (e) {
-      localStorage.removeItem("profile");
-      return null;
-    }
-  });
+  const [profile, setProfile] = useState({});
 
   const storeProfile = (data) => {
-    localStorage.setItem("profile", JSON.stringify(data));
     setProfile(data);
   };
 
@@ -58,23 +48,23 @@ const useProfile = () => {
 function App() {
   const [hasSignedIn, authTokens, setAuthTokens] = useAuthTokens();
   const [profile, storeProfile] = useProfile();
-  const fetched = useRef(false);
 
-  // TODO: fix re-rendering too much when using suggested dependency list
   useEffect(() => {
-    if (authTokens !== null && !fetched.current) {
+    if (authTokens !== null && !profile.id) {
       getUserProfile(authTokens)
         .then((response) => {
-          storeProfile(response.data);
-          fetched.current = true;
+          if (response.status === 200) {
+            storeProfile(response.data);
+          } else {
+            // isInvalid.current = true;
+            setAuthTokens("");
+          }
         })
         .catch((e) => {
           setAuthTokens("");
         });
-    } else {
-      storeProfile("");
     }
-  }, [authTokens, setAuthTokens, storeProfile]);
+  }, [authTokens, profile, setAuthTokens, storeProfile]);
 
   // TODO: merge 2 contexts into one and expose SignOut func
   // TODO: use const/memorize { hasSignedIn, authTokens, setAuthTokens } ?
