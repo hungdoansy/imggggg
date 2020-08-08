@@ -1,39 +1,27 @@
+import { generateRequest } from "./generateRequest";
+
 const API_HOST = process.env.REACT_APP_API_HOST;
 
 const signin = ({ email, password }) => {
-  let status = null;
+  const stringifiedBody = JSON.stringify({ email, password });
 
-  return fetch(`${API_HOST}/auth`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json;charset=utf-8",
-    },
-    body: JSON.stringify({ email, password }),
-  })
-    .then((response) => {
-      status = response.status;
-      return response.json();
-    })
-    .then((data) => ({ status, data }))
-    .catch((e) => ({ status, data: e })); // TODO: network failure
+  return generateRequest(
+    "POST",
+    `${API_HOST}/auth`,
+    undefined,
+    stringifiedBody
+  );
 };
 
 const signup = ({ email, password, name }) => {
-  let status = null;
+  const stringifiedBody = JSON.stringify({ email, password, name });
 
-  return fetch(`${API_HOST}/users`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json;charset=utf-8",
-    },
-    body: JSON.stringify({ email, password, name }),
-  })
-    .then((response) => {
-      status = response.status;
-      return response.json();
-    })
-    .then((data) => ({ status, data }))
-    .catch((e) => ({ status, data: e })); // TODO: network failure;
+  return generateRequest(
+    "POST",
+    `${API_HOST}/users`,
+    undefined,
+    stringifiedBody
+  );
 };
 
 export { signin, signup };
