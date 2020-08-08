@@ -20,7 +20,10 @@ const CategoryContainer = () => {
   }, [hashParams]);
 
   // check the params
-  if (isNaN(page) || page > Math.ceil(totalCategories / CATEGORIES_PER_PAGE)) {
+  if (
+    isNaN(page) ||
+    (page > 1 && page > Math.ceil(totalCategories / CATEGORIES_PER_PAGE))
+  ) {
     return <Redirect to="/categories" />;
   }
 

@@ -9,7 +9,7 @@ import CreateCategoryModal, {
 } from "./components/CreateCategoryModal";
 import { selectors } from "../../../../reducers";
 import { useAuthContext } from "../../../../context/auth";
-import { fetchCategories } from "../../../../actions/category";
+import { fetchCategoriesForTabBar } from "../../../../actions/category";
 
 const SeparatorView = ({ className }) => {
   return <div className={className}></div>;
@@ -30,7 +30,7 @@ const TabBarView = ({ className }) => {
   const dispatch = useDispatch();
 
   const { hasSignedIn } = useAuthContext();
-  const categories = useSelector(selectors.getSomeFirstCategories);
+  const categories = useSelector(selectors.getCategoriesForTabBar);
 
   const [
     isCreateModalOpen,
@@ -74,9 +74,7 @@ const TabBarView = ({ className }) => {
   };
 
   useEffect(() => {
-    dispatch(fetchCategories(1));
-    dispatch(fetchCategories(2));
-    dispatch(fetchCategories(3));
+    dispatch(fetchCategoriesForTabBar());
   }, [dispatch]);
 
   return (

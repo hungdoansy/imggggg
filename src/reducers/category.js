@@ -4,6 +4,7 @@ import {
   FETCH_CATEGORY_DETAIL_SUCCESS,
   FETCH_CATEGORY_DETAIL_FAILURE,
   FETCH_PHOTOS_FAILURE,
+  FETCH_CATEGORIES_FOR_TABBAR_SUCCESS,
 } from "../constants/action.types";
 import { CATEGORIES_PER_PAGE } from "../constants/settings";
 
@@ -14,6 +15,7 @@ const initialState = {
   byId: {},
   totalRemoteCount: 0,
   totalNumberOfRemotePages: 0,
+  forTabBar: [],
 };
 
 const updateOnFetchCategoriesSuccess = (state, data, extra) => {
@@ -100,6 +102,12 @@ const updateOnFetchPhotosFailure = (state, data, extra) => {
   };
 };
 
+const updateOnFetchCategoriesForTabBar = (state, data) => {
+  state.forTabBar = [...data.categories];
+  const totalPages = Math.ceil(data.total_categories / CATEGORIES_PER_PAGE);
+  state.totalNumberOfRemotePages = totalPages;
+};
+
 // category reducer
 const category = (state = initialState, action) => {
   switch (action.type) {
@@ -107,6 +115,14 @@ const category = (state = initialState, action) => {
       const nextState = JSON.parse(JSON.stringify(state));
 
       updateOnFetchCategoriesSuccess(nextState, action.data, action.extra);
+
+      return nextState;
+    }
+
+    case FETCH_CATEGORIES_FOR_TABBAR_SUCCESS: {
+      const nextState = JSON.parse(JSON.stringify(state));
+
+      updateOnFetchCategoriesForTabBar(nextState, action.data);
 
       return nextState;
     }
@@ -201,6 +217,8 @@ const getTotalNumberOfPhotosByCategoryId = (wholeState, categoryId) => {
 const getCategoryInfo = (wholeState, categoryId) =>
   wholeState.category.byId[categoryId];
 
+const getCategoriesForTabBar = (wholeState) => wholeState.category.forTabBar;
+
 const selectors = {
   getCategoriesByPageNumber,
   getTotalNumberOfRemotePages,
@@ -208,6 +226,7 @@ const selectors = {
   getTotalNumberOfPhotosByCategoryId,
   getCategoryInfo,
   getSomeFirstCategories,
+  getCategoriesForTabBar,
 };
 
 export {
