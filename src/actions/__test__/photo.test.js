@@ -1,5 +1,5 @@
 import { fetchPhotos } from "../photo";
-import { FETCH_PHOTOS_REQUEST } from "../../constants/action.types";
+import { FETCH_PHOTOS } from "../../constants/action.types";
 
 global.fetch = jest.fn(() =>
   Promise.resolve({
@@ -19,9 +19,9 @@ describe("Photo action creators", () => {
       expect(action.extra.page).toBe(1);
     });
 
-    it("should return action of type FETCH_CATEGORIES_REQUEST", () => {
+    it("should return action of type FETCH_CATEGORIES", () => {
       const action = fetchPhotos();
-      expect(action.type).toBe(FETCH_PHOTOS_REQUEST);
+      expect(action.type).toBe(FETCH_PHOTOS);
     });
 
     it("should have promise property", () => {

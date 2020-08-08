@@ -1,16 +1,14 @@
-import { requestRegex } from "../constants/action.types";
+import { successPostfix, failurePostfix } from "../constants/action.types";
 
 const isAsyncAction = (action) =>
-  requestRegex.test(action.type) &&
-  !!action.promise &&
-  typeof action.promise.then === "function";
+  !!action.promise && typeof action.promise.then === "function";
 
-const getSuccessType = (action) => {
-  return action.type.replace(requestRegex, "_SUCCESS");
+const getSuccessActionType = (action) => {
+  return action.type + successPostfix;
 };
 
-const getFailureType = (action) => {
-  return action.type.replace(requestRegex, "_FAILURE");
+const getFailureActionType = (action) => {
+  return action.type + failurePostfix;
 };
 
 const asyncHandler = (store) => (next) => (action) => {
@@ -29,14 +27,14 @@ const asyncHandler = (store) => (next) => (action) => {
         if (status.match(/^2/)) {
           // return
           next({
-            type: getSuccessType(action),
+            type: getSuccessActionType(action),
             data: response.data,
             ...rest,
           });
         } else if (status.match(/^4/)) {
           // return
           next({
-            type: getFailureType(action),
+            type: getFailureActionType(action),
             data: response.data,
             ...rest,
           });
