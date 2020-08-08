@@ -5,7 +5,6 @@ import TabBar from "./components/TabBar";
 import SigninModal from "./components/SigninModal";
 import SignupModal from "./components/SignupModal";
 import { useAuthContext } from "../../context/auth";
-import { useProfileContext } from "../../context/profile";
 
 const useSigninModal = () => {
   const [isSigninModalOpen, setModalOpen] = useState(false);
@@ -37,7 +36,7 @@ const useSignupModal = () => {
 
 const MyHeader = () => {
   const { authTokens, setAuthTokens } = useAuthContext();
-  const { storeProfile } = useProfileContext();
+  const { storeProfile } = useAuthContext();
 
   const hasBeenAuthenticated = !!authTokens && authTokens !== "";
   console.log("hasBeenAuthenticated", hasBeenAuthenticated);

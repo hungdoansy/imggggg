@@ -10,7 +10,6 @@ import HomeContainer from "./components/HomeContainer";
 import PhotoContainer from "./components/PhotoContainer";
 
 import { AuthContext } from "./context/auth";
-import { ProfileContext } from "./context/profile";
 
 import { getUserProfile } from "./utils/apis/user";
 
@@ -56,7 +55,6 @@ function App() {
           if (response.status === 200) {
             storeProfile(response.data);
           } else {
-            // isInvalid.current = true;
             setAuthTokens("");
           }
         })
@@ -69,42 +67,42 @@ function App() {
   // TODO: merge 2 contexts into one and expose SignOut func
   // TODO: use const/memorize { hasSignedIn, authTokens, setAuthTokens } ?
   return (
-    <AuthContext.Provider value={{ hasSignedIn, authTokens, setAuthTokens }}>
-      <ProfileContext.Provider value={{ profile, storeProfile }}>
-        <BrowserRouter>
-          <Header />
-          <Switch>
-            {/* <Route
+    <AuthContext.Provider
+      value={{ hasSignedIn, authTokens, setAuthTokens, profile, storeProfile }}
+    >
+      <BrowserRouter>
+        <Header />
+        <Switch>
+          {/* <Route
               path="/categories/:categoryId/photos/:photoId"
               exact
               component={PhotoContainer}
             /> */}
 
-            <Route
-              path="/categories/:categoryId/photos"
-              exact
-              component={PhotoContainer}
-            />
+          <Route
+            path="/categories/:categoryId/photos"
+            exact
+            component={PhotoContainer}
+          />
 
-            <Redirect
-              exact
-              from="/categories/:categoryId"
-              to="/categories/:categoryId/photos"
-            />
+          <Redirect
+            exact
+            from="/categories/:categoryId"
+            to="/categories/:categoryId/photos"
+          />
 
-            <Route path="/categories" exact component={CategoryContainer} />
+          <Route path="/categories" exact component={CategoryContainer} />
 
-            <Route path="/" exact component={HomeContainer} />
+          <Route path="/" exact component={HomeContainer} />
 
-            <Redirect to="/" />
-          </Switch>
-        </BrowserRouter>
+          <Redirect to="/" />
+        </Switch>
+      </BrowserRouter>
 
-        <ToastContainer
-          autoDismiss={3000}
-          // hideProgressBar={true}
-        />
-      </ProfileContext.Provider>
+      <ToastContainer
+        autoDismiss={3000}
+        // hideProgressBar={true}
+      />
     </AuthContext.Provider>
   );
 }

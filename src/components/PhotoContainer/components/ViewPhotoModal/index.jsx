@@ -13,8 +13,6 @@ import {
 import RemoveConfirmModal, {
   useRemoveModal,
 } from "./components/RemoveConfirmModal";
-
-import { useProfileContext } from "../../../../context/profile";
 import { fetchPhotos, fetchPhotoDetail } from "../../../../actions/photo";
 import { selectors } from "../../../../reducers";
 
@@ -63,9 +61,7 @@ const useViewModal = () => {
 };
 
 const ViewPhotoModal = ({ isOpen, show, hide, photoId, categoryId, page }) => {
-  const { authTokens } = useAuthContext();
-  const { hasSignedIn } = useAuthContext();
-  const { profile } = useProfileContext();
+  const { hasSignedIn, authTokens, profile } = useAuthContext();
 
   const dispatch = useDispatch();
 
