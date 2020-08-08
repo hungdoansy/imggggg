@@ -6,7 +6,7 @@ import Pagination from "../../../common/Pagination";
 import CategoryCell from "./components/CategoryCell";
 
 import { selectors } from "../../../../reducers";
-import { fetchCategories } from "../../../../actions/category";
+import { fetchCategoriesByPageNumber } from "../../../../actions/category";
 
 const CategoryGridView = ({ className, currentPage }) => {
   // TODO: fix re-render too many times
@@ -22,7 +22,7 @@ const CategoryGridView = ({ className, currentPage }) => {
 
   useEffect(() => {
     console.log("fetch whenever it's mounted");
-    dispatch(fetchCategories(currentPage));
+    dispatch(fetchCategoriesByPageNumber(currentPage));
 
     // TODO: handle error
   }, [currentPage, dispatch]);

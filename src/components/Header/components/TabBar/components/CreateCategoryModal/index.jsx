@@ -6,7 +6,7 @@ import { Button, Modal, Form, toast, Icon } from "@gotitinc/design-system";
 import { createCategory } from "../../../../../../utils/apis/category";
 import { useSafeSetState, useDebounce } from "../../../../../../utils/hooks";
 import { useAuthContext } from "../../../../../../context/auth";
-import { fetchCategories } from "../../../../../../actions/category";
+import { fetchCategoriesByPageNumber } from "../../../../../../actions/category";
 import { categoryValidator } from "../../../../../../utils/validators";
 
 // TODO: sanitize inputs
@@ -109,7 +109,7 @@ const CreateCategoryModal = ({ isOpen, show, hide }) => {
 
         case 201: {
           hide();
-          dispatch(fetchCategories());
+          dispatch(fetchCategoriesByPageNumber());
           toast(() => (
             <div className="u-flex u-flexGrow-1 u-cursorDefault">
               <div className="u-marginRightExtraSmall">

@@ -1,4 +1,4 @@
-import { fetchCategories, fetchCategoryDetail } from "../category";
+import { fetchCategoriesByPageNumber, fetchCategoryDetail } from "../category";
 import {
   FETCH_CATEGORIES,
   FETCH_CATEGORY_DETAIL,
@@ -11,24 +11,24 @@ global.fetch = jest.fn(() =>
 );
 
 describe("Category action creators", () => {
-  describe("fetchCategories", () => {
+  describe("fetchCategoriesByPageNumber", () => {
     beforeEach(() => {
       fetch.mockClear();
     });
 
     it("should use the fallback value page = 1", () => {
-      const action = fetchCategories();
+      const action = fetchCategoriesByPageNumber();
 
       expect(action.extra.page).toBe(1);
     });
 
     it("should return action of type FETCH_CATEGORIES", () => {
-      const action = fetchCategories();
+      const action = fetchCategoriesByPageNumber();
       expect(action.type).toBe(FETCH_CATEGORIES);
     });
 
     it("should have promise property", () => {
-      const action = fetchCategories();
+      const action = fetchCategoriesByPageNumber();
 
       expect(typeof action.promise).not.toBe("undefined");
       expect(typeof action.promise.then).toBe("function");

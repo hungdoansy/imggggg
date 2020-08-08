@@ -1,16 +1,28 @@
 import {
   FETCH_CATEGORIES,
   FETCH_CATEGORY_DETAIL,
+  FETCH_CATEGORIES_FOR_TABBAR,
 } from "../constants/action.types";
-import { getCategories, getCategoryDetail } from "../utils/apis/category";
+import {
+  getCategoriesByPageNumber,
+  getCategoryDetail,
+  getCategoriesByOffsetAndLimit,
+} from "../utils/apis/category";
 
-export const fetchCategories = (page = 1) => {
+export const fetchCategoriesByPageNumber = (page = 1) => {
   return {
     type: FETCH_CATEGORIES,
-    promise: getCategories(page),
+    promise: getCategoriesByPageNumber(page),
     extra: {
       page,
     },
+  };
+};
+
+export const fetchCategoriesForTabBar = () => {
+  return {
+    type: FETCH_CATEGORIES_FOR_TABBAR,
+    promise: getCategoriesByOffsetAndLimit(0, 20),
   };
 };
 

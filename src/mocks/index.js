@@ -1812,7 +1812,7 @@ export const submitPhoto = ({ categoryId, userId, description, imageUrl }) => {
   return { ...photo, user_id: 4, category_id: categoryId };
 };
 
-export const getCategories = ({ offset, limit }) => {
+export const getCategoriesByPageNumber = ({ offset, limit }) => {
   const from = offset;
   const to = offset + limit;
 

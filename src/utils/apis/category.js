@@ -17,10 +17,17 @@ export const createCategory = (
   );
 };
 
-export const getCategories = (page) => {
+export const getCategoriesByPageNumber = (page) => {
   const offset = (page - 1) * CATEGORIES_PER_PAGE;
   const limit = CATEGORIES_PER_PAGE;
 
+  return generateRequest(
+    "GET",
+    `${API_HOST}/categories?offset=${offset}&limit=${limit}`
+  );
+};
+
+export const getCategoriesByOffsetAndLimit = (offset, limit) => {
   return generateRequest(
     "GET",
     `${API_HOST}/categories?offset=${offset}&limit=${limit}`
