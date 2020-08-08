@@ -1,6 +1,5 @@
 import {
   FETCH_CATEGORIES_REQUEST,
-  CREATE_CATEGORY_SUCCESS,
   FETCH_CATEGORY_DETAIL_REQUEST,
 } from "../constants/action.types";
 import { getCategories, getCategoryDetail } from "../utils/apis/category";
@@ -22,12 +21,5 @@ export const fetchCategoryDetail = (categoryId) => {
     extra: {
       categoryId,
     },
-  };
-};
-
-export const createCategorySuccess = (data) => {
-  return {
-    type: CREATE_CATEGORY_SUCCESS,
-    data,
   };
 };
