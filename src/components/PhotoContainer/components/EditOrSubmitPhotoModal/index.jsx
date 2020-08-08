@@ -191,7 +191,7 @@ const EditOrSubmitPhotoModal = ({
         <Modal.Body>
           <Form.Group controlId="submitform.category">
             <Form.Label>Category</Form.Label>
-            <Form.Input type="text" defaultValue={categoryName} />
+            <Form.Input readOnly type="text" defaultValue={categoryName} />
           </Form.Group>
           <Form.Group controlId="submitform.url">
             <Form.Label>URL</Form.Label>
