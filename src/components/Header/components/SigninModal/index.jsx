@@ -4,7 +4,7 @@ import { useAuthContext } from "../../../../context/auth";
 import { signin } from "../../../../utils/apis/auth";
 
 const SigninModal = ({ isOpen, show, hide }) => {
-  const { setAuthTokens } = useAuthContext();
+  const { signIn } = useAuthContext();
 
   const [disabled, setDisabled] = useState(false);
   const [feedback, setFeedback] = useState("");
@@ -42,7 +42,7 @@ const SigninModal = ({ isOpen, show, hide }) => {
     signin({ email, password })
       .then((response) => {
         if (response.status === 200) {
-          setAuthTokens(response.data["access_token"]);
+          signIn(response.data["access_token"]);
           hide();
         } else {
           setFeedback(response.data.error);

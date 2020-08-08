@@ -36,24 +36,19 @@ const useAuthTokens = () => {
 
 const useProfile = () => {
   const [profile, setProfile] = useState({});
-
-  const storeProfile = (data) => {
-    setProfile(data);
-  };
-
-  return [profile, storeProfile];
+  return [profile, setProfile];
 };
 
 function App() {
   const [hasSignedIn, authTokens, setAuthTokens] = useAuthTokens();
-  const [profile, storeProfile] = useProfile();
+  const [profile, setProfile] = useProfile();
 
   useEffect(() => {
     if (authTokens !== null && !profile.id) {
       getUserProfile(authTokens)
         .then((response) => {
           if (response.status === 200) {
-            storeProfile(response.data);
+            setProfile(response.data);
           } else {
             setAuthTokens("");
           }
@@ -62,14 +57,24 @@ function App() {
           setAuthTokens("");
         });
     }
-  }, [authTokens, profile, setAuthTokens, storeProfile]);
+  }, [authTokens, profile, setAuthTokens, setProfile]);
 
-  // TODO: merge 2 contexts into one and expose SignOut func
+  const signOut = () => {
+    setAuthTokens("");
+    setProfile("");
+  };
+
+  const data = {
+    hasSignedIn,
+    authTokens,
+    profile,
+    signIn: setAuthTokens,
+    signOut,
+  };
+
   // TODO: use const/memorize { hasSignedIn, authTokens, setAuthTokens } ?
   return (
-    <AuthContext.Provider
-      value={{ hasSignedIn, authTokens, setAuthTokens, profile, storeProfile }}
-    >
+    <AuthContext.Provider value={data}>
       <BrowserRouter>
         <Header />
         <Switch>
