@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Header, Button, Avatar } from "@gotitinc/design-system";
+import { Header, Button, Dropdown, Icon } from "@gotitinc/design-system";
 import TabBar from "./components/TabBar";
 import SigninModal from "./components/SigninModal";
 import SignupModal from "./components/SignupModal";
@@ -92,9 +92,35 @@ const MyHeader = () => {
                 </Button>
               </>
             ) : (
-              <a href="/" onClick={signOut}>
-                <Avatar />
-              </a>
+              <Dropdown alignRight>
+                <Dropdown.Toggle className="u-textLight u-lineHeightNone">
+                  <Icon name="contact" size="medium" />
+                </Dropdown.Toggle>
+                <Dropdown.Container
+                  className="u-paddingVerticalExtraSmall"
+                  additionalStyles={{
+                    transform: "translate3d(-51px, 28px, 0px)",
+                    minWidth: "auto",
+                    paddingBottom: 0,
+                    paddingTop: 0,
+                  }}
+                >
+                  <Dropdown.Item
+                    onClick={signOut}
+                    style={{
+                      cursor: "pointer",
+                      userSelect: "none",
+                    }}
+                  >
+                    <span style={{ fontSize: "14px", fontWeight: "400" }}>
+                      Logout
+                    </span>
+                  </Dropdown.Item>
+                </Dropdown.Container>
+              </Dropdown>
+              // <a href="/" onClick={signOut}>
+              //   <Avatar />
+              // </a>
             )}
           </Header.Right>
         </Header.Main>
