@@ -1,7 +1,7 @@
 import { fetchCategories, fetchCategoryDetail } from "../category";
 import {
-  FETCH_CATEGORIES_REQUEST,
-  FETCH_CATEGORY_DETAIL_REQUEST,
+  FETCH_CATEGORIES,
+  FETCH_CATEGORY_DETAIL,
 } from "../../constants/action.types";
 
 global.fetch = jest.fn(() =>
@@ -22,9 +22,9 @@ describe("Category action creators", () => {
       expect(action.extra.page).toBe(1);
     });
 
-    it("should return action of type FETCH_CATEGORIES_REQUEST", () => {
+    it("should return action of type FETCH_CATEGORIES", () => {
       const action = fetchCategories();
-      expect(action.type).toBe(FETCH_CATEGORIES_REQUEST);
+      expect(action.type).toBe(FETCH_CATEGORIES);
     });
 
     it("should have promise property", () => {
@@ -46,9 +46,9 @@ describe("Category action creators", () => {
       expect(action.extra.categoryId).toBe(2);
     });
 
-    it("should return action of type FETCH_CATEGORY_DETAIL_REQUEST", () => {
+    it("should return action of type FETCH_CATEGORY_DETAIL", () => {
       const action = fetchCategoryDetail();
-      expect(action.type).toBe(FETCH_CATEGORY_DETAIL_REQUEST);
+      expect(action.type).toBe(FETCH_CATEGORY_DETAIL);
     });
 
     it("should have promise property", () => {

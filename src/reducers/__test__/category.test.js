@@ -138,6 +138,6 @@ describe("Category reducer", () => {
 
     it("should call updateOnFetchPhotosSuccess with action.type = FETCH_PHOTOS_SUCCESS", () => {});
 
-    it("should call updateOnFetchCategoryDetailSuccess with action.type = FETCH_CATEGORY_DETAIL_REQUEST", () => {});
+    it("should call updateOnFetchCategoryDetailSuccess with action.type = FETCH_CATEGORY_DETAIL", () => {});
   });
 });
