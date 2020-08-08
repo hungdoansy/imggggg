@@ -10,7 +10,7 @@ import { useDebounce } from "../../../../utils/hooks";
 
 // TODO: sanitize inputs
 const SignupModal = ({ isOpen, show, hide }) => {
-  const { setAuthTokens } = useAuthContext();
+  const { signIn } = useAuthContext();
   const [state, setState] = useSafeSetState({
     name: {
       value: "",
@@ -68,7 +68,7 @@ const SignupModal = ({ isOpen, show, hide }) => {
         signin(info)
           .then((response) => {
             if (response.status === 200) {
-              setAuthTokens(response.data["access_token"]);
+              signIn(response.data["access_token"]);
               hide();
             } else {
               setState(

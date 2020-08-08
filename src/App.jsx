@@ -10,7 +10,6 @@ import HomeContainer from "./components/HomeContainer";
 import PhotoContainer from "./components/PhotoContainer";
 
 import { AuthContext } from "./context/auth";
-import { ProfileContext } from "./context/profile";
 
 import { getUserProfile } from "./utils/apis/user";
 
@@ -37,26 +36,20 @@ const useAuthTokens = () => {
 
 const useProfile = () => {
   const [profile, setProfile] = useState({});
-
-  const storeProfile = (data) => {
-    setProfile(data);
-  };
-
-  return [profile, storeProfile];
+  return [profile, setProfile];
 };
 
 function App() {
   const [hasSignedIn, authTokens, setAuthTokens] = useAuthTokens();
-  const [profile, storeProfile] = useProfile();
+  const [profile, setProfile] = useProfile();
 
   useEffect(() => {
     if (authTokens !== null && !profile.id) {
       getUserProfile(authTokens)
         .then((response) => {
           if (response.status === 200) {
-            storeProfile(response.data);
+            setProfile(response.data);
           } else {
-            // isInvalid.current = true;
             setAuthTokens("");
           }
         })
@@ -64,47 +57,57 @@ function App() {
           setAuthTokens("");
         });
     }
-  }, [authTokens, profile, setAuthTokens, storeProfile]);
+  }, [authTokens, profile, setAuthTokens, setProfile]);
 
-  // TODO: merge 2 contexts into one and expose SignOut func
+  const signOut = () => {
+    setAuthTokens("");
+    setProfile("");
+  };
+
+  const data = {
+    hasSignedIn,
+    authTokens,
+    profile,
+    signIn: setAuthTokens,
+    signOut,
+  };
+
   // TODO: use const/memorize { hasSignedIn, authTokens, setAuthTokens } ?
   return (
-    <AuthContext.Provider value={{ hasSignedIn, authTokens, setAuthTokens }}>
-      <ProfileContext.Provider value={{ profile, storeProfile }}>
-        <BrowserRouter>
-          <Header />
-          <Switch>
-            {/* <Route
+    <AuthContext.Provider value={data}>
+      <BrowserRouter>
+        <Header />
+        <Switch>
+          {/* <Route
               path="/categories/:categoryId/photos/:photoId"
               exact
               component={PhotoContainer}
             /> */}
 
-            <Route
-              path="/categories/:categoryId/photos"
-              exact
-              component={PhotoContainer}
-            />
+          <Route
+            path="/categories/:categoryId/photos"
+            exact
+            component={PhotoContainer}
+          />
 
-            <Redirect
-              exact
-              from="/categories/:categoryId"
-              to="/categories/:categoryId/photos"
-            />
+          <Redirect
+            exact
+            from="/categories/:categoryId"
+            to="/categories/:categoryId/photos"
+          />
 
-            <Route path="/categories" exact component={CategoryContainer} />
+          <Route path="/categories" exact component={CategoryContainer} />
 
-            <Route path="/" exact component={HomeContainer} />
+          <Route path="/" exact component={HomeContainer} />
 
-            <Redirect to="/" />
-          </Switch>
-        </BrowserRouter>
+          <Redirect to="/" />
+        </Switch>
+      </BrowserRouter>
 
-        <ToastContainer
-          autoDismiss={3000}
-          // hideProgressBar={true}
-        />
-      </ProfileContext.Provider>
+      <ToastContainer
+        autoDismiss={3000}
+        // hideProgressBar={true}
+      />
     </AuthContext.Provider>
   );
 }

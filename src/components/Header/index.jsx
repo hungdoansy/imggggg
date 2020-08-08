@@ -5,7 +5,6 @@ import TabBar from "./components/TabBar";
 import SigninModal from "./components/SigninModal";
 import SignupModal from "./components/SignupModal";
 import { useAuthContext } from "../../context/auth";
-import { useProfileContext } from "../../context/profile";
 
 const useSigninModal = () => {
   const [isSigninModalOpen, setModalOpen] = useState(false);
@@ -36,8 +35,7 @@ const useSignupModal = () => {
 };
 
 const MyHeader = () => {
-  const { authTokens, setAuthTokens } = useAuthContext();
-  const { storeProfile } = useProfileContext();
+  const { authTokens, signOut } = useAuthContext();
 
   const hasBeenAuthenticated = !!authTokens && authTokens !== "";
   console.log("hasBeenAuthenticated", hasBeenAuthenticated);
@@ -52,14 +50,9 @@ const MyHeader = () => {
     hideSignupModal,
   ] = useSignupModal();
 
-  const signOut = (e) => {
-    setAuthTokens("");
-    storeProfile("");
-
+  const onClickSignOut = (e) => {
+    signOut();
     e.preventDefault();
-
-    // TODO: is this needed?
-    window.location.reload();
   };
 
   // NOTE: Logo from Gotit doesn't come with a "to" property
@@ -106,7 +99,7 @@ const MyHeader = () => {
                   }}
                 >
                   <Dropdown.Item
-                    onClick={signOut}
+                    onClick={onClickSignOut}
                     style={{
                       cursor: "pointer",
                       userSelect: "none",
@@ -118,9 +111,6 @@ const MyHeader = () => {
                   </Dropdown.Item>
                 </Dropdown.Container>
               </Dropdown>
-              // <a href="/" onClick={signOut}>
-              //   <Avatar />
-              // </a>
             )}
           </Header.Right>
         </Header.Main>

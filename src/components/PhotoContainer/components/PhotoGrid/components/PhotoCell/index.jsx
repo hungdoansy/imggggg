@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import ViewPhotoModal, { useViewModal } from "../../../ViewPhotoModal";
 
-import { useProfileContext } from "../../../../../../context/profile";
+import { useAuthContext } from "../../../../../../context/auth";
 
 // TODO: only shows button when hovering the photo
 const PhotoCellView = ({
@@ -16,7 +16,7 @@ const PhotoCellView = ({
   author,
   page,
 }) => {
-  const { profile } = useProfileContext();
+  const { profile } = useAuthContext();
 
   const AuthorName =
     profile && profile.id === author.id ? "you" : <b>{author.name}</b>;
