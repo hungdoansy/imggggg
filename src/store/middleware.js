@@ -1,4 +1,4 @@
-import { requestRegex } from "./constants/action.types";
+import { requestRegex } from "../constants/action.types";
 
 const isAsyncAction = (action) =>
   requestRegex.test(action.type) &&
