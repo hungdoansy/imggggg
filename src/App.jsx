@@ -72,18 +72,11 @@ function App() {
     signOut,
   };
 
-  // TODO: use const/memorize { hasSignedIn, authTokens, setAuthTokens } ?
   return (
     <AuthContext.Provider value={data}>
       <BrowserRouter>
         <Header />
         <Switch>
-          {/* <Route
-              path="/categories/:categoryId/photos/:photoId"
-              exact
-              component={PhotoContainer}
-            /> */}
-
           <Route
             path="/categories/:categoryId/photos"
             exact
@@ -104,10 +97,7 @@ function App() {
         </Switch>
       </BrowserRouter>
 
-      <ToastContainer
-        autoDismiss={3000}
-        // hideProgressBar={true}
-      />
+      <ToastContainer autoDismiss={3000} />
     </AuthContext.Provider>
   );
 }

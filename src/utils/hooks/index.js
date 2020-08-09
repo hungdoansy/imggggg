@@ -2,10 +2,6 @@ import { useRef, useEffect, useReducer } from "react";
 import { useLocation } from "react-router-dom";
 import merge from "lodash/merge";
 
-const useQueryParams = () => {
-  return new URLSearchParams(useLocation().search);
-};
-
 const useHashParams = () => {
   const hashParams = new URLSearchParams(useLocation().hash.substring(1));
 
@@ -75,4 +71,4 @@ const useDebounce = (func, delay) => {
   };
 };
 
-export { useHashParams, useQueryParams, useSafeSetState, useDebounce };
+export { useHashParams, useSafeSetState, useDebounce };

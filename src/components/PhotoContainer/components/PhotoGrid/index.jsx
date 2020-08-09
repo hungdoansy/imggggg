@@ -6,9 +6,6 @@ import PhotoCell from "./components/PhotoCell";
 
 import { selectors } from "../../../../reducers";
 
-// TODO: store photos to redux
-// TODO: move pagination one level up
-
 const PhotoGridView = ({
   className,
   categoryId,
@@ -46,7 +43,6 @@ const PhotoGridView = ({
   );
 };
 
-// TODO: Refine CSS
 const PhotoGrid = styled(PhotoGridView)`
   display: flex;
   flex-direction: column;

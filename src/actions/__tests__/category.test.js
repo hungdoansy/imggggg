@@ -1,7 +1,12 @@
-import { fetchCategoriesByPageNumber, fetchCategoryDetail } from "../category";
+import {
+  fetchCategoriesByPageNumber,
+  fetchCategoryDetail,
+  fetchCategoriesForTabBar,
+} from "../category";
 import {
   FETCH_CATEGORIES,
   FETCH_CATEGORY_DETAIL,
+  FETCH_CATEGORIES_FOR_TABBAR,
 } from "../../constants/action.types";
 
 global.fetch = jest.fn(() =>
@@ -55,6 +60,20 @@ describe("Category action creators", () => {
       const action = fetchCategoryDetail(2);
 
       expect(typeof action.promise).not.toBe("undefined");
+      expect(typeof action.promise.then).toBe("function");
+    });
+  });
+
+  describe("fetchCategoriesForTabBar", () => {
+    it("should return action of type FETCH_CATEGORIES_FOR_TABBAR", () => {
+      const action = fetchCategoriesForTabBar();
+      expect(action.type).toBe(FETCH_CATEGORIES_FOR_TABBAR);
+    });
+
+    it("should have promise property", () => {
+      const action = fetchCategoriesForTabBar();
+
+      expect(action.promise).toBeDefined();
       expect(typeof action.promise.then).toBe("function");
     });
   });

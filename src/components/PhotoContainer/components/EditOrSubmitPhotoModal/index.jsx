@@ -20,14 +20,14 @@ const Types = {
 
 const internalData = {
   EDIT: {
-    header: "Edit your photo 😎",
+    title: "Edit your photo 😎",
     footer: "EDIT",
     pastVerb: "edited",
     action: editPhoto,
   },
 
   SUBMIT: {
-    header: "Your photo shall be published 🥳",
+    title: "Your photo shall be published 🥳",
     footer: "SUBMIT",
     pastVerb: "submitted",
     action: submitPhoto,
@@ -186,7 +186,7 @@ const EditOrSubmitPhotoModal = ({
     <>
       <Modal show={isOpen} onHide={hide}>
         <Modal.Header closeButton>
-          <Modal.Title>{internalData[type].header}</Modal.Title>
+          <Modal.Title>{internalData[type].title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Group controlId="submitform.category">
@@ -227,6 +227,7 @@ const EditOrSubmitPhotoModal = ({
         <Modal.Footer>
           <div className="u-flexGrow-1">
             <Button
+              id="actionButton"
               variant="primary"
               width="full"
               className="u-fontBold"

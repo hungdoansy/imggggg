@@ -99,7 +99,7 @@ const TabBarView = ({ className }) => {
         `}
       >
         <Link to="/categories">
-          <span> View all</span>
+          <span>View all</span>
         </Link>
       </div>
 
