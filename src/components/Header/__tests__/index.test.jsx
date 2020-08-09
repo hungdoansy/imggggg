@@ -9,8 +9,8 @@ FromAuth.useAuthContext = jest.fn().mockImplementation(() => {
   return { authTokens: "", setAuthTokens: () => {} };
 });
 
-const FromTabBar = require("./components/TabBar/TabBar");
-FromTabBar.TabBar = jest.fn().mockImplementation(() => {
+const FromTabBar = require("../components/TabBar");
+FromTabBar.default = jest.fn().mockImplementation(() => {
   return <p id="tab-bar">TabBar</p>;
 });
 
