@@ -10,7 +10,7 @@ import Container from "../common/Container";
 import { selectors } from "../../reducers";
 import { CATEGORIES_PER_PAGE } from "../../constants/settings";
 
-const CategoryContainer = () => {
+export const CategoryContainer = () => {
   const hashParams = useHashParams();
   const totalCategories = useSelector(selectors.getTotalNumberOfCategories);
   const [page, setPage] = useState(1);

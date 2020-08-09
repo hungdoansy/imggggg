@@ -1,6 +1,7 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Router } from "react-router-dom";
 import { render } from "@testing-library/react";
+import { createMemoryHistory } from "history";
 
 import CategoryContainer from "..";
 
@@ -10,9 +11,10 @@ global.fetch = jest.fn(() =>
   })
 );
 
+let returnedPage = 1;
 const hooks = require("../../../utils/hooks");
 hooks.useHashParams = jest.fn().mockImplementation(() => ({
-  getPage: () => 1,
+  getPage: () => returnedPage,
 }));
 
 const initialState = {
@@ -36,6 +38,24 @@ const initialState = {
 const ReactRedux = require("react-redux");
 ReactRedux.useSelector = jest.fn().mockImplementation((fn) => fn(initialState));
 ReactRedux.useDispatch = jest.fn().mockReturnValue(() => {});
+
+const FromCategoryGrid = require("../components/CategoryGrid");
+FromCategoryGrid.default = jest.fn().mockImplementation(() => {
+  return <p>CategoryGrid</p>;
+});
+
+function renderWithRouter(
+  ui,
+  {
+    route = "/",
+    history = createMemoryHistory({ initialEntries: [route] }),
+  } = {}
+) {
+  return {
+    ...render(<Router history={history}>{ui}</Router>),
+    history,
+  };
+}
 
 describe("CategoryContainer", () => {
   let getByText;
@@ -65,5 +85,13 @@ describe("CategoryContainer", () => {
       return nodeHasText && childrenDontHaveText;
     };
     expect(getByText(matcher)).toBeInTheDocument();
+  });
+
+  it("should redirect when page is not a number", () => {
+    returnedPage = "hehe";
+
+    const { history } = renderWithRouter(<CategoryContainer />);
+
+    expect(history.location.pathname).toEqual("/categories");
   });
 });
