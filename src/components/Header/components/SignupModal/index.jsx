@@ -90,7 +90,7 @@ const SignupModal = ({ isOpen, show, hide }) => {
           produce(state, (draftState) => {
             if (typeof response.data.error === "string") {
               draftState.feedback = response.data.error;
-            } else if (Array.isArray(response.data.error)) {
+            } else if (typeof response.data.error === "object") {
               ["email", "name", "password"].forEach((which) => {
                 if (response.data.error[which]) {
                   draftState[which].feedback = response.data.error[which].join(
