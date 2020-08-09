@@ -5,10 +5,8 @@ import { render } from "@testing-library/react";
 import CategoryCell from "..";
 
 describe("CategoryCell", () => {
-  let getByText;
-
   beforeEach(() => {
-    ({ getByText } = render(
+    render(
       <BrowserRouter>
         <CategoryCell
           id={1}
@@ -17,7 +15,7 @@ describe("CategoryCell", () => {
           description="random text"
         />
       </BrowserRouter>
-    ));
+    );
   });
 
   it("should render a <a> and a <img> inside it", () => {
