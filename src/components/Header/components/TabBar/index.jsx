@@ -138,32 +138,48 @@ const TabBar = styled(TabBarView)`
     }
 
     &.tabs-container {
-      flex-grow: 1;
-
-      overflow-x: scroll;
-
-      /* Hide the scroll bar */
-      scrollbar-width: none;
-      &::-webkit-scrollbar {
-        display: none;
-      }
-
       display: flex;
+      flex-grow: 1;
       flex-direction: column;
       justify-content: center;
 
+      overflow-x: hidden;
+
+      position: relative;
+
+      &::after {
+        position: absolute;
+        top: 0;
+        bottom: 1px;
+        right: 0;
+        display: block;
+        width: 100px;
+        pointer-events: none;
+        content: "";
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.2) 0,
+          #fff 85%,
+          #fff
+        );
+      }
+
       ul.tabs {
-        height: 100%;
-        min-width: 100%;
-        overflow-x: scroll;
-
-        list-style: none;
-        margin: 0;
-        padding: 0;
-
         display: flex;
         flex-direction: row;
 
+        height: 100%;
+        min-width: 100%;
+
+        margin: 0;
+        padding: 0;
+
+        overflow-x: scroll;
+
+        list-style: none;
+
+        /* Hide the scroll bar */
+        scrollbar-width: none;
         &::-webkit-scrollbar {
           display: none;
         }
