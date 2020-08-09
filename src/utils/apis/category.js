@@ -3,10 +3,7 @@ import { generateRequest } from "./generateRequest";
 
 const API_HOST = process.env.REACT_APP_API_HOST;
 
-export const createCategory = (
-  { name, imageUrl: image_url, description },
-  tokens
-) => {
+const createCategory = ({ name, imageUrl: image_url, description }, tokens) => {
   const stringifiedBody = JSON.stringify({ name, image_url, description });
 
   return generateRequest(
@@ -17,7 +14,7 @@ export const createCategory = (
   );
 };
 
-export const getCategoriesByPageNumber = (page) => {
+const getCategoriesByPageNumber = (page) => {
   const offset = (page - 1) * CATEGORIES_PER_PAGE;
   const limit = CATEGORIES_PER_PAGE;
 
@@ -27,13 +24,20 @@ export const getCategoriesByPageNumber = (page) => {
   );
 };
 
-export const getCategoriesByOffsetAndLimit = (offset, limit) => {
+const getCategoriesByOffsetAndLimit = (offset, limit) => {
   return generateRequest(
     "GET",
     `${API_HOST}/categories?offset=${offset}&limit=${limit}`
   );
 };
 
-export const getCategoryDetail = (categoryId) => {
+const getCategoryDetail = (categoryId) => {
   return generateRequest("GET", `${API_HOST}/categories/${categoryId}`);
+};
+
+export {
+  createCategory,
+  getCategoriesByPageNumber,
+  getCategoriesByOffsetAndLimit,
+  getCategoryDetail,
 };

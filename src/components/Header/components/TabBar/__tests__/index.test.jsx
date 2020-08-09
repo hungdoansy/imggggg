@@ -67,7 +67,6 @@ describe("Tab Bar", () => {
           <TabBar />
         </BrowserRouter>
       ));
-      screen.debug();
     });
 
     it("should be rendered", () => {
@@ -86,7 +85,6 @@ describe("Tab Bar", () => {
           <TabBar />
         </BrowserRouter>
       ));
-      screen.debug();
     });
 
     it("should be rendered", () => {
