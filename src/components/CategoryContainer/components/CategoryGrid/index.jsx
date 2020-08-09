@@ -15,16 +15,10 @@ const CategoryGridView = ({ className, currentPage }) => {
     selectors.getCategoriesByPageNumber(state, currentPage)
   );
 
-  console.log("currentPage", currentPage);
-  console.log("categories", categories);
-
   const totalPages = useSelector(selectors.getTotalNumberOfRemotePages);
 
   useEffect(() => {
-    console.log("fetch whenever it's mounted");
     dispatch(fetchCategoriesByPageNumber(currentPage));
-
-    // TODO: handle error
   }, [currentPage, dispatch]);
 
   const CategoryCells = categories.map((category) => (

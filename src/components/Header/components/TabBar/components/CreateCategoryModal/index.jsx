@@ -6,10 +6,7 @@ import { Button, Modal, Form, toast, Icon } from "@gotitinc/design-system";
 import { createCategory } from "../../../../../../utils/apis/category";
 import { useSafeSetState, useDebounce } from "../../../../../../utils/hooks";
 import { useAuthContext } from "../../../../../../context/auth";
-import {
-  fetchCategoriesByPageNumber,
-  fetchCategoriesForTabBar,
-} from "../../../../../../actions/category";
+import { fetchCategoriesForTabBar } from "../../../../../../actions/category";
 import { categoryValidator } from "../../../../../../utils/validators";
 
 // TODO: sanitize inputs
@@ -84,8 +81,6 @@ const CreateCategoryModal = ({ isOpen, show, hide }) => {
     };
 
     createCategory(info, authTokens).then((response) => {
-      console.log("response", response);
-
       switch (response.status) {
         case 400: {
           setDisabled(true);

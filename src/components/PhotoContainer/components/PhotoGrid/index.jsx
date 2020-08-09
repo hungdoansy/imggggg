@@ -15,7 +15,6 @@ const PhotoGridView = ({
   const photos = useSelector((state) =>
     selectors.getPhotos(state, categoryId, currentPage)
   );
-  console.log("photos", photos);
 
   const Photos = photos.map((p) => (
     <li key={p.id}>

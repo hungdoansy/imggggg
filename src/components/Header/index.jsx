@@ -38,7 +38,7 @@ const MyHeader = () => {
   const { authTokens, signOut } = useAuthContext();
 
   const hasBeenAuthenticated = !!authTokens && authTokens !== "";
-  console.log("hasBeenAuthenticated", hasBeenAuthenticated);
+
   const [
     isSigninModalOpen,
     showSigninModal,
