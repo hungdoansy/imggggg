@@ -40,13 +40,11 @@ const TabBarView = ({ className }) => {
 
   const tabs = categories.map((c, i) => {
     return (
-      <NavLink
-        key={i}
-        to={`/categories/${c.id}/photos`}
-        activeClassName="active"
-      >
-        <span className="centered u-text200 u-textGray">{c.name}</span>
-      </NavLink>
+      <li key={c.id}>
+        <NavLink to={`/categories/${c.id}/photos`} activeClassName="active">
+          <span className="centered u-text200 u-textGray">{c.name}</span>
+        </NavLink>
+      </li>
     );
   });
 
@@ -89,7 +87,7 @@ const TabBarView = ({ className }) => {
       </div>
       <Separator />
       <div className="tabs-container">
-        <div className="tabs">{tabs}</div>
+        <ul className="tabs">{tabs}</ul>
       </div>
       <Separator />
       <div
@@ -141,6 +139,7 @@ const TabBar = styled(TabBarView)`
 
     &.tabs-container {
       flex-grow: 1;
+
       overflow-x: scroll;
 
       /* Hide the scroll bar */
@@ -153,17 +152,25 @@ const TabBar = styled(TabBarView)`
       flex-direction: column;
       justify-content: center;
 
-      div.tabs {
+      ul.tabs {
         height: 100%;
+        min-width: 100%;
+        overflow-x: scroll;
 
-        > a {
-          display: inline-block;
-          height: 100%;
+        list-style: none;
+        margin: 0;
+        padding: 0;
 
+        display: flex;
+        flex-direction: row;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+
+        > li {
           margin-left: 6px;
           margin-right: 6px;
-
-          transition: color 0.1s linear;
 
           &:first-child {
             margin-left: 0;
@@ -173,30 +180,39 @@ const TabBar = styled(TabBarView)`
             margin-right: 0;
           }
 
-          &.active {
-            border-bottom: 3px solid #375de7;
+          > a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            box-sizing: border-box;
+
+            height: 100%;
+
+            transition: color 0.1s linear;
+
+            &.active {
+              border-bottom: 3px solid #375de7;
+              padding-top: 3px;
+
+              > span {
+                color: #375de7;
+              }
+            }
+
+            &:hover {
+              text-decoration: none;
+
+              > span {
+                color: #375de7;
+              }
+            }
 
             > span {
-              color: #375de7;
+              line-height: 50px;
             }
-          }
-
-          &:hover {
-            text-decoration: none;
-
-            > span {
-              color: #375de7;
-            }
-          }
-
-          > span {
-            line-height: 50px;
           }
         }
-      }
-
-      div.tab-link {
-        display: inline-block;
       }
     }
 
