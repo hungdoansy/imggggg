@@ -71,6 +71,7 @@ const ViewPhotoModal = ({ isOpen, show, hide, photoId, categoryId, page }) => {
 
   const shouldShowButtons =
     hasSignedIn && profile && profile.id === photoInfo.author.id;
+
   const categoryInfo = useSelector((state) =>
     selectors.getCategoryInfo(state, categoryId)
   );
