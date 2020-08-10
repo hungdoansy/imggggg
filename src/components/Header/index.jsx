@@ -117,7 +117,6 @@ const MyHeader = () => {
         </Header.Main>
       </Header>
 
-      {/* TODO: show/hide the tab bar based on auth status (localStorage) */}
       <TabBar />
 
       {isSigninModalOpen && (

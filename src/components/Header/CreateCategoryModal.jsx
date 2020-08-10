@@ -9,8 +9,6 @@ import { useAuthContext } from "context/auth";
 import { fetchCategoriesForTabBar } from "actions/category";
 import { categoryValidator } from "utils/validators";
 
-// TODO: sanitize inputs
-
 const useCreateModal = () => {
   const [isCreateModalOpen, setModalOpen] = useState(false);
 
@@ -73,7 +71,6 @@ const CreateCategoryModal = ({ isOpen, show, hide }) => {
   };
 
   const onClick = () => {
-    // TODO: check for error
     const info = {
       name: state.name.value,
       description: state.description.value,

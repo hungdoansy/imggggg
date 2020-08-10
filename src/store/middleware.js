@@ -19,20 +19,16 @@ const asyncHandler = (store) => (next) => (action) => {
     // don't forward the promise
     next({ type, ...rest });
 
-    // TODO: need return or not?
-    // If using return, we can use const result = dispatch(someAction());
     action.promise
       .then((response) => {
         const status = response.status.toString();
         if (status.match(/^2/)) {
-          // return
           next({
             type: getSuccessActionType(action),
             data: response.data,
             ...rest,
           });
         } else if (status.match(/^4/)) {
-          // return
           next({
             type: getFailureActionType(action),
             data: response.data,
@@ -42,7 +38,6 @@ const asyncHandler = (store) => (next) => (action) => {
       })
       .catch((error) => {});
   } else {
-    // return
     next(action);
   }
 };

@@ -3,8 +3,6 @@ import { generateRequest } from "./generateRequest";
 
 const API_HOST = process.env.REACT_APP_API_HOST;
 
-// TODO: create generateRequest
-
 const getPhotos = (categoryId, page = 1) => {
   const offset = (page - 1) * PHOTOS_PER_PAGE;
   const limit = PHOTOS_PER_PAGE;

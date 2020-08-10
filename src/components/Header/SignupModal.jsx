@@ -8,7 +8,6 @@ import { useSafeSetState } from "utils/hooks";
 import { userInfoValidator } from "utils/validators";
 import { useDebounce } from "utils/hooks";
 
-// TODO: sanitize inputs
 const SignupModal = ({ isOpen, show, hide }) => {
   const { signIn } = useAuthContext();
   const [state, setState] = useSafeSetState({

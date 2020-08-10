@@ -19,7 +19,7 @@ const generateRequest = (method, url, tokens, stringifiedBody) => {
       console.log(e);
 
       return [];
-    }); // TODO: network failure;
+    });
 };
 
 export { generateRequest };

@@ -8,7 +8,6 @@ import {
 } from "constants/action.types";
 import { CATEGORIES_PER_PAGE } from "constants/settings";
 
-// TODO: merge photoCountById into byId
 const initialState = {
   allPageNumbers: [],
   idsByPageNumber: {},

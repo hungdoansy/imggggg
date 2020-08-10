@@ -26,7 +26,6 @@ const categoryValidator = {
   },
 
   imageUrl: (value) => {
-    // TODO: find a good regex for this
     if (value.length < 1 || value.length > 200) {
       return {
         passed: false,
@@ -55,7 +54,6 @@ const photoValidator = {
   },
 
   imageUrl: (value) => {
-    // TODO: find a good regex for this
     if (value.length < 1 || value.length > 200) {
       return {
         passed: false,

@@ -22,7 +22,6 @@ import { fetchCategoryDetail } from "actions/category";
 import { fetchPhotos } from "actions/photo";
 import { PHOTOS_PER_PAGE } from "constants/settings";
 
-// TODO: fetch categoryInfo on load
 const PhotoContainerView = ({ className, match }) => {
   const dispatch = useDispatch();
   const { hasSignedIn } = useAuthContext();

@@ -9,7 +9,6 @@ import { selectors } from "reducers";
 import { fetchCategoriesByPageNumber } from "actions/category";
 
 const CategoryGridView = ({ className, currentPage }) => {
-  // TODO: fix re-render too many times
   const dispatch = useDispatch();
   const categories = useSelector((state) =>
     selectors.getCategoriesByPageNumber(state, currentPage)
@@ -47,7 +46,6 @@ const CategoryGridView = ({ className, currentPage }) => {
   );
 };
 
-// TODO: use grid
 export default styled(CategoryGridView)`
   margin-top: 50px;
 

@@ -5,7 +5,6 @@ import ViewPhotoModal, { useViewModal } from "./ViewPhotoModal";
 
 import { useAuthContext } from "context/auth";
 
-// TODO: only shows button when hovering the photo
 const PhotoCellView = ({
   className,
   id,

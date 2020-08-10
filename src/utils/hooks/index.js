@@ -19,7 +19,6 @@ const useHashParams = () => {
       // #action=signin&page=34
       // #action=signin&page=asdhsd
 
-      // TODO: handle page is NaN
       return parseInt(page);
     }
   };
