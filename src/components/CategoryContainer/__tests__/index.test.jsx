@@ -12,7 +12,7 @@ global.fetch = jest.fn(() =>
 );
 
 let returnedPage = 1;
-const hooks = require("../../../utils/hooks");
+const hooks = require("utils/hooks");
 hooks.useHashParams = jest.fn().mockImplementation(() => ({
   getPage: () => returnedPage,
 }));
@@ -39,7 +39,7 @@ const ReactRedux = require("react-redux");
 ReactRedux.useSelector = jest.fn().mockImplementation((fn) => fn(initialState));
 ReactRedux.useDispatch = jest.fn().mockReturnValue(() => {});
 
-const FromCategoryGrid = require("../components/CategoryGrid");
+const FromCategoryGrid = require("../CategoryGrid");
 FromCategoryGrid.default = jest.fn().mockImplementation(() => {
   return <p>CategoryGrid</p>;
 });

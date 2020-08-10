@@ -5,8 +5,8 @@ import {
   FETCH_CATEGORY_DETAIL_FAILURE,
   FETCH_PHOTOS_FAILURE,
   FETCH_CATEGORIES_FOR_TABBAR_SUCCESS,
-} from "../constants/action.types";
-import { CATEGORIES_PER_PAGE } from "../constants/settings";
+} from "constants/action.types";
+import { CATEGORIES_PER_PAGE } from "constants/settings";
 
 // TODO: merge photoCountById into byId
 const initialState = {

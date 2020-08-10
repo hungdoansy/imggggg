@@ -4,12 +4,12 @@ import { render } from "@testing-library/react";
 import Header from "..";
 import { BrowserRouter } from "react-router-dom";
 
-const FromAuth = require("../../../context/auth");
+const FromAuth = require("context/auth");
 FromAuth.useAuthContext = jest.fn().mockImplementation(() => {
   return { authTokens: "", setAuthTokens: () => {} };
 });
 
-const FromTabBar = require("../components/TabBar");
+const FromTabBar = require("../TabBar");
 FromTabBar.default = jest.fn().mockImplementation(() => {
   return <p id="tab-bar">TabBar</p>;
 });

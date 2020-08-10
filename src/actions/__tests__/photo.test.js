@@ -1,5 +1,5 @@
 import { fetchPhotos, fetchPhotoDetail } from "../photo";
-import { FETCH_PHOTOS, FETCH_PHOTO_DETAIL } from "../../constants/action.types";
+import { FETCH_PHOTOS, FETCH_PHOTO_DETAIL } from "constants/action.types";
 
 global.fetch = jest.fn(() =>
   Promise.resolve({

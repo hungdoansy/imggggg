@@ -2,12 +2,12 @@ import {
   FETCH_CATEGORIES,
   FETCH_CATEGORY_DETAIL,
   FETCH_CATEGORIES_FOR_TABBAR,
-} from "../constants/action.types";
+} from "constants/action.types";
 import {
   getCategoriesByPageNumber,
   getCategoryDetail,
   getCategoriesByOffsetAndLimit,
-} from "../utils/apis/category";
+} from "utils/apis/category";
 
 export const fetchCategoriesByPageNumber = (page = 1) => {
   return {

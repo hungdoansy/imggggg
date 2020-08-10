@@ -3,12 +3,12 @@ import { withRouter } from "react-router";
 import { Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import CategoryGrid from "./components/CategoryGrid";
-import { useHashParams } from "../../utils/hooks";
+import CategoryGrid from "./CategoryGrid";
+import { useHashParams } from "utils/hooks";
 
 import Container from "../common/Container";
-import { selectors } from "../../reducers";
-import { CATEGORIES_PER_PAGE } from "../../constants/settings";
+import { selectors } from "reducers";
+import { CATEGORIES_PER_PAGE } from "constants/settings";
 
 export const CategoryContainer = () => {
   const hashParams = useHashParams();

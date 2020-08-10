@@ -7,7 +7,7 @@ import {
   FETCH_CATEGORIES,
   FETCH_CATEGORY_DETAIL,
   FETCH_CATEGORIES_FOR_TABBAR,
-} from "../../constants/action.types";
+} from "constants/action.types";
 
 global.fetch = jest.fn(() =>
   Promise.resolve({

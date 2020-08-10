@@ -1,5 +1,5 @@
-import { FETCH_PHOTOS, FETCH_PHOTO_DETAIL } from "../constants/action.types";
-import { getPhotos, getPhotoDetail } from "../utils/apis/photo";
+import { FETCH_PHOTOS, FETCH_PHOTO_DETAIL } from "constants/action.types";
+import { getPhotos, getPhotoDetail } from "utils/apis/photo";
 
 export const fetchPhotos = (categoryId, page = 1) => {
   return {

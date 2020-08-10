@@ -1,4 +1,4 @@
-import { successPostfix, failurePostfix } from "../constants/action.types";
+import { successPostfix, failurePostfix } from "constants/action.types";
 
 const isAsyncAction = (action) =>
   !!action.promise && typeof action.promise.then === "function";

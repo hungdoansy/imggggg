@@ -1,7 +1,7 @@
 import {
   FETCH_PHOTOS_SUCCESS,
   FETCH_PHOTO_DETAIL_SUCCESS,
-} from "../constants/action.types";
+} from "constants/action.types";
 
 const initialState = {
   allCategoryIds: [],

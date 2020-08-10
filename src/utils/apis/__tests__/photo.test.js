@@ -5,7 +5,7 @@ import {
   removePhoto,
   getPhotoDetail,
 } from "../photo";
-import { PHOTOS_PER_PAGE } from "../../../constants/settings";
+import { PHOTOS_PER_PAGE } from "constants/settings";
 
 const generateRequestMockFn = jest.fn();
 
