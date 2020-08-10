@@ -46,6 +46,7 @@ const CreateCategoryModal = ({ isOpen, show, hide }) => {
   const [disabled, setDisabled] = useState(false);
   const checkDisabled = useDebounce(() => {
     const shouldBeDisabled =
+      state.feedback !== "" ||
       state.name.feedback !== "" ||
       state.imageUrl.feedback !== "" ||
       state.description.feedback !== "";
@@ -56,6 +57,8 @@ const CreateCategoryModal = ({ isOpen, show, hide }) => {
   const setValue = (which, value) => {
     setState(
       produce(state, (draft) => {
+        draft.feedback = "";
+
         const check = categoryValidator[which](value);
 
         draft[which].value = value;
@@ -83,18 +86,22 @@ const CreateCategoryModal = ({ isOpen, show, hide }) => {
           setDisabled(true);
           setState(
             produce(state, (draftState) => {
-              const { error } = response.data;
+              if (typeof response.data.error === "string") {
+                draftState.feedback = response.data.error;
+              } else if (typeof response.data.error === "object") {
+                const { error } = response.data;
 
-              if (error.name) {
-                draftState.name.feedback = error.name[0];
-              }
+                if (error.name) {
+                  draftState.name.feedback = error.name[0];
+                }
 
-              if (error.image_url) {
-                draftState.imageUrl.feedback = error.image_url[0];
-              }
+                if (error.image_url) {
+                  draftState.imageUrl.feedback = error.image_url[0];
+                }
 
-              if (error.description) {
-                draftState.description.feedback = error.description[0];
+                if (error.description) {
+                  draftState.description.feedback = error.description[0];
+                }
               }
             })
           );
