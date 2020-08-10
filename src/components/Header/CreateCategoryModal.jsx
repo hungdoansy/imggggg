@@ -5,9 +5,9 @@ import { Button, Modal, Form, toast, Icon } from "@gotitinc/design-system";
 
 import { createCategory } from "utils/apis/category";
 import { useSafeSetState, useDebounce } from "utils/hooks";
+import { categoryValidator } from "utils/validators";
 import { useAuthContext } from "context/auth";
 import { fetchCategoriesForTabBar } from "actions/category";
-import { categoryValidator } from "utils/validators";
 
 const useCreateModal = () => {
   const [isCreateModalOpen, setModalOpen] = useState(false);

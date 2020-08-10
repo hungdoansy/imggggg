@@ -5,14 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { removePhoto } from "utils/apis/photo";
 import { useAuthContext } from "context/auth";
+import { fetchPhotos, fetchPhotoDetail } from "actions/photo";
+import { selectors } from "reducers";
+
 import {
   default as EditPhotoModal,
   useEditOrSubmitModal as useEditModal,
   Types,
 } from "./EditOrSubmitPhotoModal";
 import RemoveConfirmModal, { useRemoveModal } from "./RemoveConfirmModal";
-import { fetchPhotos, fetchPhotoDetail } from "actions/photo";
-import { selectors } from "reducers";
 
 const RemoveIcon = () => {
   return (

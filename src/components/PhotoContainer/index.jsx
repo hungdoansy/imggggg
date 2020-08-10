@@ -4,23 +4,23 @@ import { toast, Icon } from "@gotitinc/design-system";
 import styled from "styled-components";
 import { Redirect } from "react-router-dom";
 
-import PhotoGrid from "./PhotoGrid";
-import { useHashParams } from "utils/hooks";
-import Container from "../common/Container";
+import Container from "components/common/Container";
+import Pagination from "components/common/Pagination";
 
+import { useHashParams } from "utils/hooks";
 import { useAuthContext } from "context/auth";
+import { selectors } from "reducers/category";
+import { fetchCategoryDetail } from "actions/category";
+import { fetchPhotos } from "actions/photo";
+import { PHOTOS_PER_PAGE } from "constants/settings";
+
+import PhotoGrid from "./PhotoGrid";
 import {
   default as SubmitPhotoModal,
   useEditOrSubmitModal as useSubmitModal,
   Types,
 } from "./EditOrSubmitPhotoModal";
-
 import CategoryInfo from "./CategoryInfo";
-import Pagination from "../common/Pagination";
-import { selectors } from "reducers/category";
-import { fetchCategoryDetail } from "actions/category";
-import { fetchPhotos } from "actions/photo";
-import { PHOTOS_PER_PAGE } from "constants/settings";
 
 const PhotoContainerView = ({ className, match }) => {
   const dispatch = useDispatch();

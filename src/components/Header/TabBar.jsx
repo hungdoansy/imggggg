@@ -4,10 +4,11 @@ import styled from "styled-components";
 import { toast, Icon } from "@gotitinc/design-system";
 import { Link, NavLink } from "react-router-dom";
 
-import CreateCategoryModal, { useCreateModal } from "./CreateCategoryModal";
 import { selectors } from "reducers";
 import { useAuthContext } from "context/auth";
 import { fetchCategoriesForTabBar } from "actions/category";
+
+import CreateCategoryModal, { useCreateModal } from "./CreateCategoryModal";
 
 const SeparatorView = ({ className }) => {
   return <div className={className}></div>;

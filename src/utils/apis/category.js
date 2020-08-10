@@ -1,4 +1,5 @@
 import { CATEGORIES_PER_PAGE } from "constants/settings";
+
 import { generateRequest } from "./generateRequest";
 
 const API_HOST = process.env.REACT_APP_API_HOST;

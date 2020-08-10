@@ -1,13 +1,14 @@
 import {
-  fetchCategoriesByPageNumber,
-  fetchCategoryDetail,
-  fetchCategoriesForTabBar,
-} from "../category";
-import {
   FETCH_CATEGORIES,
   FETCH_CATEGORY_DETAIL,
   FETCH_CATEGORIES_FOR_TABBAR,
 } from "constants/action.types";
+
+import {
+  fetchCategoriesByPageNumber,
+  fetchCategoryDetail,
+  fetchCategoriesForTabBar,
+} from "../category";
 
 global.fetch = jest.fn(() =>
   Promise.resolve({

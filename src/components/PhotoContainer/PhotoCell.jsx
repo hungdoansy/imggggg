@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-import ViewPhotoModal, { useViewModal } from "./ViewPhotoModal";
-
 import { useAuthContext } from "context/auth";
+
+import ViewPhotoModal, { useViewModal } from "./ViewPhotoModal";
 
 const PhotoCellView = ({
   className,

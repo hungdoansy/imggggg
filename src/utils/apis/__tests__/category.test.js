@@ -1,3 +1,5 @@
+import { CATEGORIES_PER_PAGE } from "constants/settings";
+
 import {
   createCategory,
   getCategories,
@@ -5,7 +7,6 @@ import {
   getCategoriesByOffsetAndLimit,
   getCategoryDetail,
 } from "../category";
-import { CATEGORIES_PER_PAGE } from "constants/settings";
 
 const generateRequestMockFn = jest.fn();
 

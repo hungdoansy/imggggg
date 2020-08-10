@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Header, Button, Dropdown, Icon } from "@gotitinc/design-system";
 
+import { useAuthContext } from "context/auth";
+
 import TabBar from "./TabBar";
 import SigninModal from "./SigninModal";
 import SignupModal from "./SignupModal";
-import { useAuthContext } from "context/auth";
 
 const useSigninModal = () => {
   const [isSigninModalOpen, setModalOpen] = useState(false);

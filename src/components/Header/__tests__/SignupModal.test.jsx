@@ -1,5 +1,6 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
+
 import SignupModal from "../SignupModal";
 
 const FromAuthContext = require("context/auth");

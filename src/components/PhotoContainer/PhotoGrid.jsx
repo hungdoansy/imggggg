@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 
-import PhotoCell from "./PhotoCell";
-
 import { selectors } from "reducers";
+
+import PhotoCell from "./PhotoCell";
 
 const PhotoGridView = ({
   className,

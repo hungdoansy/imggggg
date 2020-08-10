@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+
 import * as fromCategory from "./category";
 import * as fromPhoto from "./photo";
 

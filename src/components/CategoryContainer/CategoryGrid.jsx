@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 
-import Pagination from "../common/Pagination";
-import CategoryCell from "./CategoryCell";
-
 import { selectors } from "reducers";
 import { fetchCategoriesByPageNumber } from "actions/category";
+
+import Pagination from "../common/Pagination";
+import CategoryCell from "./CategoryCell";
 
 const CategoryGridView = ({ className, currentPage }) => {
   const dispatch = useDispatch();

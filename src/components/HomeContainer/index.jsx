@@ -1,6 +1,6 @@
 import React from "react";
 
-import Container from "../common/Container";
+import Container from "components/common/Container";
 
 const HomeContainer = (props) => {
   return (

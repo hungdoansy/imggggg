@@ -1,8 +1,8 @@
 import React from "react";
 import { render } from "@testing-library/react";
+import { BrowserRouter } from "react-router-dom";
 
 import Header from "..";
-import { BrowserRouter } from "react-router-dom";
 
 const FromAuth = require("context/auth");
 FromAuth.useAuthContext = jest.fn().mockImplementation(() => {
