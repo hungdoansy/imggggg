@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import produce from "immer";
-import { Button, Modal, Form, toast, Icon } from "@gotitinc/design-system";
-import { useDispatch } from "react-redux";
+import { Button, Modal, Form } from "@gotitinc/design-system";
+import { useDispatch, useSelector } from "react-redux";
 
 import { editPhoto, submitPhoto } from "utils/apis/photo";
 import { photoValidator } from "utils/validators";
 import { useSafeSetState, useDebounce, useHashParams } from "utils/hooks";
 import { useAuthContext } from "context/auth";
 import { fetchPhotoDetail, fetchPhotos } from "actions/photo";
+import { toastDefault, toastError } from "utils/toast";
+import { selectors } from "reducers";
+import { Modals } from "constants/action.types";
+import { showModal, hideModal } from "actions/app";
 
 const Types = {
   EDIT: "EDIT",
@@ -30,22 +34,38 @@ const internalData = {
   },
 };
 
-const useEditOrSubmitModal = () => {
-  const [isEditOrSubmitModalOpen, setModalOpen] = useState(false);
+const useEditModal = () => {
+  const dispatch = useDispatch();
 
-  const showEditOrSubmitModal = () => {
-    setModalOpen(true);
+  const currentOpenModal = useSelector(selectors.getOpenModal);
+  const isOpen = currentOpenModal === Modals.EDIT;
+
+  const show = () => {
+    dispatch(showModal(Modals.EDIT));
   };
 
-  const hideEditOrSubmitModal = () => {
-    setModalOpen(false);
+  const hide = () => {
+    dispatch(hideModal(Modals.EDIT));
   };
 
-  return [
-    isEditOrSubmitModalOpen,
-    showEditOrSubmitModal,
-    hideEditOrSubmitModal,
-  ];
+  return [isOpen, show, hide];
+};
+
+const useSubmitModal = () => {
+  const dispatch = useDispatch();
+
+  const currentOpenModal = useSelector(selectors.getOpenModal);
+  const isOpen = currentOpenModal === Modals.SUBMIT;
+
+  const show = () => {
+    dispatch(showModal(Modals.SUBMIT));
+  };
+
+  const hide = () => {
+    dispatch(hideModal(Modals.SUBMIT));
+  };
+
+  return [isOpen, show, hide];
 };
 
 const EditOrSubmitPhotoModal = ({
@@ -135,21 +155,10 @@ const EditOrSubmitPhotoModal = ({
             dispatch(fetchPhotos(categoryId, hashParams.getPage()));
           }
 
-          toast(() => (
-            <div className="u-flex u-flexGrow-1 u-cursorDefault">
-              <div className="u-marginRightExtraSmall">
-                <Icon name="checkmarkCircle" size="medium" />
-              </div>
-              <div className="u-flexGrow-1">
-                <div className="u-fontMedium u-marginBottomExtraSmall">
-                  Yeahhhhh !
-                </div>
-                <div>
-                  Your photo has just been {internalData[type].pastVerb} !
-                </div>
-              </div>
-            </div>
-          ));
+          toastDefault(
+            "Yeahhhhh !",
+            `Your photo has just been ${internalData[type].pastVerb} !`
+          );
 
           hide();
 
@@ -158,20 +167,8 @@ const EditOrSubmitPhotoModal = ({
 
         default: {
           hide();
+          toastError();
 
-          toast.error(() => (
-            <div className="u-flex u-flexGrow-1 u-cursorDefault">
-              <div className="u-marginRightExtraSmall">
-                <Icon name="alert" size="medium" />
-              </div>
-              <div className="u-flexGrow-1">
-                <div className="u-fontMedium u-marginBottomExtraSmall">
-                  Error
-                </div>
-                <div>Please reload and try again</div>
-              </div>
-            </div>
-          ));
           break;
         }
       }
@@ -239,5 +236,12 @@ const EditOrSubmitPhotoModal = ({
   );
 };
 
-export { useEditOrSubmitModal, Types };
-export default EditOrSubmitPhotoModal;
+const EditPhotoModal = (props) => {
+  return <EditOrSubmitPhotoModal type={Types.EDIT} {...props} />;
+};
+
+const SubmitPhotoModal = (props) => {
+  return <EditOrSubmitPhotoModal type={Types.SUBMIT} {...props} />;
+};
+
+export { useEditModal, useSubmitModal, EditPhotoModal, SubmitPhotoModal };

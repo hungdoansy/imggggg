@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toast, Icon } from "@gotitinc/design-system";
 import styled from "styled-components";
 import { Redirect } from "react-router-dom";
 
@@ -15,12 +14,10 @@ import { fetchPhotos } from "actions/photo";
 import { PHOTOS_PER_PAGE } from "constants/settings";
 
 import PhotoGrid from "./PhotoGrid";
-import {
-  default as SubmitPhotoModal,
-  useEditOrSubmitModal as useSubmitModal,
-  Types,
-} from "./EditOrSubmitPhotoModal";
+import { SubmitPhotoModal, useSubmitModal } from "./EditOrSubmitPhotoModal";
 import CategoryInfo from "./CategoryInfo";
+import { showModal } from "actions/app";
+import { Modals } from "constants/action.types";
 
 const PhotoContainerView = ({ className, match }) => {
   const dispatch = useDispatch();
@@ -54,22 +51,7 @@ const PhotoContainerView = ({ className, match }) => {
     if (hasSignedIn) {
       showSubmitModal();
     } else {
-      toast.info(
-        () => (
-          <div className="u-flex u-flexGrow-1">
-            <div className="u-marginRightExtraSmall">
-              <Icon name="informationCircle" size="medium" />
-            </div>
-            <div className="u-flexGrow-1">
-              <div className="u-fontMedium u-marginBottomExtraSmall">
-                A friendly reminder
-              </div>
-              <div>Please sign in to submit your photo</div>
-            </div>
-          </div>
-        ),
-        {}
-      );
+      dispatch(showModal(Modals.SIGNIN));
     }
   };
 
@@ -143,7 +125,6 @@ const PhotoContainerView = ({ className, match }) => {
 
       {isSubmitModalOpen && (
         <SubmitPhotoModal
-          type={Types.SUBMIT}
           isOpen={isSubmitModalOpen}
           show={showSubmitModal}
           hide={hideSubmitModal}

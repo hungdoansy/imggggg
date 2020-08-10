@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, toast, Icon } from "@gotitinc/design-system";
+import { Modal } from "@gotitinc/design-system";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -8,12 +8,9 @@ import { useAuthContext } from "context/auth";
 import { fetchPhotos, fetchPhotoDetail } from "actions/photo";
 import { selectors } from "reducers";
 
-import {
-  default as EditPhotoModal,
-  useEditOrSubmitModal as useEditModal,
-  Types,
-} from "./EditOrSubmitPhotoModal";
+import { EditPhotoModal, useEditModal } from "./EditOrSubmitPhotoModal";
 import RemoveConfirmModal, { useRemoveModal } from "./RemoveConfirmModal";
+import { toastInfo, toastError } from "utils/toast";
 
 const RemoveIcon = () => {
   return (
@@ -101,34 +98,11 @@ const ViewPhotoModal = ({ isOpen, show, hide, photoId, categoryId, page }) => {
 
     removePhoto(categoryId, photoId, authTokens).then((response) => {
       if (response.status === 200) {
-        toast.info(
-          () => (
-            <div className="u-flex u-flexGrow-1">
-              <div className="u-marginRightExtraSmall">
-                <Icon name="informationCircle" size="medium" />
-              </div>
-              <div className="u-flexGrow-1">
-                <div className="u-fontMedium u-marginBottomExtraSmall">Yup</div>
-                <div>The photo has been just removed</div>
-              </div>
-            </div>
-          ),
-          {}
-        );
+        toastInfo("Yup", "The photo has been just removed");
 
         dispatch(fetchPhotos(categoryId, page));
       } else {
-        toast.error(() => (
-          <div className="u-flex u-flexGrow-1 u-cursorDefault">
-            <div className="u-marginRightExtraSmall">
-              <Icon name="alert" size="medium" />
-            </div>
-            <div className="u-flexGrow-1">
-              <div className="u-fontMedium u-marginBottomExtraSmall">Error</div>
-              <div>Please reload and try again</div>
-            </div>
-          </div>
-        ));
+        toastError();
       }
 
       hide();
@@ -191,7 +165,6 @@ const ViewPhotoModal = ({ isOpen, show, hide, photoId, categoryId, page }) => {
 
       {isEditModalOpen && (
         <EditPhotoModal
-          type={Types.EDIT}
           isOpen={isEditModalOpen}
           show={showEditModal}
           hide={hideEditModal}

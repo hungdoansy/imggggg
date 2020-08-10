@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
-import { toast, Icon } from "@gotitinc/design-system";
 import { Link, NavLink } from "react-router-dom";
 
 import { selectors } from "reducers";
@@ -9,6 +8,8 @@ import { useAuthContext } from "context/auth";
 import { fetchCategoriesForTabBar } from "actions/category";
 
 import CreateCategoryModal, { useCreateModal } from "./CreateCategoryModal";
+import { showModal } from "actions/app";
+import { Modals } from "constants/action.types";
 
 const SeparatorView = ({ className }) => {
   return <div className={className}></div>;
@@ -51,22 +52,7 @@ const TabBarView = ({ className }) => {
     if (hasSignedIn) {
       showCreateModal();
     } else {
-      toast.info(
-        () => (
-          <div className="u-flex u-flexGrow-1">
-            <div className="u-marginRightExtraSmall">
-              <Icon name="informationCircle" size="medium" />
-            </div>
-            <div className="u-flexGrow-1">
-              <div className="u-fontMedium u-marginBottomExtraSmall">
-                A friendly reminder
-              </div>
-              <div>Please sign in to create a category</div>
-            </div>
-          </div>
-        ),
-        {}
-      );
+      dispatch(showModal(Modals.SIGNIN));
     }
   };
 

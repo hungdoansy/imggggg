@@ -1,12 +1,33 @@
 import React, { useState } from "react";
 import { Button, Modal, Form } from "@gotitinc/design-system";
 import produce from "immer";
+import { useDispatch, useSelector } from "react-redux";
 
 import { useAuthContext } from "context/auth";
 import { signup, signin } from "utils/apis/auth";
 import { useSafeSetState } from "utils/hooks";
 import { userInfoValidator } from "utils/validators";
 import { useDebounce } from "utils/hooks";
+import { selectors } from "reducers";
+import { Modals } from "constants/action.types";
+import { showModal, hideModal } from "actions/app";
+
+export const useSignupModal = () => {
+  const dispatch = useDispatch();
+
+  const currentOpenModal = useSelector(selectors.getOpenModal);
+  const isOpen = currentOpenModal === Modals.SIGNUP;
+
+  const show = () => {
+    dispatch(showModal(Modals.SIGNUP));
+  };
+
+  const hide = () => {
+    dispatch(hideModal(Modals.SIGNUP));
+  };
+
+  return [isOpen, show, hide];
+};
 
 const SignupModal = ({ isOpen, show, hide }) => {
   const { signIn } = useAuthContext();

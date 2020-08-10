@@ -1,40 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
+
 import { Link } from "react-router-dom";
 import { Header, Button, Dropdown, Icon } from "@gotitinc/design-system";
 
 import { useAuthContext } from "context/auth";
 
 import TabBar from "./TabBar";
-import SigninModal from "./SigninModal";
-import SignupModal from "./SignupModal";
-
-const useSigninModal = () => {
-  const [isSigninModalOpen, setModalOpen] = useState(false);
-
-  const showSigninModal = () => {
-    setModalOpen(true);
-  };
-
-  const hideSigninModal = () => {
-    setModalOpen(false);
-  };
-
-  return [isSigninModalOpen, showSigninModal, hideSigninModal];
-};
-
-const useSignupModal = () => {
-  const [isSignupModalOpen, setModalOpen] = useState(false);
-
-  const showSignupModal = () => {
-    setModalOpen(true);
-  };
-
-  const hideSignupModal = () => {
-    setModalOpen(false);
-  };
-
-  return [isSignupModalOpen, showSignupModal, hideSignupModal];
-};
+import SigninModal, { useSigninModal } from "./SigninModal";
+import SignupModal, { useSignupModal } from "./SignupModal";
 
 const MyHeader = () => {
   const { authTokens, signOut } = useAuthContext();

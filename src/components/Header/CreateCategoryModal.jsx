@@ -1,26 +1,33 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import produce from "immer";
-import { Button, Modal, Form, toast, Icon } from "@gotitinc/design-system";
+import { Button, Modal, Form } from "@gotitinc/design-system";
 
 import { createCategory } from "utils/apis/category";
 import { useSafeSetState, useDebounce } from "utils/hooks";
 import { categoryValidator } from "utils/validators";
 import { useAuthContext } from "context/auth";
 import { fetchCategoriesForTabBar } from "actions/category";
+import { toastDefault, toastError } from "utils/toast";
+import { selectors } from "reducers";
+import { Modals } from "constants/action.types";
+import { showModal, hideModal } from "actions/app";
 
-const useCreateModal = () => {
-  const [isCreateModalOpen, setModalOpen] = useState(false);
+export const useCreateModal = () => {
+  const dispatch = useDispatch();
 
-  const showCreateModal = () => {
-    setModalOpen(true);
+  const currentOpenModal = useSelector(selectors.getOpenModal);
+  const isOpen = currentOpenModal === Modals.CREATE;
+
+  const show = () => {
+    dispatch(showModal(Modals.CREATE));
   };
 
-  const hideCreateModal = () => {
-    setModalOpen(false);
+  const hide = () => {
+    dispatch(hideModal(Modals.CREATE));
   };
 
-  return [isCreateModalOpen, showCreateModal, hideCreateModal];
+  return [isOpen, show, hide];
 };
 
 const CreateCategoryModal = ({ isOpen, show, hide }) => {
@@ -112,41 +119,18 @@ const CreateCategoryModal = ({ isOpen, show, hide }) => {
         case 201: {
           hide();
           dispatch(fetchCategoriesForTabBar());
-          toast(() => (
-            <div className="u-flex u-flexGrow-1 u-cursorDefault">
-              <div className="u-marginRightExtraSmall">
-                <Icon name="checkmarkCircle" size="medium" />
-              </div>
-              <div className="u-flexGrow-1">
-                <div className="u-fontMedium u-marginBottomExtraSmall">
-                  Yeahhhhh !
-                </div>
-                <div>
-                  Category <b>{state.name.value}</b> has just been created
-                </div>
-              </div>
-            </div>
-          ));
+          toastDefault(
+            "Yeahhhhh !",
+            `Category ${state.name.value} has just been created`
+          );
 
           break;
         }
 
         default: {
           hide();
+          toastError("Please reload and try again");
 
-          toast.error(() => (
-            <div className="u-flex u-flexGrow-1 u-cursorDefault">
-              <div className="u-marginRightExtraSmall">
-                <Icon name="alert" size="medium" />
-              </div>
-              <div className="u-flexGrow-1">
-                <div className="u-fontMedium u-marginBottomExtraSmall">
-                  Error
-                </div>
-                <div>Please reload and try again</div>
-              </div>
-            </div>
-          ));
           break;
         }
       }
@@ -234,4 +218,3 @@ const CreateCategoryModal = ({ isOpen, show, hide }) => {
 };
 
 export default CreateCategoryModal;
-export { useCreateModal };

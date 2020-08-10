@@ -3,8 +3,8 @@ import produce from "immer";
 import {
   FETCH_USER_INFO_SUCCESS,
   REMOVE_USER_INFO,
-  SHOW_SIGNIN_MODAL,
-  HIDE_SIGNIN_MODAL,
+  SHOW_MODAL,
+  HIDE_MODAL,
   Modals,
 } from "constants/action.types";
 
@@ -31,14 +31,14 @@ const app = (state = initialState, action) => {
       });
     }
 
-    case SHOW_SIGNIN_MODAL: {
+    case SHOW_MODAL: {
       return produce(state, (draftState) => {
-        draftState.modal = Modals.SIGNIN;
+        draftState.modal = action.data.modal;
       });
     }
 
-    case HIDE_SIGNIN_MODAL: {
-      if (state.modal === Modals.SIGNIN) {
+    case HIDE_MODAL: {
+      if (state.modal === action.data.modal) {
         return produce(state, (draftState) => {
           draftState.modal = Modals.NONE;
         });
