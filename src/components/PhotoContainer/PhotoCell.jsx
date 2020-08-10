@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-import { useAuthContext } from "context/auth";
-
 import ViewPhotoModal, { useViewModal } from "./ViewPhotoModal";
+import { useSelector } from "react-redux";
+import { selectors } from "reducers";
 
 const PhotoCellView = ({
   className,
@@ -15,10 +15,9 @@ const PhotoCellView = ({
   author,
   page,
 }) => {
-  const { profile } = useAuthContext();
+  const user = useSelector(selectors.getCurrentUserInfo);
 
-  const AuthorName =
-    profile && profile.id === author.id ? "you" : <b>{author.name}</b>;
+  const AuthorName = user.id === author.id ? "you" : <b>{author.name}</b>;
 
   const [isViewModalOpen, showViewModal, hideViewModal] = useViewModal();
 

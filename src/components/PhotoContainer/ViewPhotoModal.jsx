@@ -60,7 +60,7 @@ const useViewModal = () => {
 };
 
 const ViewPhotoModal = ({ isOpen, show, hide, photoId, categoryId, page }) => {
-  const { hasSignedIn, authTokens, profile } = useAuthContext();
+  const { hasSignedIn, authTokens } = useAuthContext();
 
   const dispatch = useDispatch();
 
@@ -68,8 +68,9 @@ const ViewPhotoModal = ({ isOpen, show, hide, photoId, categoryId, page }) => {
     selectors.getPhotoDetail(state, photoId)
   );
 
-  const shouldShowButtons =
-    hasSignedIn && profile && profile.id === photoInfo.author.id;
+  const user = useSelector(selectors.getCurrentUserInfo);
+
+  const shouldShowButtons = hasSignedIn && user.id === photoInfo.author.id;
 
   const categoryInfo = useSelector((state) =>
     selectors.getCategoryInfo(state, categoryId)
@@ -83,11 +84,7 @@ const ViewPhotoModal = ({ isOpen, show, hide, photoId, categoryId, page }) => {
   ] = useRemoveModal();
 
   const AuthorName =
-    profile && profile.id === photoInfo.author.id ? (
-      "you"
-    ) : (
-      <b>{photoInfo.author.name}</b>
-    );
+    user.id === photoInfo.author.id ? "you" : <b>{photoInfo.author.name}</b>;
 
   const onClickEditButton = (e) => {
     showEditModal();

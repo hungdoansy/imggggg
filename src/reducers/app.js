@@ -2,6 +2,7 @@ import produce from "immer";
 
 import {
   FETCH_USER_INFO_SUCCESS,
+  REMOVE_USER_INFO,
   SHOW_SIGNIN_MODAL,
   HIDE_SIGNIN_MODAL,
   Modals,
@@ -21,6 +22,12 @@ const app = (state = initialState, action) => {
       return produce(state, (draftState) => {
         draftState.user.id = action.data.id;
         draftState.user.name = action.data.name;
+      });
+    }
+
+    case REMOVE_USER_INFO: {
+      return produce(state, (draftState) => {
+        draftState.user = {};
       });
     }
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Route, Switch, Redirect } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "@gotitinc/design-system";
@@ -11,18 +12,13 @@ import PhotoContainer from "./components/PhotoContainer";
 
 import { AuthContext } from "./context/auth";
 
-import { getUserProfile } from "./utils/apis/user";
+import { getUserInfo } from "./utils/apis/user";
+import { FETCH_USER_INFO_SUCCESS } from "constants/action.types";
+import { removeUserInfo } from "actions/app";
+import { getLocalTokens } from "utils/getLocalTokens";
 
 const useAuthTokens = () => {
-  const [authTokens, setTokens] = useState(() => {
-    try {
-      const serializedTokens = JSON.parse(localStorage.getItem("tokens"));
-      return serializedTokens ? serializedTokens : null;
-    } catch (e) {
-      localStorage.removeItem("tokens");
-      return null;
-    }
-  });
+  const [authTokens, setTokens] = useState(() => getLocalTokens());
 
   const setAuthTokens = (data) => {
     localStorage.setItem("tokens", JSON.stringify(data));
@@ -36,14 +32,14 @@ const useAuthTokens = () => {
 
 function App() {
   const [hasSignedIn, authTokens, setAuthTokens] = useAuthTokens();
-  const [profile, setProfile] = useState({});
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (authTokens !== null && !profile.id) {
-      getUserProfile(authTokens)
+    if (authTokens) {
+      getUserInfo(authTokens)
         .then((response) => {
           if (response.status === 200) {
-            setProfile(response.data);
+            dispatch({ type: FETCH_USER_INFO_SUCCESS, data: response.data });
           } else {
             setAuthTokens("");
           }
@@ -52,17 +48,16 @@ function App() {
           setAuthTokens("");
         });
     }
-  }, [authTokens, profile, setAuthTokens, setProfile]);
+  }, [authTokens, dispatch, setAuthTokens]);
 
   const signOut = () => {
     setAuthTokens("");
-    setProfile("");
+    dispatch(removeUserInfo());
   };
 
   const data = {
     hasSignedIn,
     authTokens,
-    profile,
     signIn: setAuthTokens,
     signOut,
   };
