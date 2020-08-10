@@ -1,12 +1,7 @@
-import { getLocalTokens } from "utils/getLocalTokens";
-
-import { generateRequest } from "./generateRequest";
+import { generateGetRequest } from "./generateRequest";
 
 const API_HOST = process.env.REACT_APP_API_HOST;
 
-const getUserInfo = () => {
-  const tokens = getLocalTokens();
-  return generateRequest("GET", `${API_HOST}/users/me`, tokens);
-};
+const getUserInfo = () => generateGetRequest(`${API_HOST}/users/me`, true);
 
 export { getUserInfo };

@@ -1,6 +1,11 @@
 import { PHOTOS_PER_PAGE } from "constants/settings";
 
-import { generateRequest } from "./generateRequest";
+import {
+  generateGetRequest,
+  generatePostRequest,
+  generatePutRequest,
+  generateDeleteRequest,
+} from "./generateRequest";
 
 const API_HOST = process.env.REACT_APP_API_HOST;
 
@@ -8,55 +13,29 @@ const getPhotos = (categoryId, page = 1) => {
   const offset = (page - 1) * PHOTOS_PER_PAGE;
   const limit = PHOTOS_PER_PAGE;
 
-  return generateRequest(
-    "GET",
+  return generateGetRequest(
     `${API_HOST}/categories/${categoryId}/items?offset=${offset}&limit=${limit}`
   );
 };
 
-const submitPhoto = (
-  categoryId,
-  { description, imageUrl: image_url },
-  tokens
-) => {
-  const stringifiedBody = JSON.stringify({ description, image_url });
+const submitPhoto = (categoryId, { description, imageUrl: image_url }) =>
+  generatePostRequest(`${API_HOST}/categories/${categoryId}/items`, {
+    description,
+    image_url,
+  });
 
-  return generateRequest(
-    "POST",
-    `${API_HOST}/categories/${categoryId}/items`,
-    tokens,
-    stringifiedBody
-  );
-};
+const editPhoto = (categoryId, { id, description, imageUrl: image_url }) =>
+  generatePutRequest(`${API_HOST}/categories/${categoryId}/items/${id}`, {
+    image_url,
+    description,
+  });
 
-const editPhoto = (
-  categoryId,
-  { id, description, imageUrl: image_url },
-  tokens
-) => {
-  const stringifiedBody = JSON.stringify({ image_url, description });
-
-  return generateRequest(
-    "PUT",
-    `${API_HOST}/categories/${categoryId}/items/${id}`,
-    tokens,
-    stringifiedBody
-  );
-};
-
-const removePhoto = (categoryId, photoId, tokens) => {
-  return generateRequest(
-    "DELETE",
-    `${API_HOST}/categories/${categoryId}/items/${photoId}`,
-    tokens
-  );
-};
-
-const getPhotoDetail = (categoryId, photoId) => {
-  return generateRequest(
-    "GET",
+const removePhoto = (categoryId, photoId, tokens) =>
+  generateDeleteRequest(
     `${API_HOST}/categories/${categoryId}/items/${photoId}`
   );
-};
+
+const getPhotoDetail = (categoryId, photoId) =>
+  generateGetRequest(`${API_HOST}/categories/${categoryId}/items/${photoId}`);
 
 export { getPhotos, submitPhoto, editPhoto, removePhoto, getPhotoDetail };

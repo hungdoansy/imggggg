@@ -1,27 +1,11 @@
-import { generateRequest } from "./generateRequest";
+import { generatePostRequest } from "./generateRequest";
 
 const API_HOST = process.env.REACT_APP_API_HOST;
 
-const signin = ({ email, password }) => {
-  const stringifiedBody = JSON.stringify({ email, password });
+const signin = ({ email, password }) =>
+  generatePostRequest(`${API_HOST}/auth`, { email, password }, false);
 
-  return generateRequest(
-    "POST",
-    `${API_HOST}/auth`,
-    undefined,
-    stringifiedBody
-  );
-};
-
-const signup = ({ email, password, name }) => {
-  const stringifiedBody = JSON.stringify({ email, password, name });
-
-  return generateRequest(
-    "POST",
-    `${API_HOST}/users`,
-    undefined,
-    stringifiedBody
-  );
-};
+const signup = ({ email, password, name }) =>
+  generatePostRequest(`${API_HOST}/users`, { email, password, name }, false);
 
 export { signin, signup };
