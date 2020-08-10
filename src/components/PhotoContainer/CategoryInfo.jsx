@@ -17,7 +17,7 @@ const CategoryInfoView = ({ className, name, description, totalPhotos }) => {
         <div className="category-stats">
           <p className="u-textGray u-text300">
             A total of <b>{totalPhotos}</b> contribution
-            {totalPhotos > 1 ? "s" : ""} by awesome people !
+            {totalPhotos > 1 ? "s by awesome people !" : ""}
           </p>
         </div>
       )}
