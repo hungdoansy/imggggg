@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { withRouter } from "react-router";
 import { Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -13,11 +13,8 @@ import Container from "../common/Container";
 export const CategoryContainer = () => {
   const hashParams = useHashParams();
   const totalCategories = useSelector(selectors.getTotalNumberOfCategories);
-  const [page, setPage] = useState(1);
 
-  useEffect(() => {
-    setPage(hashParams.getPage());
-  }, [hashParams]);
+  const page = hashParams.getPage();
 
   // check the params
   if (

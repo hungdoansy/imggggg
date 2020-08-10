@@ -16,11 +16,21 @@ import { getUserInfo } from "./utils/apis/user";
 import { FETCH_USER_INFO_SUCCESS } from "constants/action.types";
 import { removeUserInfo } from "actions/app";
 import { getLocalTokens } from "utils/getLocalTokens";
+import { useRef } from "react";
 
 const useAuthTokens = () => {
   const [authTokens, setTokens] = useState(() => getLocalTokens());
 
+  const moutedRef = useRef(false);
+  useEffect(() => {
+    moutedRef.current = true;
+  }, []);
+
   const setAuthTokens = (data) => {
+    if (!moutedRef.current) {
+      return;
+    }
+
     localStorage.setItem("tokens", JSON.stringify(data));
     setTokens(data);
   };
