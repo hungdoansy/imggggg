@@ -1,5 +1,6 @@
 import {
   createCategory,
+  getCategories,
   getCategoriesByPageNumber,
   getCategoriesByOffsetAndLimit,
   getCategoryDetail,
@@ -40,6 +41,22 @@ describe("category apis", () => {
         `${API_HOST}/categories`,
         TOKENS,
         stringifiedBody,
+      ]);
+    });
+  });
+
+  describe("getCategories", () => {
+    afterEach(() => {
+      generateRequestMockFn.mockClear();
+    });
+
+    it("should send a GET request", () => {
+      getCategories();
+
+      expect(generateRequestMockFn.mock.calls[0]).toHaveLength(2);
+      expect(generateRequestMockFn.mock.calls[0]).toEqual([
+        "GET",
+        `${API_HOST}/categories`,
       ]);
     });
   });

@@ -14,14 +14,15 @@ const createCategory = ({ name, imageUrl: image_url, description }, tokens) => {
   );
 };
 
+const getCategories = () => {
+  return generateRequest("GET", `${API_HOST}/categories`);
+};
+
 const getCategoriesByPageNumber = (page) => {
   const offset = (page - 1) * CATEGORIES_PER_PAGE;
   const limit = CATEGORIES_PER_PAGE;
 
-  return generateRequest(
-    "GET",
-    `${API_HOST}/categories?offset=${offset}&limit=${limit}`
-  );
+  return getCategoriesByOffsetAndLimit(offset, limit);
 };
 
 const getCategoriesByOffsetAndLimit = (offset, limit) => {
@@ -37,6 +38,7 @@ const getCategoryDetail = (categoryId) => {
 
 export {
   createCategory,
+  getCategories,
   getCategoriesByPageNumber,
   getCategoriesByOffsetAndLimit,
   getCategoryDetail,

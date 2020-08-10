@@ -6,7 +6,7 @@ import {
 import {
   getCategoriesByPageNumber,
   getCategoryDetail,
-  getCategoriesByOffsetAndLimit,
+  getCategories,
 } from "utils/apis/category";
 
 export const fetchCategoriesByPageNumber = (page = 1) => {
@@ -22,7 +22,7 @@ export const fetchCategoriesByPageNumber = (page = 1) => {
 export const fetchCategoriesForTabBar = () => {
   return {
     type: FETCH_CATEGORIES_FOR_TABBAR,
-    promise: getCategoriesByOffsetAndLimit(0, 20),
+    promise: getCategories(),
   };
 };
 
