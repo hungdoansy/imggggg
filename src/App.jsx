@@ -34,14 +34,9 @@ const useAuthTokens = () => {
   return [hasSignedIn, authTokens, setAuthTokens];
 };
 
-const useProfile = () => {
-  const [profile, setProfile] = useState({});
-  return [profile, setProfile];
-};
-
 function App() {
   const [hasSignedIn, authTokens, setAuthTokens] = useAuthTokens();
-  const [profile, setProfile] = useProfile();
+  const [profile, setProfile] = useState({});
 
   useEffect(() => {
     if (authTokens !== null && !profile.id) {
