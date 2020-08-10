@@ -53,8 +53,8 @@ const MyHeader = () => {
   ] = useSignupModal();
 
   const onClickSignOut = (e) => {
-    signOut();
     e.preventDefault();
+    signOut();
   };
 
   // NOTE: Logo from Gotit doesn't come with a "to" property

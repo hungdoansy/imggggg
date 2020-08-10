@@ -87,16 +87,18 @@ const ViewPhotoModal = ({ isOpen, show, hide, photoId, categoryId, page }) => {
     user.id === photoInfo.author.id ? "you" : <b>{photoInfo.author.name}</b>;
 
   const onClickEditButton = (e) => {
-    showEditModal();
     e.preventDefault();
+    showEditModal();
   };
 
   const onClickRemoveButton = (e) => {
-    showRemoveModal();
     e.preventDefault();
+    showRemoveModal();
   };
 
   const onClickRemoveConfirm = (e) => {
+    e.preventDefault();
+
     removePhoto(categoryId, photoId, authTokens).then((response) => {
       if (response.status === 200) {
         toast.info(
@@ -131,7 +133,6 @@ const ViewPhotoModal = ({ isOpen, show, hide, photoId, categoryId, page }) => {
 
       hide();
     });
-    e.preventDefault();
   };
 
   useEffect(() => {

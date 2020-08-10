@@ -22,8 +22,8 @@ const PhotoCellView = ({
   const [isViewModalOpen, showViewModal, hideViewModal] = useViewModal();
 
   const onClickImage = (e) => {
-    showViewModal();
     e.preventDefault();
+    showViewModal();
   };
 
   return (
