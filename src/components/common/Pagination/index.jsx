@@ -66,10 +66,14 @@ const itemsCreator = (currentPage, totalNumberOfPages, baseUrl) => {
 const MyPagination = ({ currentPage, totalNumberOfPages, baseUrl }) => {
   return (
     <Pagination>
-      <Pagination.Prev href={`${baseUrl}${Math.max(1, currentPage - 1)}`} />
+      <Pagination.Prev
+        href={`${baseUrl}${Math.max(1, currentPage - 1)}`}
+        disabled={currentPage === 1}
+      />
       {itemsCreator(currentPage, totalNumberOfPages, baseUrl)}
       <Pagination.Next
         href={`${baseUrl}${Math.min(totalNumberOfPages, currentPage + 1)}`}
+        disabled={currentPage === totalNumberOfPages}
       />
     </Pagination>
   );

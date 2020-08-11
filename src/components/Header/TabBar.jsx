@@ -72,7 +72,10 @@ const TabBarView = ({ className }) => {
       </div>
       <Separator />
       <div className="tabs-container">
-        <ul className="tabs">{tabs}</ul>
+        <ul className="tabs">
+          {tabs}
+          <li></li>
+        </ul>
       </div>
       <Separator />
       <div
@@ -179,6 +182,9 @@ const TabBar = styled(TabBarView)`
 
           &:last-child {
             margin-right: 0;
+
+            padding-left: 15px;
+            padding-right: 15px;
           }
 
           > a {
