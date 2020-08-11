@@ -30,6 +30,30 @@ export const useCreateModal = () => {
   return [isOpen, show, hide];
 };
 
+const showFeedbacksFromResponse = (state, setState, response) => {
+  setState(
+    produce(state, (draftState) => {
+      if (typeof response.data.data === "string") {
+        draftState.feedback = response.data.data;
+      } else if (typeof response.data.data === "object") {
+        const { data } = response.data;
+
+        if (data.name) {
+          draftState.name.feedback = data.name[0];
+        }
+
+        if (data.image_url) {
+          draftState.imageUrl.feedback = data.image_url[0];
+        }
+
+        if (data.description) {
+          draftState.description.feedback = data.description[0];
+        }
+      }
+    })
+  );
+};
+
 const CreateCategoryModal = ({ isOpen, show, hide }) => {
   const dispatch = useDispatch();
   const { authTokens } = useAuthContext();
@@ -91,27 +115,7 @@ const CreateCategoryModal = ({ isOpen, show, hide }) => {
       switch (response.status) {
         case 400: {
           setDisabled(true);
-          setState(
-            produce(state, (draftState) => {
-              if (typeof response.data.data === "string") {
-                draftState.feedback = response.data.data;
-              } else if (typeof response.data.data === "object") {
-                const { data } = response.data;
-
-                if (data.name) {
-                  draftState.name.feedback = data.name[0];
-                }
-
-                if (data.image_url) {
-                  draftState.imageUrl.feedback = data.image_url[0];
-                }
-
-                if (data.description) {
-                  draftState.description.feedback = data.description[0];
-                }
-              }
-            })
-          );
+          showFeedbacksFromResponse(state, setState, response);
 
           break;
         }

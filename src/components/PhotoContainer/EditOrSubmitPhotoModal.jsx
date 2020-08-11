@@ -68,6 +68,22 @@ const useSubmitModal = () => {
   return [isOpen, show, hide];
 };
 
+const showFeedbacksFromResponse = (state, setState, response) => {
+  setState(
+    produce(state, (draftState) => {
+      const { data } = response.data;
+
+      if (data.image_url) {
+        draftState.imageUrl.feedback = data.image_url.join(" ");
+      }
+
+      if (data.description) {
+        draftState.description.feedback = data.description.join(" ");
+      }
+    })
+  );
+};
+
 const EditOrSubmitPhotoModal = ({
   type,
   isOpen,
@@ -130,20 +146,7 @@ const EditOrSubmitPhotoModal = ({
     internalData[type].action(categoryId, info, authTokens).then((response) => {
       switch (response.status) {
         case 400: {
-          setState(
-            produce(state, (draftState) => {
-              const { data } = response.data;
-
-              if (data.image_url) {
-                draftState.imageUrl.feedback = data.image_url.join(" ");
-              }
-
-              if (data.description) {
-                draftState.description.feedback = data.description.join(" ");
-              }
-            })
-          );
-
+          showFeedbacksFromResponse(state, setState, response);
           break;
         }
 
@@ -159,16 +162,13 @@ const EditOrSubmitPhotoModal = ({
             "Yeahhhhh !",
             `Your photo has just been ${internalData[type].pastVerb} !`
           );
-
           hide();
-
           break;
         }
 
         default: {
           hide();
           toastError();
-
           break;
         }
       }

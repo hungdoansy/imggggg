@@ -8,6 +8,18 @@ import { selectors } from "reducers";
 import { Modals } from "constants/action.types";
 import { showModal, hideModal } from "actions/app";
 
+const getFeedbackFromResponse = (response) => {
+  if (typeof response.data.data === "string") {
+    return response.data.data;
+  } else if (typeof response.data.data === "object") {
+    let feedback = "";
+    feedback += response.data.data.email ? response.data.data.email : "";
+    feedback += response.data.data.password ? response.data.data.email : "";
+
+    return feedback;
+  }
+};
+
 export const useSigninModal = () => {
   const dispatch = useDispatch();
 
@@ -67,19 +79,7 @@ const SigninModal = ({ isOpen, show, hide }) => {
           signIn(response.data["access_token"]);
           hide();
         } else {
-          if (typeof response.data.data === "string") {
-            setFeedback(response.data.data);
-          } else if (typeof response.data.data === "object") {
-            let feedback = "";
-            feedback += response.data.data.email
-              ? response.data.data.email
-              : "";
-            feedback += response.data.data.password
-              ? response.data.data.email
-              : "";
-
-            setFeedback(feedback);
-          }
+          setFeedback(getFeedbackFromResponse(response));
         }
       })
       .catch((e) => {

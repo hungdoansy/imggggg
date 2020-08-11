@@ -29,23 +29,25 @@ export const useSignupModal = () => {
   return [isOpen, show, hide];
 };
 
-const SignupModal = ({ isOpen, show, hide }) => {
-  const { signIn } = useAuthContext();
-  const [state, setState] = useSafeSetState({
-    name: {
-      value: "",
-      feedback: "",
-    },
-    email: {
-      value: "",
-      feedback: "",
-    },
-    password: {
-      value: "",
-      feedback: "",
-    },
+const initialState = {
+  name: {
+    value: "",
     feedback: "",
-  });
+  },
+  email: {
+    value: "",
+    feedback: "",
+  },
+  password: {
+    value: "",
+    feedback: "",
+  },
+  feedback: "",
+};
+
+const SignupModal = ({ isOpen, show, hide }) => {
+  const { signIn: storeTokens } = useAuthContext();
+  const [state, setState] = useSafeSetState(initialState);
 
   const [disabled, setDisabled] = useState(false);
   const checkDisabled = useDebounce(() => {
@@ -75,6 +77,29 @@ const SignupModal = ({ isOpen, show, hide }) => {
     setValue(which, value);
   };
 
+  const showError = () => {
+    setState(
+      (state) =>
+        (state.feedback = "Something happened, please reload and log in...")
+    );
+  };
+
+  const showFeedbackFromResponse = (response) => {
+    setState(
+      produce(state, (draftState) => {
+        if (typeof response.data.data === "string") {
+          draftState.feedback = response.data.data;
+        } else if (typeof response.data.data === "object") {
+          ["email", "name", "password"].forEach((which) => {
+            if (response.data.data[which]) {
+              draftState[which].feedback = response.data.data[which].join(" ");
+            }
+          });
+        }
+      })
+    );
+  };
+
   const onClick = () => {
     const info = {
       name: state.name.value,
@@ -88,39 +113,17 @@ const SignupModal = ({ isOpen, show, hide }) => {
         signin(info)
           .then((response) => {
             if (response.status === 200) {
-              signIn(response.data["access_token"]);
+              storeTokens(response.data["access_token"]);
               hide();
             } else {
-              setState(
-                (state) =>
-                  (state.feedback =
-                    "Something happened, please reload and log in...")
-              );
+              showError();
             }
           })
           .catch((e) => {
-            setState(
-              (state) =>
-                (state.feedback =
-                  "Something happened, please reload and log in...")
-            );
+            showError();
           });
       } else {
-        setState(
-          produce(state, (draftState) => {
-            if (typeof response.data.data === "string") {
-              draftState.feedback = response.data.data;
-            } else if (typeof response.data.data === "object") {
-              ["email", "name", "password"].forEach((which) => {
-                if (response.data.data[which]) {
-                  draftState[which].feedback = response.data.data[which].join(
-                    " "
-                  );
-                }
-              });
-            }
-          })
-        );
+        showFeedbackFromResponse(response);
       }
     });
   };
