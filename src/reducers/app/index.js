@@ -8,6 +8,8 @@ import {
   Modals,
 } from "constants/action.types";
 
+import * as selectors from "./selector";
+
 const initialState = {
   user: {
     id: -1,
@@ -51,14 +53,6 @@ const app = (state = initialState, action) => {
       return state;
     }
   }
-};
-
-const getCurrentUserInfo = (wholestate) => wholestate.app.user;
-const getOpenModal = (wholestate) => wholestate.app.modal;
-
-const selectors = {
-  getCurrentUserInfo,
-  getOpenModal,
 };
 
 export { app, selectors };
