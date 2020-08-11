@@ -1,27 +1,25 @@
 import { getUserInfo } from "../user";
 
-const generateRequestMockFn = jest.fn();
+const generateGetRequestMockFn = jest.fn();
 
 const FromGenerateRequest = require("../generateRequest");
-FromGenerateRequest.generateRequest = generateRequestMockFn;
+FromGenerateRequest.generateGetRequest = generateGetRequestMockFn;
 
 const API_HOST = process.env.REACT_APP_API_HOST;
-const TOKENS = "123456";
 
 describe("user apis", () => {
   describe("getUserInfo", () => {
     afterEach(() => {
-      generateRequestMockFn.mockClear();
+      generateGetRequestMockFn.mockClear();
     });
 
     it("should send a GET request", () => {
-      getUserInfo(TOKENS);
+      getUserInfo();
 
-      expect(generateRequestMockFn.mock.calls[0]).toHaveLength(3);
-      expect(generateRequestMockFn.mock.calls[0]).toEqual([
-        "GET",
+      expect(generateGetRequestMockFn.mock.calls[0]).toHaveLength(2);
+      expect(generateGetRequestMockFn.mock.calls[0]).toEqual([
         `${API_HOST}/users/me`,
-        TOKENS,
+        true,
       ]);
     });
   });

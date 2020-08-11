@@ -38,7 +38,7 @@ export const useSigninModal = () => {
 };
 
 const SigninModal = ({ isOpen, show, hide }) => {
-  const { signIn } = useAuthContext();
+  const { signIn: setTokens } = useAuthContext();
 
   const [disabled, setDisabled] = useState(false);
   const [feedback, setFeedback] = useState("");
@@ -73,77 +73,70 @@ const SigninModal = ({ isOpen, show, hide }) => {
 
     setDisabled(true);
 
-    signin({ email, password })
-      .then((response) => {
-        if (response.status === 200) {
-          signIn(response.data["access_token"]);
-          hide();
-        } else {
-          setFeedback(getFeedbackFromResponse(response));
-        }
-      })
-      .catch((e) => {
-        setFeedback(e.response.data.data);
-        setDisabled(false);
-      });
+    signin({ email, password }).then((response) => {
+      if (response.status === 200) {
+        setTokens(response.data["access_token"]);
+        hide();
+      } else {
+        setFeedback(getFeedbackFromResponse(response));
+      }
+    });
   };
 
   return (
-    <>
-      <Modal show={isOpen} onHide={hide}>
-        <Modal.Header closeButton>
-          <Modal.Title>
-            Welcome back to Imggggg{" "}
-            <span role="img" aria-label="">
-              😛
-            </span>
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form.Group controlId="loginform.email">
-            <Form.Label>Email</Form.Label>
-            <Form.Input
-              name="email"
-              type="email"
-              placeholder="Enter your email here"
-              onChange={onInputChange}
-              value={email}
-            />
-          </Form.Group>
+    <Modal show={isOpen} onHide={hide}>
+      <Modal.Header closeButton>
+        <Modal.Title>
+          Welcome back to Imggggg{" "}
+          <span role="img" aria-label="">
+            😛
+          </span>
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form.Group controlId="loginform.email">
+          <Form.Label>Email</Form.Label>
+          <Form.Input
+            name="email"
+            type="email"
+            placeholder="Enter your email here"
+            onChange={onInputChange}
+            value={email}
+          />
+        </Form.Group>
 
-          <Form.Group controlId="loginform.password">
-            <Form.Label>Password</Form.Label>
+        <Form.Group controlId="loginform.password">
+          <Form.Label>Password</Form.Label>
 
-            <Form.Input
-              name="password"
-              type="password"
-              placeholder="Enter your password here"
-              onChange={onInputChange}
-              value={password}
-            />
-          </Form.Group>
+          <Form.Input
+            name="password"
+            type="password"
+            placeholder="Enter your password here"
+            onChange={onInputChange}
+            value={password}
+          />
+        </Form.Group>
 
-          {feedback !== "" && (
-            <div className="u-marginTopTiny u-widthFull u-text100 invalid-feedback is-visible">
-              {feedback}
-            </div>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          <div className="u-flexGrow-1">
-            <Button
-              variant="primary"
-              width="full"
-              className="u-fontBold"
-              onClick={onClick}
-              disabled={disabled}
-            >
-              LOG IN
-            </Button>
+        {feedback !== "" && (
+          <div className="u-marginTopTiny u-widthFull u-text100 invalid-feedback is-visible">
+            {feedback}
           </div>
-        </Modal.Footer>
-      </Modal>
-    </>
+        )}
+      </Modal.Body>
+      <Modal.Footer>
+        <div className="u-flexGrow-1">
+          <Button
+            variant="primary"
+            width="full"
+            className="submit-button u-fontBold"
+            onClick={onClick}
+            disabled={disabled}
+          >
+            LOG IN
+          </Button>
+        </div>
+      </Modal.Footer>
+    </Modal>
   );
 };
 

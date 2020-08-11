@@ -170,6 +170,9 @@ export {
   newStateOnFetchCategoriesSuccess,
   newStateOnFetchPhotosSuccess,
   newStateOnFetchCategoryDetailSuccess,
+  newStateOnFetchCategoryDetailFailure,
+  newStateOnFetchPhotosFailure,
+  newStateOnFetchCategoriesForTabBar,
   // export for use
   category,
   selectors,

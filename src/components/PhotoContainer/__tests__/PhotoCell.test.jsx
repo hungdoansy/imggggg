@@ -3,12 +3,8 @@ import { render, fireEvent } from "@testing-library/react";
 
 import PhotoCell from "../PhotoCell";
 
-const FromAuth = require("context/auth");
-FromAuth.useAuthContext = jest.fn().mockReturnValue({
-  profile: {
-    id: 100,
-  },
-});
+const ReactRedux = require("react-redux");
+ReactRedux.useSelector = jest.fn().mockReturnValue({ id: 2, name: "Someone" });
 
 const showViewModalMockFn = jest.fn();
 const FromViewPhotoModal = require("../ViewPhotoModal");
@@ -22,7 +18,7 @@ const props = {
   description: "some random text",
   categoryId: 5,
   categoryName: "Random",
-  author: { id: 100, name: "Hung" },
+  author: { id: 2, name: "Someone" },
   page: 2,
 };
 

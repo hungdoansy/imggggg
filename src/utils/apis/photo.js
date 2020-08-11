@@ -30,7 +30,7 @@ const editPhoto = (categoryId, { id, description, imageUrl: image_url }) =>
     description,
   });
 
-const removePhoto = (categoryId, photoId, tokens) =>
+const removePhoto = (categoryId, photoId) =>
   generateDeleteRequest(
     `${API_HOST}/categories/${categoryId}/items/${photoId}`
   );
