@@ -108,12 +108,12 @@ const SignupModal = ({ isOpen, show, hide }) => {
       } else {
         setState(
           produce(state, (draftState) => {
-            if (typeof response.data.error === "string") {
-              draftState.feedback = response.data.error;
-            } else if (typeof response.data.error === "object") {
+            if (typeof response.data.data === "string") {
+              draftState.feedback = response.data.data;
+            } else if (typeof response.data.data === "object") {
               ["email", "name", "password"].forEach((which) => {
-                if (response.data.error[which]) {
-                  draftState[which].feedback = response.data.error[which].join(
+                if (response.data.data[which]) {
+                  draftState[which].feedback = response.data.data[which].join(
                     " "
                   );
                 }

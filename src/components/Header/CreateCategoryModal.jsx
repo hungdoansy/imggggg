@@ -93,21 +93,21 @@ const CreateCategoryModal = ({ isOpen, show, hide }) => {
           setDisabled(true);
           setState(
             produce(state, (draftState) => {
-              if (typeof response.data.error === "string") {
-                draftState.feedback = response.data.error;
-              } else if (typeof response.data.error === "object") {
-                const { error } = response.data;
+              if (typeof response.data.data === "string") {
+                draftState.feedback = response.data.data;
+              } else if (typeof response.data.data === "object") {
+                const { data } = response.data;
 
-                if (error.name) {
-                  draftState.name.feedback = error.name[0];
+                if (data.name) {
+                  draftState.name.feedback = data.name[0];
                 }
 
-                if (error.image_url) {
-                  draftState.imageUrl.feedback = error.image_url[0];
+                if (data.image_url) {
+                  draftState.imageUrl.feedback = data.image_url[0];
                 }
 
-                if (error.description) {
-                  draftState.description.feedback = error.description[0];
+                if (data.description) {
+                  draftState.description.feedback = data.description[0];
                 }
               }
             })

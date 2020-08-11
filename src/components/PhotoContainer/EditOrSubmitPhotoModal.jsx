@@ -132,14 +132,14 @@ const EditOrSubmitPhotoModal = ({
         case 400: {
           setState(
             produce(state, (draftState) => {
-              const { error } = response.data;
+              const { data } = response.data;
 
-              if (error.image_url) {
-                draftState.imageUrl.feedback = error.image_url.join(" ");
+              if (data.image_url) {
+                draftState.imageUrl.feedback = data.image_url.join(" ");
               }
 
-              if (error.description) {
-                draftState.description.feedback = error.description.join(" ");
+              if (data.description) {
+                draftState.description.feedback = data.description.join(" ");
               }
             })
           );

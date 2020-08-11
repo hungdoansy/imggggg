@@ -67,11 +67,23 @@ const SigninModal = ({ isOpen, show, hide }) => {
           signIn(response.data["access_token"]);
           hide();
         } else {
-          setFeedback(response.data.error);
+          if (typeof response.data.data === "string") {
+            setFeedback(response.data.data);
+          } else if (typeof response.data.data === "object") {
+            let feedback = "";
+            feedback += response.data.data.email
+              ? response.data.data.email
+              : "";
+            feedback += response.data.data.password
+              ? response.data.data.email
+              : "";
+
+            setFeedback(feedback);
+          }
         }
       })
       .catch((e) => {
-        setFeedback(e.response.data.error);
+        setFeedback(e.response.data.data);
         setDisabled(false);
       });
   };
