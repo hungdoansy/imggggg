@@ -3,7 +3,7 @@ import { Button, Modal, Form } from "@gotitinc/design-system";
 import produce from "immer";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useAuthContext } from "context/auth";
+import { useAuthContext } from "utils/hooks";
 import { signup, signin } from "utils/apis/auth";
 import { useSafeSetState } from "utils/hooks";
 import { userInfoValidator } from "utils/validators";

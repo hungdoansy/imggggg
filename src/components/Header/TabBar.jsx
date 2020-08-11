@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Link, NavLink } from "react-router-dom";
 
 import { selectors } from "reducers";
-import { useAuthContext } from "context/auth";
+import { useAuthContext } from "utils/hooks";
 import { fetchCategoriesForTabBar } from "actions/category";
 
 import CreateCategoryModal, { useCreateModal } from "./CreateCategoryModal";

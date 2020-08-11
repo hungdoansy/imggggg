@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 
 import { removePhoto } from "utils/apis/photo";
-import { useAuthContext } from "context/auth";
+import { useAuthContext } from "utils/hooks";
 import { fetchPhotos, fetchPhotoDetail } from "actions/photo";
 import { selectors } from "reducers";
 

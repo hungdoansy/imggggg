@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Modal, Form } from "@gotitinc/design-system";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useAuthContext } from "context/auth";
+import { useAuthContext } from "utils/hooks";
 import { signin } from "utils/apis/auth";
 import { selectors } from "reducers";
 import { Modals } from "constants/action.types";

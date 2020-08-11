@@ -1,14 +1,14 @@
-import { successPostfix, failurePostfix } from "constants/action.types";
+import { SUCCESS_POSTFIX, FAILURE_POSTFIX } from "constants/action.types";
 
 const isAsyncAction = (action) =>
   !!action.promise && typeof action.promise.then === "function";
 
 const getSuccessActionType = (action) => {
-  return action.type + successPostfix;
+  return action.type + SUCCESS_POSTFIX;
 };
 
 const getFailureActionType = (action) => {
-  return action.type + failurePostfix;
+  return action.type + FAILURE_POSTFIX;
 };
 
 const asyncHandler = (store) => (next) => (action) => {

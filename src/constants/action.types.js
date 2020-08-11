@@ -1,5 +1,5 @@
-export const successPostfix = "_SUCCESS";
-export const failurePostfix = "_FAILURE";
+export const SUCCESS_POSTFIX = "_SUCCESS";
+export const FAILURE_POSTFIX = "_FAILURE";
 
 export const Modals = {
   NONE: "NONE",

@@ -6,7 +6,7 @@ import { Button, Modal, Form } from "@gotitinc/design-system";
 import { createCategory } from "utils/apis/category";
 import { useSafeSetState, useDebounce } from "utils/hooks";
 import { categoryValidator } from "utils/validators";
-import { useAuthContext } from "context/auth";
+import { useAuthContext } from "utils/hooks";
 import { fetchCategoriesForTabBar } from "actions/category";
 import { toastDefault, toastError } from "utils/toast";
 import { selectors } from "reducers";

@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Header, Button, Dropdown, Icon } from "@gotitinc/design-system";
 
-import { useAuthContext } from "context/auth";
+import { useAuthContext } from "utils/hooks";
 
 import TabBar from "./TabBar";
 import SigninModal, { useSigninModal } from "./SigninModal";

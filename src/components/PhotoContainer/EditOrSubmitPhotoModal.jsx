@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { editPhoto, submitPhoto } from "utils/apis/photo";
 import { photoValidator } from "utils/validators";
 import { useSafeSetState, useDebounce, useHashParams } from "utils/hooks";
-import { useAuthContext } from "context/auth";
+import { useAuthContext } from "utils/hooks";
 import { fetchPhotoDetail, fetchPhotos } from "actions/photo";
 import { toastDefault, toastError } from "utils/toast";
 import { selectors } from "reducers";

@@ -1,6 +1,8 @@
-import { useRef, useEffect, useReducer } from "react";
+import { useRef, useEffect, useReducer, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import merge from "lodash/merge";
+
+import { AuthContext } from "context/auth";
 
 const useHashParams = () => {
   const hashParams = new URLSearchParams(useLocation().hash.substring(1));
@@ -70,4 +72,8 @@ const useDebounce = (func, delay) => {
   };
 };
 
-export { useHashParams, useSafeSetState, useDebounce };
+const useAuthContext = () => {
+  return useContext(AuthContext);
+};
+
+export { useHashParams, useSafeSetState, useDebounce, useAuthContext };

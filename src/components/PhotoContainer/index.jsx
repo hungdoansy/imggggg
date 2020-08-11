@@ -7,7 +7,7 @@ import Container from "components/common/Container";
 import Pagination from "components/common/Pagination";
 
 import { useHashParams } from "utils/hooks";
-import { useAuthContext } from "context/auth";
+import { useAuthContext } from "utils/hooks";
 import { selectors } from "reducers/category";
 import { fetchCategoryDetail } from "actions/category";
 import { fetchPhotos } from "actions/photo";
