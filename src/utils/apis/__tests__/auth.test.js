@@ -1,16 +1,16 @@
 import { signin, signup } from "../auth";
 
-const generateRequestMockFn = jest.fn();
+const generatePostRequestMockFn = jest.fn();
 
 const FromGenerateRequest = require("../generateRequest");
-FromGenerateRequest.generateRequest = generateRequestMockFn;
+FromGenerateRequest.generatePostRequest = generatePostRequestMockFn;
 
 const API_HOST = process.env.REACT_APP_API_HOST;
 
 describe("auth apis", () => {
   describe("signin", () => {
     afterEach(() => {
-      generateRequestMockFn.mockClear();
+      generatePostRequestMockFn.mockClear();
     });
 
     it("should send a POST request with stringified body", () => {
@@ -19,22 +19,20 @@ describe("auth apis", () => {
         password: "somerandomtext",
       };
 
-      const stringifiedBody = JSON.stringify(info);
       signin(info);
 
-      expect(generateRequestMockFn.mock.calls[0]).toHaveLength(4);
-      expect(generateRequestMockFn.mock.calls[0]).toEqual([
-        "POST",
+      expect(generatePostRequestMockFn.mock.calls[0]).toHaveLength(3);
+      expect(generatePostRequestMockFn.mock.calls[0]).toEqual([
         `${API_HOST}/auth`,
-        undefined,
-        stringifiedBody,
+        info,
+        false,
       ]);
     });
   });
 
   describe("signup", () => {
     afterEach(() => {
-      generateRequestMockFn.mockClear();
+      generatePostRequestMockFn.mockClear();
     });
 
     it("should send a POST request with stringified body", () => {
@@ -44,15 +42,13 @@ describe("auth apis", () => {
         name: "somebody",
       };
 
-      const stringifiedBody = JSON.stringify(info);
       signup(info);
 
-      expect(generateRequestMockFn.mock.calls[0]).toHaveLength(4);
-      expect(generateRequestMockFn.mock.calls[0]).toEqual([
-        "POST",
+      expect(generatePostRequestMockFn.mock.calls[0]).toHaveLength(3);
+      expect(generatePostRequestMockFn.mock.calls[0]).toEqual([
         `${API_HOST}/users`,
-        undefined,
-        stringifiedBody,
+        info,
+        false,
       ]);
     });
   });

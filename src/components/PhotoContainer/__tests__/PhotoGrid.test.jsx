@@ -175,16 +175,13 @@ const state = {
   },
 };
 
-const FromAuth = require("../../../context/auth");
-FromAuth.useAuthContext = jest.fn().mockReturnValue({
-  profile: {
-    id: 2,
-    name: "Author2",
-  },
-});
-
 const ReactRedux = require("react-redux");
 ReactRedux.useSelector = jest.fn().mockImplementation((fn) => fn(state));
+
+const FromPhotoCell = require("../PhotoCell");
+FromPhotoCell.default = jest.fn().mockImplementation(({ src, description }) => {
+  return <img src={src} alt={description} />;
+});
 
 const props = {
   categoryId: 1,

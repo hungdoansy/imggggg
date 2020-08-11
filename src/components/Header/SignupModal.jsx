@@ -129,79 +129,77 @@ const SignupModal = ({ isOpen, show, hide }) => {
   };
 
   return (
-    <>
-      <Modal show={isOpen} onHide={hide}>
-        <Modal.Header closeButton>
-          <Modal.Title>
-            Welcome to Imggggg{" "}
-            <span role="img" aria-label="">
-              🥳
-            </span>
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form.Group controlId="loginform.name">
-            <Form.Label>Name</Form.Label>
-            <Form.Input
-              type="text"
-              name="name"
-              placeholder="What's your name?"
-              value={state.name.value}
-              onChange={onInputChange}
-              isInvalid={state.name.feedback !== ""}
-            />
-            <Form.Feedback type="invalid">{state.name.feedback}</Form.Feedback>
-          </Form.Group>
+    <Modal show={isOpen} onHide={hide}>
+      <Modal.Header closeButton>
+        <Modal.Title>
+          Welcome to Imggggg{" "}
+          <span role="img" aria-label="">
+            🥳
+          </span>
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form.Group controlId="loginform.name">
+          <Form.Label>Name</Form.Label>
+          <Form.Input
+            type="text"
+            name="name"
+            placeholder="What's your name?"
+            value={state.name.value}
+            onChange={onInputChange}
+            isInvalid={state.name.feedback !== ""}
+          />
+          <Form.Feedback type="invalid">{state.name.feedback}</Form.Feedback>
+        </Form.Group>
 
-          <Form.Group controlId="loginform.email">
-            <Form.Label>Email</Form.Label>
-            <Form.Input
-              type="email"
-              name="email"
-              placeholder="Your email so we contact you"
-              value={state.email.value}
-              onChange={onInputChange}
-              isInvalid={state.email.feedback !== ""}
-            />
-            <Form.Feedback type="invalid">{state.email.feedback}</Form.Feedback>
-          </Form.Group>
+        <Form.Group controlId="loginform.email">
+          <Form.Label>Email</Form.Label>
+          <Form.Input
+            type="email"
+            name="email"
+            placeholder="Your email so we contact you"
+            value={state.email.value}
+            onChange={onInputChange}
+            isInvalid={state.email.feedback !== ""}
+          />
+          <Form.Feedback type="invalid">{state.email.feedback}</Form.Feedback>
+        </Form.Group>
 
-          <Form.Group controlId="loginform.password">
-            <Form.Label>Password</Form.Label>
-            <Form.Input
-              type="password"
-              name="password"
-              placeholder="To secure your account"
-              value={state.password.value}
-              onChange={onInputChange}
-              isInvalid={state.password.feedback !== ""}
-            />
-            <Form.Feedback type="invalid">
-              {state.password.feedback}
-            </Form.Feedback>
-          </Form.Group>
+        <Form.Group controlId="loginform.password">
+          <Form.Label>Password</Form.Label>
+          <Form.Input
+            type="password"
+            name="password"
+            placeholder="To secure your account"
+            value={state.password.value}
+            onChange={onInputChange}
+            isInvalid={state.password.feedback !== ""}
+          />
+          <Form.Feedback type="invalid">
+            {state.password.feedback}
+          </Form.Feedback>
+        </Form.Group>
 
-          {state.feedback !== "" && (
-            <div className="u-marginTopTiny u-widthFull u-text100 invalid-feedback is-visible">
-              {state.feedback}
-            </div>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          <div className="u-flexGrow-1">
-            <Button
-              variant="primary"
-              width="full"
-              className="u-fontBold"
-              onClick={onClick}
-              disabled={disabled}
-            >
-              SIGN UP
-            </Button>
+        {state.feedback !== "" && (
+          <div className="u-marginTopTiny u-widthFull u-text100 invalid-feedback is-visible">
+            {state.feedback}
           </div>
-        </Modal.Footer>
-      </Modal>
-    </>
+        )}
+      </Modal.Body>
+      <Modal.Footer>
+        <div className="u-flexGrow-1">
+          <Button
+            variant="primary"
+            width="full"
+            className="u-fontBold"
+            onClick={onClick}
+            disabled={disabled}
+          >
+            SIGN UP
+          </Button>
+        </div>
+      </Modal.Footer>
+    </Modal>
   );
 };
 

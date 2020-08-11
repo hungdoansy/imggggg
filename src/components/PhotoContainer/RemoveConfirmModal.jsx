@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { Button, Modal } from "@gotitinc/design-system";
 
 const useRemoveModal = () => {
@@ -17,7 +17,7 @@ const useRemoveModal = () => {
 
 const RemoveConfirmModal = ({ isOpen, hide, actionOnConfirm }) => {
   return (
-    <>
+    <Fragment>
       <Modal size="small" show={isOpen} onHide={hide}>
         <Modal.Header closeButton>
           <Modal.Title>
@@ -41,7 +41,7 @@ const RemoveConfirmModal = ({ isOpen, hide, actionOnConfirm }) => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </Fragment>
   );
 };
 

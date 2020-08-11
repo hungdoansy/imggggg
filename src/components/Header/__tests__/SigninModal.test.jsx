@@ -3,7 +3,7 @@ import { render, fireEvent } from "@testing-library/react";
 
 import SigninModal from "../SigninModal";
 
-const FromAuthContext = require("context/auth");
+const FromAuthContext = require("utils/hooks");
 FromAuthContext.useAuthContext = jest
   .fn()
   .mockReturnValue({ signIn: () => {} });

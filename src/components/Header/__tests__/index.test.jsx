@@ -4,10 +4,20 @@ import { BrowserRouter } from "react-router-dom";
 
 import Header from "..";
 
-const FromAuth = require("context/auth");
+const FromAuth = require("utils/hooks");
 FromAuth.useAuthContext = jest.fn().mockImplementation(() => {
-  return { authTokens: "", setAuthTokens: () => {} };
+  return { authTokens: "", signOut: () => {} };
 });
+
+const FromSigninModal = require("../SigninModal");
+FromSigninModal.useSigninModal = jest
+  .fn()
+  .mockReturnValue([false, jest.fn(), jest.fn()]);
+
+const FromSignupModal = require("../SignupModal");
+FromSignupModal.useSignupModal = jest
+  .fn()
+  .mockReturnValue([false, jest.fn(), jest.fn()]);
 
 const FromTabBar = require("../TabBar");
 FromTabBar.default = jest.fn().mockImplementation(() => {

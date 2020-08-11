@@ -8,18 +8,19 @@ import {
   getCategoryDetail,
 } from "../category";
 
-const generateRequestMockFn = jest.fn();
+const generateGetRequestMockFn = jest.fn();
+const generatePostRequestMockFn = jest.fn();
 
 const FromGenerateRequest = require("../generateRequest");
-FromGenerateRequest.generateRequest = generateRequestMockFn;
+FromGenerateRequest.generateGetRequest = generateGetRequestMockFn;
+FromGenerateRequest.generatePostRequest = generatePostRequestMockFn;
 
 const API_HOST = process.env.REACT_APP_API_HOST;
-const TOKENS = "123456";
 
 describe("category apis", () => {
   describe("createCategory", () => {
     afterEach(() => {
-      generateRequestMockFn.mockClear();
+      generatePostRequestMockFn.mockClear();
     });
 
     it("should send a POST request with stringified body", () => {
@@ -29,63 +30,38 @@ describe("category apis", () => {
         description: "hehe",
       };
 
-      const stringifiedBody = JSON.stringify({
-        name: info.name,
-        image_url: info.imageUrl,
-        description: info.description,
-      });
-      createCategory(info, TOKENS);
+      createCategory(info);
 
-      expect(generateRequestMockFn.mock.calls[0]).toHaveLength(4);
-      expect(generateRequestMockFn.mock.calls[0]).toEqual([
-        "POST",
+      expect(generatePostRequestMockFn.mock.calls[0]).toHaveLength(2);
+      expect(generatePostRequestMockFn.mock.calls[0]).toEqual([
         `${API_HOST}/categories`,
-        TOKENS,
-        stringifiedBody,
+        {
+          name: info.name,
+          image_url: info.imageUrl,
+          description: info.description,
+        },
       ]);
     });
   });
 
   describe("getCategories", () => {
     afterEach(() => {
-      generateRequestMockFn.mockClear();
+      generateGetRequestMockFn.mockClear();
     });
 
     it("should send a GET request", () => {
       getCategories();
 
-      expect(generateRequestMockFn.mock.calls[0]).toHaveLength(2);
-      expect(generateRequestMockFn.mock.calls[0]).toEqual([
-        "GET",
+      expect(generateGetRequestMockFn.mock.calls[0]).toHaveLength(1);
+      expect(generateGetRequestMockFn.mock.calls[0]).toEqual([
         `${API_HOST}/categories`,
-      ]);
-    });
-  });
-
-  describe("getCategoriesByPageNumber", () => {
-    afterEach(() => {
-      generateRequestMockFn.mockClear();
-    });
-
-    it("should send a GET request", () => {
-      const page = 10;
-
-      const offset = (page - 1) * CATEGORIES_PER_PAGE;
-      const limit = CATEGORIES_PER_PAGE;
-
-      getCategoriesByPageNumber(page);
-
-      expect(generateRequestMockFn.mock.calls[0]).toHaveLength(2);
-      expect(generateRequestMockFn.mock.calls[0]).toEqual([
-        "GET",
-        `${API_HOST}/categories?offset=${offset}&limit=${limit}`,
       ]);
     });
   });
 
   describe("getCategoriesByOffsetAndLimit", () => {
     afterEach(() => {
-      generateRequestMockFn.mockClear();
+      generateGetRequestMockFn.mockClear();
     });
 
     it("should send a GET request", () => {
@@ -96,17 +72,36 @@ describe("category apis", () => {
 
       getCategoriesByOffsetAndLimit(offset, limit);
 
-      expect(generateRequestMockFn.mock.calls[0]).toHaveLength(2);
-      expect(generateRequestMockFn.mock.calls[0]).toEqual([
-        "GET",
-        `${API_HOST}/categories?offset=${offset}&limit=${limit}`,
+      expect(generateGetRequestMockFn.mock.calls[0]).toHaveLength(1);
+      expect(generateGetRequestMockFn.mock.calls[0]).toEqual([
+        `${API_HOST}/categories?offset=${offset}&limit=${limit}`
+      ]);
+    });
+  });
+
+  describe("getCategoriesByPageNumber", () => {
+    afterEach(() => {
+      generateGetRequestMockFn.mockClear();
+    });
+
+    it("should send a GET request", () => {
+      const page = 10;
+
+      const offset = (page - 1) * CATEGORIES_PER_PAGE;
+      const limit = CATEGORIES_PER_PAGE;
+
+      getCategoriesByPageNumber(page);
+
+      expect(generateGetRequestMockFn.mock.calls[0]).toHaveLength(1);
+      expect(generateGetRequestMockFn.mock.calls[0]).toEqual([
+        expect(generateGetRequestMockFn.mock.calls[0]).toHaveLength(1);
       ]);
     });
   });
 
   describe("getCategoryDetail", () => {
     afterEach(() => {
-      generateRequestMockFn.mockClear();
+      generateGetRequestMockFn.mockClear();
     });
 
     it("should send a GET request", () => {
@@ -114,9 +109,8 @@ describe("category apis", () => {
 
       getCategoryDetail(categoryId);
 
-      expect(generateRequestMockFn.mock.calls[0]).toHaveLength(2);
-      expect(generateRequestMockFn.mock.calls[0]).toEqual([
-        "GET",
+      expect(generateGetRequestMockFn.mock.calls[0]).toHaveLength(1);
+      expect(generateGetRequestMockFn.mock.calls[0]).toEqual([
         `${API_HOST}/categories/${categoryId}`,
       ]);
     });

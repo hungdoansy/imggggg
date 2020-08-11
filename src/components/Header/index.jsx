@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 
 import { Link } from "react-router-dom";
 import { Header, Button, Dropdown, Icon } from "@gotitinc/design-system";
@@ -47,7 +47,7 @@ const MyHeader = () => {
         <Header.Main>
           <Header.Right>
             {!hasBeenAuthenticated ? (
-              <>
+              <Fragment>
                 <Button variant="primary_outline" onClick={showSigninModal}>
                   Login
                 </Button>
@@ -58,7 +58,7 @@ const MyHeader = () => {
                 >
                   Sign up
                 </Button>
-              </>
+              </Fragment>
             ) : (
               <Dropdown alignRight>
                 <Dropdown.Toggle className="u-textLight u-lineHeightNone">

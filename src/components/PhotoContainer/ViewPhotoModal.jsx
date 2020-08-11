@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { Modal } from "@gotitinc/design-system";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
@@ -57,7 +57,7 @@ const useViewModal = () => {
 };
 
 const ViewPhotoModal = ({ isOpen, show, hide, photoId, categoryId, page }) => {
-  const { hasSignedIn, authTokens } = useAuthContext();
+  const { hasSignedIn } = useAuthContext();
 
   const dispatch = useDispatch();
 
@@ -96,7 +96,7 @@ const ViewPhotoModal = ({ isOpen, show, hide, photoId, categoryId, page }) => {
   const onClickRemoveConfirm = (e) => {
     e.preventDefault();
 
-    removePhoto(categoryId, photoId, authTokens).then((response) => {
+    removePhoto(categoryId, photoId).then((response) => {
       if (response.status === 200) {
         toastInfo("Yup", "The photo has been just removed");
 
@@ -114,7 +114,7 @@ const ViewPhotoModal = ({ isOpen, show, hide, photoId, categoryId, page }) => {
   }, [dispatch, categoryId, photoId]);
 
   return (
-    <>
+    <Fragment>
       <Modal size="extraLarge" show={isOpen} onHide={hide}>
         <Modal.Header closeButton>
           <Modal.Title>
@@ -181,7 +181,7 @@ const ViewPhotoModal = ({ isOpen, show, hide, photoId, categoryId, page }) => {
           actionOnConfirm={onClickRemoveConfirm}
         />
       )}
-    </>
+    </Fragment>
   );
 };
 
