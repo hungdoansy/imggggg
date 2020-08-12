@@ -3,6 +3,15 @@ import { render } from "@testing-library/react";
 
 import Pagination, { pageNumbersCreator, BE_ELLIPSIS } from "..";
 
+const FromGotIt = require("@gotitinc/design-system");
+FromGotIt.Pagination.Prev = jest.fn().mockImplementation(({ href }) => {
+  return <a href={href}>PreviousButton</a>;
+});
+
+FromGotIt.Pagination.Next = jest.fn().mockImplementation(({ href }) => {
+  return <a href={href}>NextButton</a>;
+});
+
 describe("Pagination", () => {
   describe("pageNumbersCreator", () => {
     it("should produce correct values", () => {
@@ -49,11 +58,30 @@ describe("Pagination", () => {
       render(<Pagination {...props} />);
 
       expect(document.querySelectorAll("ul")).toHaveLength(1);
-      expect(document.querySelectorAll("li")).toHaveLength(10);
+      expect(document.querySelectorAll("li")).toHaveLength(8);
 
       Array.from(document.querySelectorAll("a")).forEach((e) => {
         expect(e.getAttribute("href")).toMatch(/(\/thisapp|#)/);
       });
+    });
+
+    it("should render a prev button and a next button", () => {
+      const props = {
+        currentPage: 2,
+        totalNumberOfPages: 10,
+        baseUrl: "/thisapp",
+      };
+
+      const rendered = render(<Pagination {...props} />);
+
+      const prevButton = rendered.queryByText(/PreviousButton/);
+      const nextButton = rendered.queryByText(/NextButton/);
+
+      expect(prevButton).not.toBeNull();
+      expect(prevButton.getAttribute("href")).toBe(`${props.baseUrl}1`);
+
+      expect(nextButton).not.toBeNull();
+      expect(nextButton.getAttribute("href")).toBe(`${props.baseUrl}3`);
     });
   });
 });

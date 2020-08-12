@@ -8,18 +8,23 @@ import {
   getPhotoDetail,
 } from "../photo";
 
-const generateRequestMockFn = jest.fn();
+const generateGetRequestMockFn = jest.fn();
+const generatePostRequestMockFn = jest.fn();
+const generatePutRequestMockFn = jest.fn();
+const generateDeleteRequestMockFn = jest.fn();
 
 const FromGenerateRequest = require("../generateRequest");
-FromGenerateRequest.generateRequest = generateRequestMockFn;
+FromGenerateRequest.generateGetRequest = generateGetRequestMockFn;
+FromGenerateRequest.generatePostRequest = generatePostRequestMockFn;
+FromGenerateRequest.generatePutRequest = generatePutRequestMockFn;
+FromGenerateRequest.generateDeleteRequest = generateDeleteRequestMockFn;
 
 const API_HOST = process.env.REACT_APP_API_HOST;
-const TOKENS = "123456";
 
 describe("photo apis", () => {
   describe("getPhotos", () => {
     afterEach(() => {
-      generateRequestMockFn.mockClear();
+      generateGetRequestMockFn.mockClear();
     });
 
     it("should send a GET request", () => {
@@ -31,9 +36,8 @@ describe("photo apis", () => {
 
       getPhotos(categoryId, page);
 
-      expect(generateRequestMockFn.mock.calls[0]).toHaveLength(2);
-      expect(generateRequestMockFn.mock.calls[0]).toEqual([
-        "GET",
+      expect(generateGetRequestMockFn.mock.calls[0]).toHaveLength(1);
+      expect(generateGetRequestMockFn.mock.calls[0]).toEqual([
         `${API_HOST}/categories/${categoryId}/items?offset=${offset}&limit=${limit}`,
       ]);
     });
@@ -41,90 +45,79 @@ describe("photo apis", () => {
 
   describe("submitPhoto", () => {
     afterEach(() => {
-      generateRequestMockFn.mockClear();
+      generatePostRequestMockFn.mockClear();
     });
 
     it("should send a POST request with stringified body", () => {
       const categoryId = 10;
       const info = { description: "hehe", imageUrl: "somedomain.com" };
 
-      const stringifiedBody = JSON.stringify({
-        description: info.description,
-        image_url: info.imageUrl,
-      });
+      submitPhoto(categoryId, info);
 
-      submitPhoto(categoryId, info, TOKENS);
-
-      expect(generateRequestMockFn.mock.calls[0]).toHaveLength(4);
-      expect(generateRequestMockFn.mock.calls[0]).toEqual([
-        "POST",
+      expect(generatePostRequestMockFn.mock.calls[0]).toHaveLength(2);
+      expect(generatePostRequestMockFn.mock.calls[0]).toEqual([
         `${API_HOST}/categories/${categoryId}/items`,
-        TOKENS,
-        stringifiedBody,
+        {
+          description: info.description,
+          image_url: info.imageUrl,
+        },
       ]);
     });
   });
 
   describe("editPhoto", () => {
     afterEach(() => {
-      generateRequestMockFn.mockClear();
+      generatePutRequestMockFn.mockClear();
     });
 
     it("should send a PUT request with stringified body", () => {
       const categoryId = 10;
       const info = { id: 100, description: "hehe", imageUrl: "somedomain.com" };
 
-      const stringifiedBody = JSON.stringify({
-        image_url: info.imageUrl,
-        description: info.description,
-      });
+      editPhoto(categoryId, info);
 
-      editPhoto(categoryId, info, TOKENS);
-
-      expect(generateRequestMockFn.mock.calls[0]).toHaveLength(4);
-      expect(generateRequestMockFn.mock.calls[0]).toEqual([
-        "PUT",
+      expect(generatePutRequestMockFn.mock.calls[0]).toHaveLength(2);
+      expect(generatePutRequestMockFn.mock.calls[0]).toEqual([
         `${API_HOST}/categories/${categoryId}/items/${info.id}`,
-        TOKENS,
-        stringifiedBody,
+        {
+          image_url: info.imageUrl,
+          description: info.description,
+        },
       ]);
     });
   });
 
   describe("removePhoto", () => {
     afterEach(() => {
-      generateRequestMockFn.mockClear();
+      generateDeleteRequestMockFn.mockClear();
     });
 
     it("should send a DELETE request", () => {
       const categoryId = 10;
       const photoId = 5;
 
-      removePhoto(categoryId, photoId, TOKENS);
+      removePhoto(categoryId, photoId);
 
-      expect(generateRequestMockFn.mock.calls[0]).toHaveLength(3);
-      expect(generateRequestMockFn.mock.calls[0]).toEqual([
-        "DELETE",
+      expect(generateDeleteRequestMockFn.mock.calls[0]).toHaveLength(1);
+      expect(generateDeleteRequestMockFn.mock.calls[0]).toEqual([
         `${API_HOST}/categories/${categoryId}/items/${photoId}`,
-        TOKENS,
       ]);
     });
   });
 
   describe("getPhotoDetail", () => {
     afterEach(() => {
-      generateRequestMockFn.mockClear();
+      generateGetRequestMockFn.mockClear();
     });
 
     it("should send a GET request", () => {
       const categoryId = 10;
       const photoId = 5;
 
-      getPhotoDetail(categoryId, photoId, TOKENS);
+      getPhotoDetail(categoryId, photoId);
 
-      expect(generateRequestMockFn.mock.calls[0]).toHaveLength(2);
-      expect(generateRequestMockFn.mock.calls[0]).toEqual([
-        "GET",
+      expect(generateGetRequestMockFn.mock.calls[0]).toHaveLength(1);
+      expect(generateGetRequestMockFn.mock.calls[0]).toEqual([
         `${API_HOST}/categories/${categoryId}/items/${photoId}`,
       ]);
     });

@@ -14,6 +14,7 @@ const initialState = {
   byPhotoId: {},
 };
 
+/** util functions */
 const nextStateOnFetchPhotosSuccess = (currentState, data, extra) => {
   return produce(currentState, (draftState) => {
     const categoryId = extra.categoryId;
@@ -56,15 +57,15 @@ const nextStateOnFetchPhotosSuccess = (currentState, data, extra) => {
   });
 };
 
-const nextStateOnFetchPhotoDetailSuccess = (currentState, data, extra) => {
-  produce(currentState, (draftState) => {
-    const id = extra.photoId;
+const nextStateOnFetchPhotoDetailSuccess = (currentState, data) => {
+  return produce(currentState, (draftState) => {
+    const id = data.id;
 
     if (!draftState.byPhotoId[id]) {
       draftState.byPhotoId[id] = {};
     }
 
-    draftState.byPhotoId[data.id] = {
+    draftState.byPhotoId[id] = {
       id,
       description: data.description,
       src: data.image_url,
@@ -74,6 +75,7 @@ const nextStateOnFetchPhotoDetailSuccess = (currentState, data, extra) => {
   });
 };
 
+/** reducer */
 const photo = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_PHOTOS_SUCCESS: {
@@ -81,11 +83,7 @@ const photo = (state = initialState, action) => {
     }
 
     case FETCH_PHOTO_DETAIL_SUCCESS: {
-      return nextStateOnFetchPhotoDetailSuccess(
-        state,
-        action.data,
-        action.extra
-      );
+      return nextStateOnFetchPhotoDetailSuccess(state, action.data);
     }
 
     default: {
@@ -94,4 +92,12 @@ const photo = (state = initialState, action) => {
   }
 };
 
-export { photo, selectors };
+export {
+  /** reducer */
+  photo,
+  /** util functions */
+  nextStateOnFetchPhotosSuccess,
+  nextStateOnFetchPhotoDetailSuccess,
+  /** selectors */
+  selectors,
+};

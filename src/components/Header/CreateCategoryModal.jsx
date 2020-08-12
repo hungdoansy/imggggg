@@ -6,7 +6,6 @@ import { Button, Modal, Form } from "@gotitinc/design-system";
 import { createCategory } from "utils/apis/category";
 import { useSafeSetState, useDebounce } from "utils/hooks";
 import { categoryValidator } from "utils/validators";
-import { useAuthContext } from "utils/hooks";
 import { fetchCategoriesForTabBar } from "actions/category";
 import { toastDefault, toastError } from "utils/toast";
 import { selectors } from "reducers";
@@ -56,7 +55,6 @@ const showFeedbacksFromResponse = (state, setState, response) => {
 
 const CreateCategoryModal = ({ isOpen, show, hide }) => {
   const dispatch = useDispatch();
-  const { authTokens } = useAuthContext();
 
   const [state, setState] = useSafeSetState({
     name: {
@@ -111,7 +109,7 @@ const CreateCategoryModal = ({ isOpen, show, hide }) => {
       imageUrl: state.imageUrl.value,
     };
 
-    createCategory(info, authTokens).then((response) => {
+    createCategory(info).then((response) => {
       switch (response.status) {
         case 400: {
           setDisabled(true);
@@ -142,82 +140,80 @@ const CreateCategoryModal = ({ isOpen, show, hide }) => {
   };
 
   return (
-    <>
-      <Modal show={isOpen} onHide={hide}>
-        <Modal.Header closeButton>
-          <Modal.Title>
-            Create a new category{" "}
-            <span role="img" aria-label="">
-              🥰
-            </span>
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form.Group controlId="createform.name">
-            <Form.Label>Name</Form.Label>
-            <Form.Input
-              type="text"
-              placeholder="The category's name"
-              value={state.name.value}
-              onChange={onInputChange}
-              name="name"
-              isInvalid={state.name.feedback !== ""}
-            />
-            <Form.Feedback type="invalid">{state.name.feedback}</Form.Feedback>
-          </Form.Group>
+    <Modal show={isOpen} onHide={hide}>
+      <Modal.Header closeButton>
+        <Modal.Title>
+          Create a new category{" "}
+          <span role="img" aria-label="">
+            🥰
+          </span>
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form.Group controlId="createform.name">
+          <Form.Label>Name</Form.Label>
+          <Form.Input
+            type="text"
+            placeholder="The category's name"
+            value={state.name.value}
+            onChange={onInputChange}
+            name="name"
+            isInvalid={state.name.feedback !== ""}
+          />
+          <Form.Feedback type="invalid">{state.name.feedback}</Form.Feedback>
+        </Form.Group>
 
-          <Form.Group controlId="createform.url">
-            <Form.Label>Image URL</Form.Label>
-            <Form.Input
-              type="text"
-              placeholder="Link to a featuring photo"
-              value={state.imageUrl.value}
-              onChange={onInputChange}
-              name="imageUrl"
-              isInvalid={state.imageUrl.feedback !== ""}
-            />
-            <Form.Feedback type="invalid">
-              {state.imageUrl.feedback}
-            </Form.Feedback>
-          </Form.Group>
+        <Form.Group controlId="createform.url">
+          <Form.Label>Image URL</Form.Label>
+          <Form.Input
+            type="text"
+            placeholder="Link to a featuring photo"
+            value={state.imageUrl.value}
+            onChange={onInputChange}
+            name="imageUrl"
+            isInvalid={state.imageUrl.feedback !== ""}
+          />
+          <Form.Feedback type="invalid">
+            {state.imageUrl.feedback}
+          </Form.Feedback>
+        </Form.Group>
 
-          <Form.Group controlId="createform.description">
-            <Form.Label>Description</Form.Label>
-            <Form.Input
-              as="textarea"
-              rows={3}
-              placeholder="..."
-              value={state.description.value}
-              onChange={onInputChange}
-              name="description"
-              isInvalid={state.description.feedback !== ""}
-            />
-            <Form.Feedback type="invalid">
-              {state.description.feedback}
-            </Form.Feedback>
-          </Form.Group>
+        <Form.Group controlId="createform.description">
+          <Form.Label>Description</Form.Label>
+          <Form.Input
+            as="textarea"
+            rows={3}
+            placeholder="..."
+            value={state.description.value}
+            onChange={onInputChange}
+            name="description"
+            isInvalid={state.description.feedback !== ""}
+          />
+          <Form.Feedback type="invalid">
+            {state.description.feedback}
+          </Form.Feedback>
+        </Form.Group>
 
-          {state.feedback !== "" && (
-            <div className="u-marginTopTiny u-widthFull u-text100 invalid-feedback is-visible">
-              {state.feedback}
-            </div>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          <div className="u-flexGrow-1">
-            <Button
-              variant="primary"
-              width="full"
-              className="u-fontBold"
-              onClick={onClick}
-              disabled={disabled}
-            >
-              Create
-            </Button>
+        {state.feedback !== "" && (
+          <div className="u-marginTopTiny u-widthFull u-text100 invalid-feedback is-visible">
+            {state.feedback}
           </div>
-        </Modal.Footer>
-      </Modal>
-    </>
+        )}
+      </Modal.Body>
+      <Modal.Footer>
+        <div className="u-flexGrow-1">
+          <Button
+            variant="primary"
+            width="full"
+            className="u-fontBold"
+            onClick={onClick}
+            disabled={disabled}
+          >
+            Create
+          </Button>
+        </div>
+      </Modal.Footer>
+    </Modal>
   );
 };
 

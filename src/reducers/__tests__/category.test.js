@@ -10,10 +10,8 @@ const initialState = {
   totalNumberOfRemotePages: 0,
 };
 
-const clone = (state) => JSON.parse(JSON.stringify(state));
-
 describe("Category reducer", () => {
-  describe("updateOnFetchCategoriesSuccess", () => {
+  describe("newStateOnFetchCategoriesSuccess", () => {
     const data = {
       total_categories: 21,
       categories: [
@@ -32,9 +30,12 @@ describe("Category reducer", () => {
 
     let afterState;
 
-    beforeAll(() => {
-      afterState = clone(initialState);
-      fromCategory.updateOnFetchCategoriesSuccess(afterState, data, extra);
+    beforeEach(() => {
+      afterState = fromCategory.newStateOnFetchCategoriesSuccess(
+        initialState,
+        data,
+        extra
+      );
     });
 
     it("should update totalNumberOfRemotePages", () => {
@@ -68,7 +69,7 @@ describe("Category reducer", () => {
     });
   });
 
-  describe("updateOnFetchPhotosSuccess", () => {
+  describe("newStateOnFetchPhotosSuccess", () => {
     const data = {
       total_items: 100,
     };
@@ -78,14 +79,17 @@ describe("Category reducer", () => {
     };
 
     it("should be update totalPhotos", () => {
-      const afterState = clone(initialState);
-      fromCategory.updateOnFetchPhotosSuccess(afterState, data, extra);
+      const afterState = fromCategory.newStateOnFetchPhotosSuccess(
+        initialState,
+        data,
+        extra
+      );
 
       expect(afterState.byId[2].totalPhotos).toBe(100);
     });
   });
 
-  describe("updateOnFetchCategoryDetailSuccess", () => {
+  describe("newStateOnFetchCategoryDetailSuccess", () => {
     const data = {
       id: 2,
       name: "Something",
@@ -98,8 +102,11 @@ describe("Category reducer", () => {
     };
 
     it("should update byId", () => {
-      const afterState = clone(initialState);
-      fromCategory.updateOnFetchCategoryDetailSuccess(afterState, data, extra);
+      const afterState = fromCategory.newStateOnFetchCategoryDetailSuccess(
+        initialState,
+        data,
+        extra
+      );
 
       expect(afterState.byId[extra.categoryId]).toEqual({
         id: 2,
@@ -111,33 +118,64 @@ describe("Category reducer", () => {
     });
   });
 
-  describe("category reducer", () => {
-    it("should call updateOnFetchCategoriesSuccess with action.type = FETCH_CATEGORIES_SUCCESS", () => {
-      // const spy = jest.spyOn(fromCategory, "updateOnFetchCategoriesSuccess");
-      // const action = {
-      //   type: FETCH_CATEGORIES_SUCCESS,
-      //   data: {
-      //     total_categories: 21,
-      //     categories: [
-      //       {
-      //         id: "1",
-      //       },
-      //       {
-      //         id: "2",
-      //       },
-      //     ],
-      //   },
-      //   extra: {
-      //     page: 2,
-      //   },
-      // };
-      // fromCategory.category(clone(initialState), action);
-      // expect(fromCategory.updateOnFetchCategoriesSuccess).toHaveBeenCalled();
-      // spy.mockRestore();
+  describe("newStateOnFetchCategoryDetailFailure", () => {
+    const data = {};
+
+    const extra = {
+      categoryId: 2,
+    };
+
+    it("should update byId", () => {
+      const afterState = fromCategory.newStateOnFetchCategoryDetailFailure(
+        initialState,
+        data,
+        extra
+      );
+
+      expect(afterState.byId[extra.categoryId]).toEqual({
+        exist: false,
+      });
     });
+  });
 
-    it("should call updateOnFetchPhotosSuccess with action.type = FETCH_PHOTOS_SUCCESS", () => {});
+  describe("newStateOnFetchPhotosFailure", () => {
+    const data = {};
 
-    it("should call updateOnFetchCategoryDetailSuccess with action.type = FETCH_CATEGORY_DETAIL", () => {});
+    const extra = {
+      categoryId: 2,
+    };
+
+    it("should update byId", () => {
+      const afterState = fromCategory.newStateOnFetchPhotosFailure(
+        initialState,
+        data,
+        extra
+      );
+
+      expect(afterState.byId[extra.categoryId]).toEqual({
+        exist: false,
+      });
+    });
+  });
+
+  describe("newStateOnFetchCategoriesForTabBar", () => {
+    const data = { categories: [1, 2, 3, 4, 5], total_categories: 100 };
+
+    const extra = {
+      categoryId: 2,
+    };
+
+    it("should update byId", () => {
+      const afterState = fromCategory.newStateOnFetchCategoriesForTabBar(
+        initialState,
+        data,
+        extra
+      );
+
+      expect(afterState.forTabBar).toEqual([1, 2, 3, 4, 5]);
+      expect(afterState.totalNumberOfRemotePages).toBe(
+        Math.ceil(100 / CATEGORIES_PER_PAGE)
+      );
+    });
   });
 });

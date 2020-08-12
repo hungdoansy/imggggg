@@ -3,35 +3,50 @@ import { render, fireEvent } from "@testing-library/react";
 
 import ViewPhotoModal from "../ViewPhotoModal";
 
-const FromAuth = require("context/auth");
-FromAuth.useAuthContext = jest.fn().mockImplementation(() => {
+const FromHooks = require("utils/hooks");
+FromHooks.useAuthContext = jest.fn().mockImplementation(() => {
   return {
     hasSignedIn: true,
     authTokens: "1234",
-    profile: {
-      id: 2,
-      name: "Author2",
-    },
   };
 });
 
-const returnedPhoto = {
-  id: 100,
-  author: {
-    id: 2,
-    name: "Author2",
+const state = {
+  app: {
+    user: {
+      id: 2,
+      name: "Author2",
+    },
   },
-  description: "Description2",
-  src: "Src2",
+  photo: {
+    byPhotoId: {
+      1: {
+        id: 1,
+        author: {
+          id: 2,
+          name: "Author2",
+        },
+        description: "Description2",
+        src: "Src2",
+      },
+    },
+  },
+  category: {
+    byId: {
+      2: {
+        name: "Category2",
+      },
+    },
+  },
 };
 
 const ReactRedux = require("react-redux");
 ReactRedux.useDispatch = jest.fn().mockReturnValue(() => {});
-ReactRedux.useSelector = jest.fn().mockReturnValue(returnedPhoto);
+ReactRedux.useSelector = jest.fn().mockImplementation((fn) => fn(state));
 
 const showEditModalMockFn = jest.fn();
 const FromEditOrSubmitPhotoModal = require("../EditOrSubmitPhotoModal");
-FromEditOrSubmitPhotoModal.useEditOrSubmitModal = jest
+FromEditOrSubmitPhotoModal.useEditModal = jest
   .fn()
   .mockReturnValue([false, showEditModalMockFn, jest.fn()]);
 
@@ -49,7 +64,7 @@ const props = {
   isOpen: true,
   show: jest.fn(),
   hide: jest.fn(),
-  photoId: 100,
+  photoId: 1,
   categoryId: 2,
   page: 2,
 };
@@ -70,7 +85,7 @@ describe("ViewPhotoModal", () => {
 
   it("should render an img with correct src", () => {
     expect(
-      document.querySelector(`img[src="${returnedPhoto.src}"]`)
+      document.querySelector(`img[src="${state.photo.byPhotoId[1].src}"]`)
     ).not.toBeNull();
   });
 
@@ -108,7 +123,7 @@ describe("ViewPhotoModal", () => {
 
   it("should render the description", () => {
     expect(
-      rendered.getByText(new RegExp(returnedPhoto.description))
+      rendered.getByText(new RegExp(state.photo.byPhotoId[1].description))
     ).toBeInTheDocument();
   });
 });

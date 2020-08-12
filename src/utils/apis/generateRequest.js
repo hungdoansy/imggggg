@@ -44,6 +44,7 @@ const generateDeleteRequest = (endpoint, body, isTokensNeeded = true) => {
 };
 
 export {
+  generateRequest,
   generateGetRequest,
   generatePostRequest,
   generatePutRequest,

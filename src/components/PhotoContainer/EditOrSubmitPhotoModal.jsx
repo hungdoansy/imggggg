@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { editPhoto, submitPhoto } from "utils/apis/photo";
 import { photoValidator } from "utils/validators";
 import { useSafeSetState, useDebounce, useHashParams } from "utils/hooks";
-import { useAuthContext } from "utils/hooks";
 import { fetchPhotoDetail, fetchPhotos } from "actions/photo";
 import { toastDefault, toastError } from "utils/toast";
 import { selectors } from "reducers";
@@ -23,14 +22,12 @@ const internalData = {
     title: "Edit your photo 😎",
     footer: "EDIT",
     pastVerb: "edited",
-    action: editPhoto,
   },
 
   SUBMIT: {
     title: "Your photo shall be published 🥳",
     footer: "SUBMIT",
     pastVerb: "submitted",
-    action: submitPhoto,
   },
 };
 
@@ -93,7 +90,6 @@ const EditOrSubmitPhotoModal = ({
   categoryName,
   photoInfo,
 }) => {
-  const { authTokens } = useAuthContext();
   const dispatch = useDispatch();
   const hashParams = useHashParams();
 
@@ -143,7 +139,8 @@ const EditOrSubmitPhotoModal = ({
       imageUrl: state.imageUrl.value,
     };
 
-    internalData[type].action(categoryId, info, authTokens).then((response) => {
+    const action = type === Types.EDIT ? editPhoto : submitPhoto;
+    action(categoryId, info).then((response) => {
       switch (response.status) {
         case 400: {
           showFeedbacksFromResponse(state, setState, response);
@@ -176,63 +173,61 @@ const EditOrSubmitPhotoModal = ({
   };
 
   return (
-    <>
-      <Modal show={isOpen} onHide={hide}>
-        <Modal.Header closeButton>
-          <Modal.Title>{internalData[type].title}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form.Group controlId="submitform.category">
-            <Form.Label>Category</Form.Label>
-            <Form.Input readOnly type="text" defaultValue={categoryName} />
-          </Form.Group>
-          <Form.Group controlId="submitform.url">
-            <Form.Label>URL</Form.Label>
-            <Form.Input
-              type="text"
-              name="imageUrl"
-              placeholder="Link to your photo"
-              value={state.imageUrl.value}
-              onChange={onInputChange}
-              isInvalid={state.imageUrl.feedback !== ""}
-            />
-            <Form.Feedback type="invalid">
-              {state.imageUrl.feedback}
-            </Form.Feedback>
-          </Form.Group>
+    <Modal show={isOpen} onHide={hide}>
+      <Modal.Header closeButton>
+        <Modal.Title>{internalData[type].title}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form.Group controlId="submitform.category">
+          <Form.Label>Category</Form.Label>
+          <Form.Input readOnly type="text" defaultValue={categoryName} />
+        </Form.Group>
+        <Form.Group controlId="submitform.url">
+          <Form.Label>URL</Form.Label>
+          <Form.Input
+            type="text"
+            name="imageUrl"
+            placeholder="Link to your photo"
+            value={state.imageUrl.value}
+            onChange={onInputChange}
+            isInvalid={state.imageUrl.feedback !== ""}
+          />
+          <Form.Feedback type="invalid">
+            {state.imageUrl.feedback}
+          </Form.Feedback>
+        </Form.Group>
 
-          <Form.Group controlId="submitform.description">
-            <Form.Label>Description</Form.Label>
-            <Form.Input
-              as="textarea"
-              rows={3}
-              name="description"
-              placeholder="..."
-              value={state.description.value}
-              onChange={onInputChange}
-              isInvalid={state.description.feedback !== ""}
-            />
-            <Form.Feedback type="invalid">
-              {state.description.feedback}
-            </Form.Feedback>
-          </Form.Group>
-        </Modal.Body>
-        <Modal.Footer>
-          <div className="u-flexGrow-1">
-            <Button
-              id="actionButton"
-              variant="primary"
-              width="full"
-              className="u-fontBold"
-              onClick={onClick}
-              disabled={disabled}
-            >
-              {internalData[type].footer}
-            </Button>
-          </div>
-        </Modal.Footer>
-      </Modal>
-    </>
+        <Form.Group controlId="submitform.description">
+          <Form.Label>Description</Form.Label>
+          <Form.Input
+            as="textarea"
+            rows={3}
+            name="description"
+            placeholder="..."
+            value={state.description.value}
+            onChange={onInputChange}
+            isInvalid={state.description.feedback !== ""}
+          />
+          <Form.Feedback type="invalid">
+            {state.description.feedback}
+          </Form.Feedback>
+        </Form.Group>
+      </Modal.Body>
+      <Modal.Footer>
+        <div className="u-flexGrow-1">
+          <Button
+            id="actionButton"
+            variant="primary"
+            width="full"
+            className="u-fontBold"
+            onClick={onClick}
+            disabled={disabled}
+          >
+            {internalData[type].footer}
+          </Button>
+        </div>
+      </Modal.Footer>
+    </Modal>
   );
 };
 
